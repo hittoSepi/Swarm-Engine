@@ -29,7 +29,6 @@
     <ClCompile Include="source\pch.cpp" />
     <ClCompile Include="source\Utils\Debug\Debug.cpp" />
     <ClCompile Include="source\Utils\Helpers.cpp" />
-    <ClCompile Include="source\Core\ThreadPool\ThreadPool.cpp" />
     <ClCompile Include="source\Core\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>

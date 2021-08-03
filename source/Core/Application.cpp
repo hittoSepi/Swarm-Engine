@@ -44,6 +44,7 @@ void Application::runInternal(const SwarmConfig &conf)
 
 	LogInfo("exitting")
 
+	
 	if(device != nullptr)
 		device->quit();
 		delete device;
@@ -52,7 +53,7 @@ void Application::runInternal(const SwarmConfig &conf)
 		renderer->onExit();
 		delete renderer;
 	}
-
+	delete fps;
 	
 }
 
@@ -62,14 +63,16 @@ void Application::init()
 {
 	// start subsystems
 	Clock::start();
+	
 	fps = new Framerate();
 	fps->Update();
 
+	jobSystem = JobSystem::create(16);	// Start Threads
 	
 	// create main dinwo
 	window = new Window(config.windowOptions, this);
 	window->init();
-	
+
 	// init device here
 	// device->init();
 	// renderer->OnLoad(renderecontext) set render context
@@ -87,6 +90,7 @@ void Application::renderFrame()
 void Application::quit()
 {
 	window->quit();
+	jobSystem->finish();
 }
 
 

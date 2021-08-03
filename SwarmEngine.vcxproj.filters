@@ -17,9 +17,6 @@
     <ClCompile Include="source\pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\Core\ThreadPool\ThreadPool.cpp">
-      <Filter>Swarm</Filter>
-    </ClCompile>
     <ClCompile Include="source\Utils\Helpers.cpp">
       <Filter>Swarm</Filter>
     </ClCompile>

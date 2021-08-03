@@ -15,10 +15,10 @@
 #include "Core/Window/Window.h"
 #include "Core/Device.h"
 #include "Core/Renderer.h"
-#include "Core/Application.h"
 #include "Core/Input/InputEvents.h"
 #include "Core/ThreadPool/ThreadPool.h"
 #include "Core/Singleton/Singleton.h"
+#include "Core/Application.h"
 
 
 ////////////////////////////////////////////////////

@@ -2,6 +2,7 @@
 
 #include "Core/Input/InputEvents.h"
 
+class JobSystem;
 class Framerate;
 
 class Application: public Framework, public Window::ICallbacks
@@ -34,9 +35,10 @@ private:
 	
 	std::set<KeyboardEvent::Key> pressedKeys;
 	
-	SwarmConfig	config;
-	Renderer	*renderer	= nullptr;
-	Device		*device		= nullptr; // gpu
-	Window		*window		= nullptr;
-	Framerate	*fps		= nullptr;
+	SwarmConfig		config;
+	Renderer		*renderer	= nullptr;
+	Device			*device		= nullptr; // gpu
+	Window			*window		= nullptr;
+	Framerate		*fps		= nullptr;
+	JobSystem::Ptr	jobSystem;
 };
