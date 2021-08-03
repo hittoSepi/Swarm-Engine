@@ -156,6 +156,12 @@ void Window::resize(uint32_t width, uint32_t height)
 }
 
 
+void* Window::getNativeWindow() const
+{
+	return window;
+}
+
+
 
 void Window::setPosition(uint32_t x, uint32_t y)
 {
@@ -186,8 +192,6 @@ void Window::updateWindowSize()
 	glfwGetWindowSize(window, &width, &height);
 	setWindowSize(width, height);
 }
-
-
 
 
 

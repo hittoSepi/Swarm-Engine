@@ -38,7 +38,7 @@ int APIENTRY WinMain (
 	std::cout << "******* SWARM ENGINE v0.1 *******\n\n";
 	
 	
-	Application::run(new GameRenderer(), SwarmConfig());
+	Application::run(new GameRenderer(), EngineConfig());
 
 	//delete pool;
 	return 0;

@@ -19,6 +19,8 @@ public:
 	void messageLoop() override; /// Main MessageLoop
 	void pollEvents() override;	/// Force poll events
 
+	void* getNativeWindow() const override;
+	
 	void setWindowTitle(std::string title) override;
 	void setPosition(uint32_t x, uint32_t y) override;
 	void resize(uint32_t width, uint32_t height) override;
@@ -26,7 +28,6 @@ public:
 	{
 		return uint2(options.width, options.height);
 	}
-
 
 protected:
 	void setWindowSize(uint32_t width, uint32_t height);

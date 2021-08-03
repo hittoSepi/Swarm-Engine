@@ -8,7 +8,7 @@ class JobSystem {
 public:
 	using Ptr = std::unique_ptr<JobSystem>;
 	
-	static Ptr create(int threads)
+	static Ptr create(size_t threads)
 	{
 		return Ptr(new JobSystem(threads));
 	}
@@ -63,7 +63,7 @@ public:
 	
 private:
 	
-	JobSystem(int threadCount)
+	JobSystem(size_t threadCount)
 	{
 		start(threadCount);
 	}

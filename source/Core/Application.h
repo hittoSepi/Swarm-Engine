@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core/Input/InputEvents.h"
+#include "Core/Renderer.h"
 
 class JobSystem;
 class Framerate;
@@ -8,7 +9,9 @@ class Framerate;
 class Application: public Framework, public Window::ICallbacks
 {
 public:
-	~Application();
+	static void run(Renderer *_renderer, const EngineConfig &conf);
+protected:
+	using SWDevice = VulkanDevice::Ptr;
 	
 	// Framework virtuals
 	void				init() override;
@@ -17,7 +20,7 @@ public:
 	
 	Framerate			*getFPS() override;
 	WindowBase			*getWindow() override;
-	const SwarmConfig	&getConfig() override;
+	const EngineConfig	&getConfig() override;
 
 	// Callback virtuals
 	void handleWindowSizeChange() override;
@@ -26,19 +29,20 @@ public:
 	void handleMouseEvent(const MouseEvent &mouseEvent) override;
 	void handleDroppedFile(const std::string &filename) override;
 	
-	static void run(Renderer *_renderer, const SwarmConfig &conf);
 	
 private:
 	Application(Renderer *_renderer);
+	~Application() = default;
 
-	void runInternal(const SwarmConfig &conf);
+	void runInternal(const EngineConfig &conf);
 	
 	std::set<KeyboardEvent::Key> pressedKeys;
 	
-	SwarmConfig		config;
-	Renderer		*renderer	= nullptr;
-	Device			*device		= nullptr; // gpu
-	Window			*window		= nullptr;
+	EngineConfig	config;					// engine config
+	
+	SWDevice		device;					// gpu
+	Window			*window		= nullptr;  // main window
+	Renderer		*renderer	= nullptr;	// render handler
 	Framerate		*fps		= nullptr;
 	JobSystem::Ptr	jobSystem;
 };

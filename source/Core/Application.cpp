@@ -1,5 +1,5 @@
 #include "pch.h"
-
+#include "Core/Application.h"
 
 Application::Application(Renderer* _renderer) :
 	renderer(_renderer)
@@ -8,18 +8,10 @@ Application::Application(Renderer* _renderer) :
 	{
 		LogError("No renderer");
 	}
-
-
 }
 
 
-Application::~Application()
-{
-
-}
-
-
-void Application::run(Renderer* renderer, const SwarmConfig& conf)
+void Application::run(Renderer* renderer, const EngineConfig &conf)
 {
 	Application app(renderer);
 	try
@@ -33,21 +25,18 @@ void Application::run(Renderer* renderer, const SwarmConfig& conf)
 }
 
 
-void Application::runInternal(const SwarmConfig &conf)
+void Application::runInternal(const EngineConfig &conf)
 {
-	LogInfo("inir");
 	config = conf;
+	
 	init();
 
-	LogInfo("main loop")
 	window->messageLoop();
 
-	LogInfo("exitting")
-
+	jobSystem->finish();
 	
 	if(device != nullptr)
 		device->quit();
-		delete device;
 
 	if(renderer != nullptr){
 		renderer->onExit();
@@ -58,7 +47,6 @@ void Application::runInternal(const SwarmConfig &conf)
 }
 
 
-
 void Application::init()
 {
 	// start subsystems
@@ -67,14 +55,15 @@ void Application::init()
 	fps = new Framerate();
 	fps->Update();
 
-	jobSystem = JobSystem::create(16);	// Start Threads
+	jobSystem = JobSystem::create(config.numThreads);	// Start Threads
 	
 	// create main dinwo
 	window = new Window(config.windowOptions, this);
 	window->init();
 
 	// init device here
-	// device->init();
+	device = VulkanDevice::create(window);
+	device->init();
 	// renderer->OnLoad(renderecontext) set render context
 }
 
@@ -90,7 +79,7 @@ void Application::renderFrame()
 void Application::quit()
 {
 	window->quit();
-	jobSystem->finish();
+
 }
 
 
@@ -153,7 +142,7 @@ void Application::handleDroppedFile(const std::string& filename)
 }
 
 
-const SwarmConfig& Application::getConfig() { return config; }
+const EngineConfig& Application::getConfig() { return config; }
 WindowBase* Application::getWindow() { return window; }
 Framerate* Application::getFPS() { return fps; }
 

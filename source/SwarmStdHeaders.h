@@ -49,4 +49,7 @@
 #include <thread>
 #include <mutex>
 
+// optional, better nullptR?
+#include <optional>
+
 #endif

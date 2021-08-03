@@ -3,25 +3,28 @@
 class Device
 {
 public:
+
+	using Ptr = std::unique_ptr<Device>;
 	class Options
 	{
 	public:
-		
-		bool vsync;
-		
+		bool vsync = false;
+		#ifdef NDEBUG
+		bool enableValidationLayers = false;
+		#else
+		bool enableValidationLayers = true;
+		#endif
 	};
 
-	virtual ~Device() = 0;
+	virtual ~Device() {}
 	
 	virtual void init() = 0;
 	virtual void quit() = 0;
 
 protected:
-	Device(Options &opts);
-
+	Device(const Options &opts):
+		options(opts)
+	{}
 	
-
-private:
-
-	
+	Options options;
 };

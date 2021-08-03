@@ -58,11 +58,13 @@ public:
 	virtual void messageLoop() = 0; /// Main MessageLoop
 	virtual void pollEvents() = 0;	/// Force poll events
 
+	virtual void*		getNativeWindow() const = 0;
 	virtual void		setWindowTitle(std::string title) = 0;
 	virtual void		setPosition(uint32_t x, uint32_t y) = 0;
 	virtual void		resize(uint32_t width, uint32_t height) = 0;
 	virtual uint2		getClientAreaSize() = 0;
-	
+
+	const std::string	getWindowTitle() { return options.title; }
 	const WindowHandle	&getWindowHandle() const { return windowHandle; }
 	const Options		&getOptions() const { return options; }
 	const float2		getMouseScale() const { return mouseScale; }

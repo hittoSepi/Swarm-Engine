@@ -2,7 +2,15 @@
 #ifndef SWARM_H
 #define SWARM_H
 
+#define SWARM_ENGINE_NAME "Swarm Engine"
+#define SWARM_VERSION_MAJOR 0
+#define SWARM_VERSION_MINOR 2
+
+
 #define SWARM_VULKAN 1
+
+
+
 
 #include "SwarmPrerequires.h"
 #include "SwarmStdHeaders.h"
@@ -18,6 +26,12 @@
 #include "Core/Input/InputEvents.h"
 #include "Core/ThreadPool/ThreadPool.h"
 #include "Core/Singleton/Singleton.h"
+
+// Graphics api
+#ifdef SWARM_VULKAN
+#include "Core/Vulkan/SwarmVulkan.h"
+#endif
+
 #include "Core/Application.h"
 
 
