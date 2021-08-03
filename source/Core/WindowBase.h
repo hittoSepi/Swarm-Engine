@@ -17,7 +17,7 @@ public:
 	using WindowHandle = int;
 	#endif
 	
-	class ICallbacks
+	class ICallbacks final
 	{
 	public:
 		virtual void handleWindowSizeChange() = 0;

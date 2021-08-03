@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Swarm">
+      <UniqueIdentifier>{0acc1adf-4ac3-4def-9090-7163afdda0b2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="source\dllmain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\pch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Core\ThreadPool\ThreadPool.cpp">
+      <Filter>Swarm</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Utils\Helpers.cpp">
+      <Filter>Swarm</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\GameObject\GameObjectManager.cpp">
+      <Filter>Swarm</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\GameObject\GameObject.cpp">
+      <Filter>Swarm</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\Engine.cpp">
+      <Filter>Swarm</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Utils\Debug\Debug.cpp">
+      <Filter>Swarm</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\Component\ComponentManager.cpp">
+      <Filter>Swarm</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\Component\Component.cpp">
+      <Filter>Swarm</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\BaseObject.cpp">
+      <Filter>Swarm</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="source\framework.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\BaseObject.h">
+      <Filter>Swarm</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Utils\Time\Clock.h">
+      <Filter>Swarm</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\Component\Component.h">
+      <Filter>Swarm</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\Component\ComponentManager.h">
+      <Filter>Swarm</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Utils\Debug\Debug.h">
+      <Filter>Swarm</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\Engine.h">
+      <Filter>Swarm</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Utils\Time\FrameRate.h">
+      <Filter>Swarm</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\GameObject\GameObject.h">
+      <Filter>Swarm</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\GameObject\GameObjectManager.h">
+      <Filter>Swarm</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Utils\Helpers.h">
+      <Filter>Swarm</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Core\Input\InputEvents.h">
+      <Filter>Swarm</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Core\Renderer.h">
+      <Filter>Swarm</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Swarm.h">
+      <Filter>Swarm</Filter>
+    </ClInclude>
+    <ClInclude Include="source\SwarmPrerequires.h">
+      <Filter>Swarm</Filter>
+    </ClInclude>
+    <ClInclude Include="source\SwarmStdHeaders.h">
+      <Filter>Swarm</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Core\ThreadPool\ThreadPool.h">
+      <Filter>Swarm</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Core\typedefs.h">
+      <Filter>Swarm</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Core\WindowBase.h">
+      <Filter>Swarm</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Core\Framework.h">
+      <Filter>Swarm</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Core\Locale\Utf8.h">
+      <Filter>Swarm</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Core\Singleton\Singleton.h">
+      <Filter>Swarm</Filter>
+    </ClInclude>
+    <ClInclude Include="source\pch.h" />
+  </ItemGroup>
+</Project>
