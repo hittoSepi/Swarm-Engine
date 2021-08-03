@@ -34,10 +34,10 @@ public:
 
 	struct Options
 	{
-		uint32_t width			= 1280;
-		uint32_t height			= 720;
-		std::string title		= "Swarm Engine";
-		bool resizableWindow	= false;
+		uint32_t width				= 1280;
+		uint32_t height				= 720;
+		std::string title			= "Swarm Engine";
+		bool resizableWindow		= false;
 		WindowBase::WindowMode mode	= WindowBase::WindowMode::Windowed;
 	};
 
@@ -63,7 +63,7 @@ public:
 	const glm::vec2		getMouseScale() const { return mouseScale; }
 
 protected:
-	void	setMainWindowHandle(WindowHandle handle) { windowHandle = handle; }
+	void setMainWindowHandle(WindowHandle handle) { windowHandle = handle; }
 	
 	Options			options			= Options();
 	WindowHandle	windowHandle	= nullptr;

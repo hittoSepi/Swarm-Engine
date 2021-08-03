@@ -14,9 +14,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\dllmain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -47,7 +44,7 @@
     <ClCompile Include="source\Engine\BaseObject.cpp">
       <Filter>Swarm</Filter>
     </ClCompile>
-    <ClCompile Include="source\Core\Window.cpp">
+    <ClCompile Include="source\Core\Window\Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -106,20 +103,20 @@
     <ClInclude Include="source\Core\typedefs.h">
       <Filter>Swarm</Filter>
     </ClInclude>
-    <ClInclude Include="source\Core\WindowBase.h">
+    <ClInclude Include="source\Core\Window\WindowBase.h">
       <Filter>Swarm</Filter>
     </ClInclude>
     <ClInclude Include="source\Core\Framework.h">
       <Filter>Swarm</Filter>
     </ClInclude>
-    <ClInclude Include="source\Core\Locale\Utf8.h">
+    <ClInclude Include="source\Utils\Locale\Utf8.h">
       <Filter>Swarm</Filter>
     </ClInclude>
     <ClInclude Include="source\Core\Singleton\Singleton.h">
       <Filter>Swarm</Filter>
     </ClInclude>
     <ClInclude Include="source\pch.h" />
-    <ClInclude Include="source\Core\Window.h" />
+    <ClInclude Include="source\Core\Window\Window.h" />
     <ClInclude Include="source\Core\ApiCallbacks.h" />
   </ItemGroup>
 </Project>

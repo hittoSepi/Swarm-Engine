@@ -12,19 +12,19 @@
 ////////////////////////////////////////////////////
 #include "Core/Framework.h"
 //#include "Core/SwarmApp.h"
-#include "Core/WindowBase.h"
-#include "Core/Window.h"
+#include "Core/Window/WindowBase.h"
+#include "Core/Window/Window.h"
 #include "Core/Renderer.h"
 #include "Core/Input/InputEvents.h"
 #include "Core/ThreadPool/ThreadPool.h"
 #include "Core/Singleton/Singleton.h"
-#include "Core/Locale/Utf8.h"
 
 
 ////////////////////////////////////////////////////
 /// UTILITY INCLUDES
 ////////////////////////////////////////////////////
 #include "Utils/Helpers.h"
+#include "Utils/Locale/Utf8.h"
 #ifdef _DEBUG
 #include "Utils/Debug/Debug.h"
 #endif

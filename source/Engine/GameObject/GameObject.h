@@ -22,10 +22,10 @@ public:
 	virtual     ~GameObject()	override;
 
 	// setters
-	void SetRoot(GameObject* root)				{ root			= root; }
-	void SetParent(GameObject* parent)			{ parent		= parent; }
-	void SetChildrens(GameObjects* childrens)	{ childrens		= childrens; }
-	void SetComponents(Components* components)	{ components	= components; }
+	void SetRoot(GameObject* _root)				{ root			= _root; }
+	void SetParent(GameObject* _parent)			{ parent		= _parent; }
+	void SetChildrens(GameObjects* _childrens)	{ childrens		= _childrens; }
+	void SetComponents(Components* _components)	{ components	= _components; }
 
 	// getters
 	GameObject*		GetRoot() { return parent; }
@@ -34,22 +34,19 @@ public:
 	Components*		GetComponents() { return components; }
 
 	// adders
-	void AddChildren(GameObject* go);					/// <summary>
-	void AddComponent(Component* comp);					/// Add Component to <c>GameObject.</c>
+	void AddChildren(GameObject* go);					
+	void AddComponent(Component* comp);					/// Add Component to GameObject
 	GameObject*	clone();								
 
-	static 	GameObject*	create(std::string name);		/// Create new GameObject
-	static GameObject* Create(std::string name);
+	static GameObject* Create(std::string name);		/// Create new GameObject
 protected:
-	bool atPool						= false;			// GameObjectManager sets to true when added to pool.
+	bool atPool						= false;			// GameObjectManager sets to true when added to pool
 private:
 	GameObjects*	childrens			= nullptr;
 	GameObject*		parent				= nullptr;
 	GameObject*		root				= nullptr;
 	Components*		components			= nullptr;
-
 };
-
 
 
 #endif
