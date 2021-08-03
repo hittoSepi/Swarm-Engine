@@ -100,7 +100,7 @@ public:
 	static double getDelta() { return AtomicClock::delta(); }
 
 private:
-	static TimePoint	startTime;
-	static double		totalElapsedTime;
+	inline static TimePoint		startTime = TimePoint();
+	inline static double		totalElapsedTime = 0.0;
 
 };

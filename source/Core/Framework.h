@@ -1,7 +1,5 @@
 #pragma once
 
-
-
 // Define DLL export/import
 #ifdef _MSC_VER
 #define SWARMEXPORT __declspec(dllexport)

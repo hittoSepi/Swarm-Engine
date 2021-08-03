@@ -6,14 +6,14 @@
 //#include "Core/Api/Device.h"
 
 class Clock;
-class FrameRate;
+class Framerate;
 struct KeyboardEvent;
 struct MouseEvent;
 
 struct SwarmConfig
 {
 	WindowBase::Options windowOptions;		   ///< Controls window creation
-	//Device::Options deviceDesc;		   ///< Controls device creation
+	Device::Options deviceOptions;		   ///< Controls device creation
 	bool suppressInput = false;		   ///< Suppress all keyboard and mouse input (other than escape to terminate)
 	bool showMessageBoxOnError = true; ///< Show message box on framework/API errors.
 	float timeScale = 1.0f;			   ///< A scaling factor for the time elapsed between frames
@@ -24,11 +24,11 @@ struct SwarmConfig
 class Framework
 {
 public:
-	virtual Clock				&getClock() = 0;
-	virtual FrameRate			*getFPS() = 0;
+	virtual void				init() = 0;
 	virtual void				renderFrame() = 0;
-	virtual void				shutdown() = 0;
-	virtual SwarmConfig			getConfig() = 0;
+	virtual void				quit() = 0;
+	virtual const SwarmConfig	&getConfig() = 0;
+	virtual Framerate			*getFPS() = 0;
 	virtual WindowBase			*getWindow() = 0;
 
 };
@@ -37,7 +37,7 @@ class Renderer
 {
 public:
 	Renderer() = default;
-	virtual ~Renderer(){};
+	virtual ~Renderer() {}
 
 	virtual void onLoad() {}
 	virtual void onFrameRender() {}

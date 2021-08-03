@@ -1,11 +1,11 @@
 #pragma once
 
-class   FrameRate
+class Framerate
 {
 public:
 	using TimePoint = std::chrono::time_point < std::chrono::high_resolution_clock >;
 
-	FrameRate()
+	Framerate()
 	{
 		start = Clock::getCurrentTimePoint();
 		fps = 0;

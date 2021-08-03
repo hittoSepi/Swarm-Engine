@@ -36,6 +36,8 @@ Window::~Window()
 
 void Window::init()
 {
+
+	LogInfo("begin")
 	// Set error callback
 	glfwSetErrorCallback(ApiCallbacks::errorCallback);
 
@@ -49,6 +51,7 @@ void Window::init()
 
 	// Create the window
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+	
 	uint32_t w = options.width;
 	uint32_t h = options.height;
 
@@ -86,13 +89,13 @@ void Window::init()
 	glfwSetWindowUserPointer(window, this);
 
 	// Set callbacks
-	glfwSetWindowSizeCallback(window, ApiCallbacks::windowSizeCallback);
-	glfwSetKeyCallback(window, ApiCallbacks::keyboardCallback);
-	glfwSetMouseButtonCallback(window, ApiCallbacks::mouseButtonCallback);
-	glfwSetCursorPosCallback(window, ApiCallbacks::mouseMoveCallback);
-	glfwSetScrollCallback(window, ApiCallbacks::mouseWheelCallback);
-	glfwSetCharCallback(window, ApiCallbacks::charInputCallback);
-	glfwSetDropCallback(window, ApiCallbacks::droppedFileCallback);
+	glfwSetWindowSizeCallback(window,	ApiCallbacks::windowSizeCallback);
+	glfwSetKeyCallback(window,			ApiCallbacks::keyboardCallback);
+	glfwSetMouseButtonCallback(window,	ApiCallbacks::mouseButtonCallback);
+	glfwSetCursorPosCallback(window,	ApiCallbacks::mouseMoveCallback);
+	glfwSetScrollCallback(window,		ApiCallbacks::mouseWheelCallback);
+	glfwSetCharCallback(window,			ApiCallbacks::charInputCallback);
+	glfwSetDropCallback(window,			ApiCallbacks::droppedFileCallback);
 
 	if (options.mode == WindowMode::Minimized)
 	{
@@ -100,6 +103,8 @@ void Window::init()
 		glfwIconifyWindow(window);
 		glfwShowWindow(window);
 	}
+	LogInfo("end")
+
 }
 
 
@@ -149,6 +154,7 @@ void Window::resize(uint32_t width, uint32_t height)
 
 	callbacks->handleWindowSizeChange();
 }
+
 
 
 void Window::setPosition(uint32_t x, uint32_t y)

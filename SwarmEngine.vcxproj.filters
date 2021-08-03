@@ -47,6 +47,9 @@
     <ClCompile Include="source\Core\Window\Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\Core\Application.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\framework.h">
@@ -118,5 +121,7 @@
     <ClInclude Include="source\pch.h" />
     <ClInclude Include="source\Core\Window\Window.h" />
     <ClInclude Include="source\Core\ApiCallbacks.h" />
+    <ClInclude Include="source\Core\Device.h" />
+    <ClInclude Include="source\Core\Application.h" />
   </ItemGroup>
 </Project>
