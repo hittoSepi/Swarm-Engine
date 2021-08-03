@@ -15,9 +15,9 @@ GameObjectManager::GameObjectManager()
 
 void GameObjectManager::OnInit()
 {
-	GameObjects = new GameObjectPool();
-	AddList		= new GameObjectList();
-	RemoveList	= new HashList();
+	gameObjects = new GameObjectPool();
+	addList		= new GameObjectList();
+	removeList	= new HashList();
 	updateThread = new thread(GameObjectManager::UpdateThread);
 	Running = true;
 	updateThread->detach();
@@ -29,7 +29,7 @@ void GameObjectManager::UpdateThread()
 	
 	while (Running)
 	{
-		if (!AddList->empty() || !RemoveList->empty() )
+		if (!addList->empty() || !removeList->empty() )
 		{
 			RemoveObjects();
 			AddObjects();
@@ -58,9 +58,9 @@ void GameObjectManager::BeforeQuit()
 
 GameObjectManager::~GameObjectManager()
 {
-	SAFE_DELETE(GameObjects);
-	SAFE_DELETE(AddList);
-	SAFE_DELETE(RemoveList);
+	SAFE_DELETE(gameObjects);
+	SAFE_DELETE(addList);
+	SAFE_DELETE(removeList);
 
 	delete (updateThread);
 }
@@ -69,8 +69,7 @@ GameObjectManager::~GameObjectManager()
 
 void GameObjectManager::AddObjects()
 {
-	GameObjectListIt iter;
-	for (iter = AddList->begin(); iter != AddList->end(); ++iter)
+	for (GameObjectListIt iter = addList->begin(); iter != addList->end(); ++iter)
 	{
 		GameObject *obj = (GameObject*)iter._Ptr;
 
@@ -78,11 +77,11 @@ void GameObjectManager::AddObjects()
 		if (obj->atPool == false)
 		{
 			obj->atPool = true;
-			GameObjects->try_emplace(obj->GetID(), obj);
+			gameObjects->try_emplace(obj->GetID(), obj);
 			gameObjectsCreated++;
 		}
 	}
-	AddList->clear();
+	addList->clear();
 	
 }
 
@@ -90,11 +89,11 @@ void GameObjectManager::AddObjects()
 
 void GameObjectManager::RemoveObjects()
 {
-	HashListIt iter = RemoveList->begin();
-	while(iter !=  RemoveList->end())
+	HashListIt iter = removeList->begin();
+	while(iter !=  removeList->end())
 	{
-		GameObjectPoolIt goDelIter = GameObjects->find(((GameObject*) &iter)->GetID());
-		GameObjects->erase(goDelIter);
+		GameObjectPoolIt goDelIter = gameObjects->find(((GameObject*) &iter)->GetID());
+		gameObjects->erase(goDelIter);
 	    delete &iter;
 	    iter++;
 	}
@@ -105,7 +104,7 @@ void GameObjectManager::Remove(GameObject *obj)
 {
 	if (lock.try_lock())
 	{
-		RemoveList->emplace_back(obj);
+		removeList->emplace_back(obj->GetID());
 		lock.unlock();
 	}
 }
@@ -115,7 +114,7 @@ void GameObjectManager::Add(GameObject *obj)
 {
 	if (lock.try_lock())
 	{
-		AddList->emplace_back(obj);
+		addList->emplace_back(obj);
 		lock.unlock();
 	}
 }
@@ -125,7 +124,7 @@ GameObject *GameObjectManager::Create(std::string name)
 	GameObject *newObject = new GameObject(name);
 	if (lock.try_lock())
 	{
-		AddList->emplace_back(newObject);
+		addList->emplace_back(newObject);
 		lock.unlock();
 	}
 	return newObject;

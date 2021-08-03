@@ -47,6 +47,9 @@
     <ClCompile Include="source\Engine\BaseObject.cpp">
       <Filter>Swarm</Filter>
     </ClCompile>
+    <ClCompile Include="source\Core\Window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\framework.h">
@@ -116,5 +119,7 @@
       <Filter>Swarm</Filter>
     </ClInclude>
     <ClInclude Include="source\pch.h" />
+    <ClInclude Include="source\Core\Window.h" />
+    <ClInclude Include="source\Core\ApiCallbacks.h" />
   </ItemGroup>
 </Project>

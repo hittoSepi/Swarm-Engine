@@ -13,7 +13,7 @@
 #include "Core/Framework.h"
 //#include "Core/SwarmApp.h"
 #include "Core/WindowBase.h"
-//#include "Core/Window.h"
+#include "Core/Window.h"
 #include "Core/Renderer.h"
 #include "Core/Input/InputEvents.h"
 #include "Core/ThreadPool/ThreadPool.h"
@@ -49,11 +49,13 @@
 ////////////////////////////////////////////////////
 /// ADD SOME LIBRARIES
 ////////////////////////////////////////////////////
+#ifdef _WIN32
 #pragma comment(lib, "glfw3dll.lib")
 #pragma comment(lib, "glew32.lib")
-
+#endif
 
 // typedefs
 #include "Core/typedefs.h"
+
 
 #endif

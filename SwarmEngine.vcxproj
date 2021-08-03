@@ -30,8 +30,10 @@
     <ClCompile Include="source\Utils\Debug\Debug.cpp" />
     <ClCompile Include="source\Utils\Helpers.cpp" />
     <ClCompile Include="source\Core\ThreadPool\ThreadPool.cpp" />
+    <ClCompile Include="source\Core\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\Core\ApiCallbacks.h" />
     <ClInclude Include="source\Core\Framework.h" />
     <ClInclude Include="source\Core\WindowBase.h" />
     <ClInclude Include="source\Core\Input\InputEvents.h" />
@@ -55,6 +57,7 @@
     <ClInclude Include="source\Utils\Time\Clock.h" />
     <ClInclude Include="source\Utils\Time\FrameRate.h" />
     <ClInclude Include="source\Core\ThreadPool\ThreadPool.h" />
+    <ClInclude Include="source\Core\Window.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

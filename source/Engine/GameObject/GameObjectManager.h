@@ -38,16 +38,16 @@ class   GameObjectManager: public Singleton<GameObjectManager>
         /// Removes <c>GameObjects</c> from <c>GameObjectPool</c>
         /// </summary>
         static void RemoveObjects();
+         static void UpdateThread();
 
-        static GameObjectPool*        GameObjects;
-        static GameObjectList*        AddList;
-        static HashList*              RemoveList;
+        static GameObjectPool*        gameObjects;
+        static GameObjectList*        addList;
+        static HashList*              removeList;
 
         static GameObjectListIt       listIt;
         static GameObjectPoolIt       poolIt;
 
         // thread
-        static void                    UpdateThread();
         inline static bool             Running = false;
         static std::thread*            updateThread;
         static std::mutex              lock;

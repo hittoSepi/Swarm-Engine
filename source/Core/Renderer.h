@@ -7,8 +7,8 @@
 
 class Clock;
 class FrameRate;
-class KeyboardEvent;
-class MouseEvent;
+struct KeyboardEvent;
+struct MouseEvent;
 
 struct SwarmConfig
 {
