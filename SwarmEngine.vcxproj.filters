@@ -53,6 +53,21 @@
     <ClCompile Include="source\Core\Vulkan\VulkanDebug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\Core\Vulkan\VulkanShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Core\Shader\ShaderCache.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Utils\Process\WinProcess.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Core\Shader\ShaderHelpers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Core\Vulkan\VulkanApi.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\framework.h">
@@ -129,5 +144,13 @@
     <ClInclude Include="source\Core\Vulkan\SwarmVulkan.h" />
     <ClInclude Include="source\Core\Vulkan\VulkanDevice.h" />
     <ClInclude Include="source\Core\Vulkan\VulkanDebug.h" />
+    <ClInclude Include="source\Core\Vulkan\VulkanGraphicsPipeline.h" />
+    <ClInclude Include="source\Core\Shader\Shader.h" />
+    <ClInclude Include="source\Core\Vulkan\VulkanShader.h" />
+    <ClInclude Include="source\Core\Shader\ShaderCache.h" />
+    <ClInclude Include="source\Utils\Process\WinProcess.h" />
+    <ClInclude Include="source\Core\Shader\ShaderHelpers.h" />
+    <ClInclude Include="source\Core\RenderingApi.h" />
+    <ClInclude Include="source\Core\Vulkan\VulkanApi.h" />
   </ItemGroup>
 </Project>

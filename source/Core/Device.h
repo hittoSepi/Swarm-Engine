@@ -3,8 +3,6 @@
 class Device
 {
 public:
-
-	using Ptr = std::unique_ptr<Device>;
 	class Options
 	{
 	public:

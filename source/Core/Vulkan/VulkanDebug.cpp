@@ -30,12 +30,13 @@ VKAPI_ATTR VkBool32 VKAPI_CALL VulkanDebugCallback(
         break;
 
         case VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT:
-            LogInfo(std::string(pCallbackData->pMessage))
+            LogDebug(std::string(pCallbackData->pMessage))
         break;
 
         case VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT:
             LogWarning(std::string(pCallbackData->pMessage))
         break;
+
         case VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT:
             LogError(std::string(pCallbackData->pMessage));
 

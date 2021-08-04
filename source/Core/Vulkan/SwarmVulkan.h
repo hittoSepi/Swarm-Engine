@@ -8,3 +8,5 @@
 #pragma comment(lib, "vulkan-1.lib")
 
 #include "Core/Vulkan/VulkanDevice.h"
+#include "Core/Vulkan/VulkanShader.h"
+#include "Core/Vulkan/VulkanGraphicsPipeline.h"

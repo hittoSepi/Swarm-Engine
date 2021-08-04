@@ -117,7 +117,7 @@ public:
 	static void errorCallback(int errorCode, const char* pDescription)
 	{
 		std::string errorMsg = std::to_string(errorCode) + " - " + std::string(pDescription) + "\n";
-		LogError(errorMsg.c_str());
+		LogError(errorMsg);
 	}
 
 	static void droppedFileCallback(GLFWwindow* pGlfwWindow, int count, const char** paths)

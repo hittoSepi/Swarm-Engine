@@ -10,10 +10,23 @@
 #define SWARM_VULKAN 1
 
 
-
-
 #include "SwarmPrerequires.h"
 #include "SwarmStdHeaders.h"
+
+
+#ifdef _DEBUG
+#define SWARM_LOG_LEVEL_DEBUG 0
+#define SWARM_LOG_LEVEL_VERBOSE 1
+#define SWARM_LOG_LEVEL_INFO 2
+#define SWARM_LOG_LEVEL_WARNING 3
+#define SWARM_LOG_LEVEL_ERROR 4
+
+#define SWARM_LOG_LEVEL SWARM_LOG_LEVEL_VERBOSE
+#define SWARM_LOG_FILE_LEVEL SWARM_LOG_LEVEL_VERBOSE
+
+#include "Utils/Debug/Debug.h"
+#endif
+
 
 ////////////////////////////////////////////////////
 /// CORE INCLUDES
@@ -27,6 +40,12 @@
 #include "Core/ThreadPool/ThreadPool.h"
 #include "Core/Singleton/Singleton.h"
 
+#include "Core/RenderingApi.h"
+
+#include "Core/Shader/ShaderHelpers.h"
+#include "Core/Shader/ShaderCache.h"
+#include "Core/Shader/Shader.h"
+
 // Graphics api
 #ifdef SWARM_VULKAN
 #include "Core/Vulkan/SwarmVulkan.h"
@@ -38,14 +57,16 @@
 ////////////////////////////////////////////////////
 /// UTILITY INCLUDES
 ////////////////////////////////////////////////////
+
+
 #include "Utils/Helpers.h"
 #include "Utils/Locale/Utf8.h"
-#ifdef _DEBUG
-#include "Utils/Debug/Debug.h"
-#endif
 #include "Utils/time/Clock.h"
 #include "Utils/Time/FrameRate.h"
 
+#ifdef _WIN32
+#include "Utils/Process/WinProcess.h"
+#endif
 
 ////////////////////////////////////////////////////
 /// ENGINE INCLUDES

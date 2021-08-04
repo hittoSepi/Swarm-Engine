@@ -5,7 +5,8 @@
 GameObject::GameObject():
 	BaseObject("error")
 {
-	LogError("Don't create GameObjects with default constructor!");
+	should_not_get_here();
+	//LogError(std::string("Don't create GameObjects with default constructor!"));
 }
 
 GameObject::GameObject(const std::string &name):

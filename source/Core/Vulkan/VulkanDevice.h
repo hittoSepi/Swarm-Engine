@@ -24,17 +24,17 @@ struct SwapChainSupportDetails {
 class VulkanDevice : public Device
 {
 public:
-
-	using Ptr = std::unique_ptr<VulkanDevice>;
-	inline static Ptr create(WindowBase* window, const Options& opts = Options())
+	inline static VulkanDevice* create(
+		WindowBase* window, 
+		const Options& opts = Options())
 	{
-		return Ptr(new VulkanDevice(window, opts));
+		return new VulkanDevice(window, opts);
 	}
 
 	void init() override;
 	void quit() override;
 
-	~VulkanDevice() override {}
+	~VulkanDevice() override { LogInfo(""); }
 
 protected:
 	VkInstance					instance;

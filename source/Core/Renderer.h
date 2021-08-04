@@ -10,17 +10,24 @@ class Framerate;
 struct KeyboardEvent;
 struct MouseEvent;
 
+enum class GraphicsAPI
+{
+	VULKAN,
+	DX12,
+	OPENGL
+};
 
 struct EngineConfig
 {
-	WindowBase::Options windowOptions;	///< Controls window creation
-	Device::Options deviceOptions;		///< Controls device creation
-	bool suppressInput = false;			///< Suppress all keyboard and mouse input (other than escape to terminate)
-	bool showMessageBoxOnError = true;	///< Show message box on framework/API errors.
-	float timeScale = 1.0f;				///< A scaling factor for the time elapsed between frames
-	bool pauseTime = false;				///< Control whether or not to start the clock when the sample start running
-	bool showUI = true;					///< Show the UI
-	size_t numThreads = 32;				///< How many threads in job pool
+	GraphicsAPI graphicsApi = GraphicsAPI::VULKAN;	///< Graphics API
+	WindowBase::Options windowOptions;				///< Controls window creation
+	Device::Options deviceOptions;					///< Controls device creation
+	bool suppressInput = false;						///< Suppress all keyboard and mouse input (other than escape to terminate)
+	bool showMessageBoxOnError = true;				///< Show message box on framework/API errors.
+	float timeScale = 1.0f;							///< A scaling factor for the time elapsed between frames
+	bool pauseTime = false;							///< Control whether or not to start the clock when the sample start running
+	bool showUI = true;								///< Show the UI
+	size_t numThreads = 32;							///< How many threads in job pool
 };
 
 

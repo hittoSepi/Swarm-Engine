@@ -20,8 +20,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Core\Application.cpp" />
+    <ClCompile Include="source\Core\Shader\ShaderCache.cpp" />
+    <ClCompile Include="source\Core\Shader\ShaderHelpers.cpp" />
+    <ClCompile Include="source\Core\Vulkan\VulkanApi.cpp" />
     <ClCompile Include="source\Core\Vulkan\VulkanDebug.cpp" />
     <ClCompile Include="source\Core\Vulkan\VulkanDevice.cpp" />
+    <ClCompile Include="source\Core\Vulkan\VulkanShader.cpp" />
     <ClCompile Include="source\Engine\BaseObject.cpp" />
     <ClCompile Include="source\Engine\Component\Component.cpp" />
     <ClCompile Include="source\Engine\Component\ComponentManager.cpp" />
@@ -32,15 +36,23 @@
     <ClCompile Include="source\Utils\Debug\Debug.cpp" />
     <ClCompile Include="source\Utils\Helpers.cpp" />
     <ClCompile Include="source\Core\Window\Window.cpp" />
+    <ClCompile Include="source\Utils\Process\WinProcess.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Core\ApiCallbacks.h" />
     <ClInclude Include="source\Core\Application.h" />
     <ClInclude Include="source\Core\Framework.h" />
     <ClInclude Include="source\Core\Device.h" />
+    <ClInclude Include="source\Core\RenderingApi.h" />
+    <ClInclude Include="source\Core\Shader\Shader.h" />
+    <ClInclude Include="source\Core\Shader\ShaderCache.h" />
+    <ClInclude Include="source\Core\Shader\ShaderHelpers.h" />
     <ClInclude Include="source\Core\Vulkan\SwarmVulkan.h" />
+    <ClInclude Include="source\Core\Vulkan\VulkanApi.h" />
     <ClInclude Include="source\Core\Vulkan\VulkanDebug.h" />
     <ClInclude Include="source\Core\Vulkan\VulkanDevice.h" />
+    <ClInclude Include="source\Core\Vulkan\VulkanGraphicsPipeline.h" />
+    <ClInclude Include="source\Core\Vulkan\VulkanShader.h" />
     <ClInclude Include="source\Core\Window\WindowBase.h" />
     <ClInclude Include="source\Core\Input\InputEvents.h" />
     <ClInclude Include="source\Utils\Locale\Utf8.h" />
@@ -60,6 +72,7 @@
     <ClInclude Include="source\SwarmStdHeaders.h" />
     <ClInclude Include="source\Utils\Debug\Debug.h" />
     <ClInclude Include="source\Utils\Helpers.h" />
+    <ClInclude Include="source\Utils\Process\WinProcess.h" />
     <ClInclude Include="source\Utils\Time\Clock.h" />
     <ClInclude Include="source\Utils\Time\FrameRate.h" />
     <ClInclude Include="source\Core\ThreadPool\ThreadPool.h" />
@@ -128,7 +141,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\VulkanSDK\1.2.182.0\Include;C:\Users\hitto\Documents\Ohjelmointi\Swarm\Swarm Engine\source;C:\Users\hitto\Documents\Ohjelmointi\Swarm\Swarm Engine\deps\include</IncludePath>
+    <IncludePath>C:\Users\hitto\Documents\Ohjelmointi\Swarm\Swarm Engine\source;C:\VulkanSDK\1.2.182.0\Include;C:\Users\hitto\Documents\Ohjelmointi\Swarm\Swarm Engine\deps\include</IncludePath>
     <LibraryPath>C:\VulkanSDK\1.2.182.0\Lib;C:\Users\hitto\Documents\Ohjelmointi\Swarm\Swarm Engine\deps\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

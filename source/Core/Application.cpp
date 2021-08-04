@@ -6,7 +6,7 @@ Application::Application(Renderer* _renderer) :
 {
 	if (renderer == nullptr)
 	{
-		LogError("No renderer");
+		LogError(std::string("No renderer"));
 	}
 }
 
@@ -20,7 +20,7 @@ void Application::run(Renderer* renderer, const EngineConfig &conf)
 	}
 	catch (const std::exception& e)
 	{
-		LogError("Caught exception:\n\n" + std::string(e.what()) + "\n\nEnable breaking on exceptions in the debugger to get a full stack trace.");
+		LogError(std::string("Caught exception:\n\n" + std::string(e.what())));
 	}
 }
 
@@ -32,17 +32,22 @@ void Application::runInternal(const EngineConfig &conf)
 	init();
 
 	window->messageLoop();
-
-	jobSystem->finish();
 	
-	if(device != nullptr)
-		device->quit();
-
+	
+	jobSystem->finish();
+	delete fps;
+	
 	if(renderer != nullptr){
 		renderer->onExit();
 		delete renderer;
 	}
-	delete fps;
+
+	if(graphicsApi != nullptr) {
+		graphicsApi->quit();
+		delete graphicsApi;
+	}
+
+	delete window;
 	
 }
 
@@ -61,9 +66,18 @@ void Application::init()
 	window = new Window(config.windowOptions, this);
 	window->init();
 
-	// init device here
-	device = VulkanDevice::create(window);
-	device->init();
+	InitShaderCache("Data/ShaderData/", "Data/ShaderCache/");
+	
+	// init Graphics Api here
+	if(config.graphicsApi == GraphicsAPI::VULKAN) {
+		graphicsApi = (VulkanApi*)VulkanApi::create(window, config.deviceOptions);
+	}
+
+	if(graphicsApi != nullptr)
+		graphicsApi->init();
+	else
+		throw std::runtime_error("Graphics Api is NULL");
+	
 	// renderer->OnLoad(renderecontext) set render context
 }
 
@@ -79,7 +93,6 @@ void Application::renderFrame()
 void Application::quit()
 {
 	window->quit();
-
 }
 
 
@@ -113,10 +126,10 @@ void Application::handleMouseEvent(const MouseEvent& mouseEvent)
 void Application::handleWindowSizeChange()
 {
 	// TODO!
-	  if (!device) return;
-    // Tell the device to resize the swap chain
+	  if (!graphicsApi) return;
+    // Tell the graphicsApi to resize the swap chain
     //auto winSize = window->getClientAreaSize();
-    //auto pBackBufferFBO = device->resizeSwapChain(winSize.x, winSize.y);
+    //auto pBackBufferFBO = graphicsApi->resizeSwapChain(winSize.x, winSize.y);
     //auto width = pBackBufferFBO->getWidth();
     //auto height = pBackBufferFBO->getHeight();
 

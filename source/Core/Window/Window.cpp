@@ -29,6 +29,7 @@ Window::Window(Options& opts, ICallbacks* callbacks) :
 
 Window::~Window()
 {
+	LogInfo("")
 	glfwDestroyWindow(window);
 	glfwTerminate();
 }
@@ -36,15 +37,14 @@ Window::~Window()
 
 void Window::init()
 {
-
-	LogInfo("begin")
+	LogInfo("");
 	// Set error callback
 	glfwSetErrorCallback(ApiCallbacks::errorCallback);
 
 	// Init GLFW
 	if (glfwInit() == GLFW_FALSE)
 	{
-		LogError("GLFW initialization failed");
+		throw std::runtime_error("GLFW initialization failed");
 	}
 
 	//SharedPtr pWindow = SharedPtr(new Window(pCallbacks, options));
@@ -78,7 +78,7 @@ void Window::init()
 
 	if (window == nullptr)
 	{
-		LogError("Window creation failed!");
+		throw std::runtime_error("Window creation failed!");
 	}
 
 	// Init handles
@@ -103,13 +103,14 @@ void Window::init()
 		glfwIconifyWindow(window);
 		glfwShowWindow(window);
 	}
-	LogInfo("end")
 
+	LogDebug("end");
 }
 
 
 void Window::quit()
 {
+	LogInfo("triggered.")
 	glfwSetWindowShouldClose(window, 1);
 }
 

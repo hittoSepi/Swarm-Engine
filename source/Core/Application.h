@@ -2,6 +2,7 @@
 
 #include "Core/Input/InputEvents.h"
 #include "Core/Renderer.h"
+#include "Vulkan/VulkanApi.h"
 
 class JobSystem;
 class Framerate;
@@ -11,7 +12,6 @@ class Application: public Framework, public Window::ICallbacks
 public:
 	static void run(Renderer *_renderer, const EngineConfig &conf);
 protected:
-	using SWDevice = VulkanDevice::Ptr;
 	
 	// Framework virtuals
 	void				init() override;
@@ -39,10 +39,12 @@ private:
 	std::set<KeyboardEvent::Key> pressedKeys;
 	
 	EngineConfig	config;					// engine config
+
 	
-	SWDevice		device;					// gpu
-	Window			*window		= nullptr;  // main window
-	Renderer		*renderer	= nullptr;	// render handler
-	Framerate		*fps		= nullptr;
+//	SWDevice		graphicsApi;					
+	Window			*window			= nullptr;  // main window
+	RenderingApi	*graphicsApi	= nullptr;	// gpu
+	Renderer		*renderer		= nullptr;	// render handler
+	Framerate		*fps			= nullptr;
 	JobSystem::Ptr	jobSystem;
 };

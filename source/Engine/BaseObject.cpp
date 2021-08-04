@@ -3,7 +3,7 @@
 
 BaseObject::BaseObject()
 {
-	LogError("Don't use with default constructor!");
+	LogError(std::string("Don't use with default constructor!"));
 }
 
 

@@ -17,6 +17,7 @@ public:
 	// finish enques a "stop the thread" message for every thread, then waits for them:
 	void finish() {
 		{
+			LogVerbose("Waiting threads to finish...");
 			std::unique_lock<std::mutex> l(m);
 			for (auto&& unused : finished) {
 				work.push_back({});

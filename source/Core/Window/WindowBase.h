@@ -23,6 +23,7 @@ public:
 	using WindowHandle = int;
 	#endif
 
+	
 	using uint2  = glm::i32vec2;
 	using float2 = glm::vec2;
 	
