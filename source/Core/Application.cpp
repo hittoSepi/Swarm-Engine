@@ -48,7 +48,6 @@ void Application::runInternal(const EngineConfig &conf)
 	}
 
 	delete window;
-	
 }
 
 

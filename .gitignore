@@ -365,6 +365,7 @@ MigrationBackup/
 FodyWeavers.xsd
 
 
+swarm_log.txt
 error_log.txt
 glslc.exe
 Data/
