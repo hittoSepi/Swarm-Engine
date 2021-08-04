@@ -50,9 +50,6 @@
     <ClCompile Include="source\Core\Vulkan\VulkanDevice.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\Core\Vulkan\VulkanExtensions.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\Core\Vulkan\VulkanDebug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -131,7 +128,6 @@
     <ClInclude Include="source\Core\Application.h" />
     <ClInclude Include="source\Core\Vulkan\SwarmVulkan.h" />
     <ClInclude Include="source\Core\Vulkan\VulkanDevice.h" />
-    <ClInclude Include="source\Core\Vulkan\VulkanExtensions.h" />
     <ClInclude Include="source\Core\Vulkan\VulkanDebug.h" />
   </ItemGroup>
 </Project>

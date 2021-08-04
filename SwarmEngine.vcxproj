@@ -22,7 +22,6 @@
     <ClCompile Include="source\Core\Application.cpp" />
     <ClCompile Include="source\Core\Vulkan\VulkanDebug.cpp" />
     <ClCompile Include="source\Core\Vulkan\VulkanDevice.cpp" />
-    <ClCompile Include="source\Core\Vulkan\VulkanExtensions.cpp" />
     <ClCompile Include="source\Engine\BaseObject.cpp" />
     <ClCompile Include="source\Engine\Component\Component.cpp" />
     <ClCompile Include="source\Engine\Component\ComponentManager.cpp" />
@@ -42,7 +41,6 @@
     <ClInclude Include="source\Core\Vulkan\SwarmVulkan.h" />
     <ClInclude Include="source\Core\Vulkan\VulkanDebug.h" />
     <ClInclude Include="source\Core\Vulkan\VulkanDevice.h" />
-    <ClInclude Include="source\Core\Vulkan\VulkanExtensions.h" />
     <ClInclude Include="source\Core\Window\WindowBase.h" />
     <ClInclude Include="source\Core\Input\InputEvents.h" />
     <ClInclude Include="source\Utils\Locale\Utf8.h" />

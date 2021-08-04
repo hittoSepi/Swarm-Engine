@@ -57,6 +57,8 @@ private:
 	void createImageViews();
 	void createGraphicsPipeline();
 
+
+	std::vector<const char*> getRequiredExtensions();
 	void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
 	bool checkValidationLayerSupport();
 	SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device);
