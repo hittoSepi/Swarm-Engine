@@ -28,7 +28,6 @@ void VulkanRenderingPipeline::init()
 {
 	LogInfo("");
 	auto api_ = getVulkanApi();
-
 	
 	// create swap chain
 	VulkanSwapChain* swapchain = new VulkanSwapChain(api_);
@@ -37,16 +36,14 @@ void VulkanRenderingPipeline::init()
 	auto swapDims = swapchain->getDimensions();
 	setSwapChain((VulkanSwapChain*)swapchain);
 
+
 	addViewport(swapDims, float2(0.0f, 1.0f));
 	addScissor(swapDims);
+	createViewports();
 
-
-
-
-	dynamicState.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
-	std::vector<VkDynamicState> dynamicStateEnables = { VK_DYNAMIC_STATE_VIEWPORT, VK_DYNAMIC_STATE_SCISSOR };
-	//VkPipelineDynamicStateCreateInfo dynamicStateCI = vks::initializers::pipelineDynamicStateCreateInfo(dynamicStateEnables);
-	//std::array<VkPipelineShaderStageCreateInfo, 2> shaderStages;
+	if (vkCreatePipelineLayout(api_->getVkDevice(), &createInfos.pipelineLayoutInfo, nullptr, &pipelineLayout) != VK_SUCCESS) {
+		throw std::runtime_error("failed to create pipeline layout!");
+    }
 
 	/*
 	*Shader::CreateOptions opts;
@@ -64,11 +61,13 @@ void VulkanRenderingPipeline::init()
 void VulkanRenderingPipeline::quit()
 {
 	LogInfo("");
-
+	auto dev = getVulkanApi()->getVkDevice();
 	auto sc = dynamic_cast<VulkanSwapChain*>(swapChain);
+	
 	sc->quit();
 	delete sc;
 
+	vkDestroyPipelineLayout(dev, pipelineLayout, nullptr);
 	
 	LogVerbose("end.")
 }
@@ -108,28 +107,21 @@ void VulkanRenderingPipeline::createViewports()
 	vkViewports.clear();
 	vkScissors.clear();
 
-	std::vector<Scissor*>::iterator sciIt = scissors.begin();
-	while (sciIt != scissors.end()) {
-		const auto item = (VulkanScissor*)sciIt._Ptr;
-		auto sci = scissorToVkRect(item);
-		vkScissors.push_back(sci);
-		sciIt++;
+	for(auto scissor: scissors) {
+		vkScissors.push_back(scissorToVkRect(static_cast<VulkanScissor*>(scissor)));
 	}
 
-	std::vector<Viewport*>::iterator viewIt = viewports.begin();
-	while (viewIt != viewports.end()) {
-		const auto item = (VulkanViewport*)viewIt._Ptr;
-		auto vp = viewportToVkViewport(item);
-		vkViewports.push_back(vp);
-		sciIt++;
+
+	for(auto view: viewports)
+	{
+		vkViewports.push_back(viewportToVkViewport(dynamic_cast<VulkanViewport*>(view)));
 	}
 
-	viewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
-	viewportState.viewportCount = (int)vkViewports.size();
-	viewportState.scissorCount = (int)vkScissors.size();
-	viewportState.pViewports = vkViewports.data();
-	viewportState.pScissors = vkScissors.data();
-
+/*	createInfos.viewportState.viewportCount = (int)vkViewports.size();
+	createInfos.viewportState.scissorCount = (int)vkScissors.size();
+	createInfos.viewportState.pViewports = vkViewports.data();
+	createInfos.viewportState.pScissors = vkScissors.data();
+	*/
 }
 
 void* VulkanRenderingPipeline::getSwapChain()

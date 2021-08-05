@@ -1,7 +1,7 @@
 #include "pch.h"
+#include "Core/Vulkan/SwarmVulkan.h"
 #include "Core/Vulkan/VulkanApi.h"
-
-#include "VulkanDebug.h"
+#include "Core/Vulkan/Debug/VulkanDebug.h"
 
 using namespace std;
 
@@ -32,6 +32,9 @@ VulkanApi::VulkanApi(Window* window, const Device::Options& opts) :
 
 void VulkanApi::init()
 {
+	
+	//VulkanStructureType::VK_STRUCTURE_TYPE_APPLICATION_INFO
+	
 	LogInfo("")
 	createInstance();
 
@@ -87,17 +90,17 @@ void VulkanApi::createInstance()
 	if (deviceOptions.enableValidationLayers && !checkValidationLayerSupport()) {
 		LogError(std::string("validation layers requested, but not available!"));
 	}
-
+	
 	VkApplicationInfo appInfo{};
-	appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
+	appInfo.sType = VK_INFO::SW_VULKAN_APP_INFO;
 	appInfo.pApplicationName = window->getWindowTitle().c_str();
 	appInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
 	appInfo.pEngineName = SWARM_ENGINE_NAME;
-	appInfo.engineVersion = VK_MAKE_VERSION(SWARM_VERSION_MAJOR, SWARM_VERSION_MINOR, 0);
+	appInfo.engineVersion = VK_MAKE_API_VERSION(0, SWARM_VERSION_MAJOR, SWARM_VERSION_MINOR, 0);
 	appInfo.apiVersion = VK_API;
 
 	VkInstanceCreateInfo createInfo{};
-	createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+	createInfo.sType = VK_CI::SW_VULKAN_INSTANCE;
 	createInfo.pApplicationInfo = &appInfo;
 
 	auto extensions = getRequiredExtensions();
@@ -174,7 +177,7 @@ void VulkanApi::populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfo
 {
 	LogInfo("");
 	createInfo = {};
-	createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+	createInfo.sType = VK_CI::SW_VULKAN_DEBUG_MESSANGER;
 	createInfo.messageSeverity = VULKAN_LOG_LEVEL;
 	createInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
 	createInfo.pfnUserCallback = VulkanDebugCallback;

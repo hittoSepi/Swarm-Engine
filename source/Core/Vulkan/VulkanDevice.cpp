@@ -3,7 +3,7 @@
 #include "Core/Vulkan/VulkanDevice.h"
 
 #ifndef NDEBUG
-#include "Core/Vulkan/VulkanDebug.h"
+#include "Core/Vulkan/Debug/VulkanDebug.h"
 #endif
 
 const std::vector<const char*> deviceExtensions = {

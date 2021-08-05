@@ -2,7 +2,7 @@
 #include <vulkan/vulkan.h>
 #include "Core/Shader/ShaderHelpers.h"
 #include "Core/Shader/ShaderCache.h"
-#include "Core/Vulkan/VulkanShaderModule.h"
+#include "Core/Vulkan/Shader/VulkanShaderModule.h"
 
 using namespace std;
 

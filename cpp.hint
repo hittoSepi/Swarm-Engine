@@ -1,0 +1,5 @@
+// Hint files help the Visual Studio IDE interpret Visual C++ identifiers
+// such as names of functions and macros.
+// For more information see https://go.microsoft.com/fwlink/?linkid=865984
+#define FOREACH_STRUCT(swarmSTRUCT) swarmSTRUCT(SW_PRE + "APP_INFO"), VK_STRUCTURE_TYPE_APPLICATION_INFO) swarmSTRUCT(SW_PRE + "DEBUG_MESSANGER_CI", VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT) swarmSTRUCT(SW_PRE + "INSTANCE_CI", VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO)
+#define GENERATE_ENUM(ENUM, VALUE_) ENUM = (VALUE_),

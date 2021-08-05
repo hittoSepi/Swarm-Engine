@@ -4,14 +4,16 @@
 #include "Core/Vulkan/VulkanApi.h"
 
 
-class VulkanSwapChain: public SwapChain
+class VulkanSwapChain : public SwapChain
 {
 public:
-	VulkanSwapChain(VulkanApi *api);
+	VulkanSwapChain(VulkanApi* api);
 	~VulkanSwapChain() override
 	{
-	
+
 	}
+	void init() override;
+	void quit() override;
 
 	iRect getDimensions() override
 	{
@@ -19,14 +21,9 @@ public:
 		return dim;
 	}
 
-	void init() override;
-	void quit() override;
-	
 	void querySwapChainSupport() override
 	{
 		auto dev = device->getPhyiscalDevice();
-		//auto vkphysdev = vkdev->getPhysicalDevice();
-		
 		swapChainSupport = device->querySwapChainSupport(dev);
 	}
 
@@ -34,17 +31,28 @@ public:
 	{
 		return device->findQueueFamilies(vkPhysDevice);
 	}
-	
+
 	void createBackBuffers() override;
 	void resize(uint32_t width, uint32_t height) override;
 
+	VulkanApi*				_getVulkanApi() { return dynamic_cast<VulkanApi*>(renderingApi); }
+	VulkanDevice*			_getVulkanDevice() { return device; }
+	VkDevice				_getVkDevice() { return static_cast<VkDevice>(device->getApiDevice()); }
+	VkPhysicalDevice		_getVkPhyicalDevice()
+	{
+		auto dev = _getVulkanDevice();
+		return dev->getPhyiscalDevice();
+	}
 	
 	VkExtent2D				chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
 	VkPresentModeKHR		chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
 	VkSurfaceFormatKHR		chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
 
+
+
+
 private:
-	VulkanDevice				*device;
+	VulkanDevice* device;
 	VkPhysicalDevice			vkPhysDevice;
 	SwapChainSupportDetails		swapChainSupport{};
 	VkSwapchainKHR				swapChain;
@@ -52,5 +60,5 @@ private:
 	VkFormat					swapChainImageFormat;
 	std::vector<VkImage>		swapChainImages;
 	std::vector<VkImageView>	swapChainImageViews;
-	
+
 };

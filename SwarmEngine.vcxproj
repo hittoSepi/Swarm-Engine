@@ -23,13 +23,14 @@
     <ClCompile Include="source\Core\Shader\Shader.cpp" />
     <ClCompile Include="source\Core\Shader\ShaderCache.cpp" />
     <ClCompile Include="source\Core\Shader\ShaderHelpers.cpp" />
+    <ClCompile Include="source\Core\Vulkan\Render\VulkanRenderPass.cpp" />
     <ClCompile Include="source\Core\Vulkan\Render\VulkanViewport.cpp" />
     <ClCompile Include="source\Core\Vulkan\VulkanApi.cpp" />
-    <ClCompile Include="source\Core\Vulkan\VulkanDebug.cpp" />
+    <ClCompile Include="source\Core\Vulkan\Debug\VulkanDebug.cpp" />
     <ClCompile Include="source\Core\Vulkan\VulkanDevice.cpp" />
     <ClCompile Include="source\Core\Vulkan\Render\VulkanRenderPipeline.cpp" />
-    <ClCompile Include="source\Core\Vulkan\VulkanShaderModule.cpp" />
-    <ClCompile Include="source\Core\Vulkan\VulkanShader.cpp" />
+    <ClCompile Include="source\Core\Vulkan\Shader\VulkanShaderModule.cpp" />
+    <ClCompile Include="source\Core\Vulkan\Shader\VulkanShader.cpp" />
     <ClCompile Include="source\Core\Vulkan\Render\VulkanSwapChain.cpp" />
     <ClCompile Include="source\Engine\BaseObject.cpp" />
     <ClCompile Include="source\Engine\Component\Component.cpp" />
@@ -50,19 +51,21 @@
     <ClInclude Include="source\Core\Device.h" />
     <ClInclude Include="source\Core\Rendering\RenderingPipeline.h" />
     <ClInclude Include="source\Core\Rendering\RenderingApi.h" />
+    <ClInclude Include="source\Core\Rendering\RenderPass.h" />
     <ClInclude Include="source\Core\Rendering\SwapChain.h" />
     <ClInclude Include="source\Core\Rendering\Viewport.h" />
     <ClInclude Include="source\Core\Shader\Shader.h" />
     <ClInclude Include="source\Core\Shader\ShaderCache.h" />
     <ClInclude Include="source\Core\Shader\ShaderHelpers.h" />
     <ClInclude Include="source\Core\Vulkan\Render\VulkanRasterizer.h" />
+    <ClInclude Include="source\Core\Vulkan\Render\VulkanRenderPass.h" />
     <ClInclude Include="source\Core\Vulkan\SwarmVulkan.h" />
     <ClInclude Include="source\Core\Vulkan\VulkanApi.h" />
-    <ClInclude Include="source\Core\Vulkan\VulkanDebug.h" />
+    <ClInclude Include="source\Core\Vulkan\Debug\VulkanDebug.h" />
     <ClInclude Include="source\Core\Vulkan\VulkanDevice.h" />
     <ClInclude Include="source\Core\Vulkan\Render\VulkanRenderPipeline.h" />
-    <ClInclude Include="source\Core\Vulkan\VulkanShaderModule.h" />
-    <ClInclude Include="source\Core\Vulkan\VulkanShader.h" />
+    <ClInclude Include="source\Core\Vulkan\Shader\VulkanShaderModule.h" />
+    <ClInclude Include="source\Core\Vulkan\Shader\VulkanShader.h" />
     <ClInclude Include="source\Core\Vulkan\Render\VulkanSwapChain.h" />
     <ClInclude Include="source\Core\Vulkan\Render\VulkanViewport.h" />
     <ClInclude Include="source\Core\Window\WindowBase.h" />
@@ -90,6 +93,9 @@
     <ClInclude Include="source\Utils\Time\FrameRate.h" />
     <ClInclude Include="source\Core\ThreadPool\ThreadPool.h" />
     <ClInclude Include="source\Core\Window\Window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

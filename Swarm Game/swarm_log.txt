@@ -5212,3 +5212,211 @@ directory_iterator::directory_iterator: The system cannot find the file specifie
 [17:22:40] (Verbose) VulkanApi::quit() Deleting Instance.
 [17:22:40] (Info) Window::~Window() 
 [17:22:40] (Info) Application::runInternal() EXIT OK!
+
+******************************************       SWARM ENGINE       ******************************************************
+
+[17:48:27] (Info) JobSystem::start() Created 32 threads.
+[17:48:27] (Info) Window::init() 
+[17:48:27] (Info) VulkanApi::create() 
+[17:48:27] (Info) VulkanApi::init() 
+[17:48:27] (Info) VulkanApi::createInstance() 
+[17:48:27] (Info) VulkanApi::checkValidationLayerSupport() 
+[17:48:27] (Info) VulkanApi::getRequiredExtensions() 
+[17:48:27] (Info) VulkanApi::populateDebugMessengerCreateInfo() 
+[17:48:27] (Warning) VulkanDebugCallback() loaderAddLayerProperties: C:\VulkanSDK\1.2.182.0\Bin\VkLayer_api_dump.json invalid layer manifest file version 1.2.0.  May cause errors.
+[17:48:27] (Warning) VulkanDebugCallback() loaderAddLayerProperties: C:\VulkanSDK\1.2.182.0\Bin\VkLayer_device_simulation.json invalid layer manifest file version 1.2.0.  May cause errors.
+[17:48:27] (Warning) VulkanDebugCallback() loaderAddLayerProperties: C:\VulkanSDK\1.2.182.0\Bin\VkLayer_gfxreconstruct.json invalid layer manifest file version 1.2.0.  May cause errors.
+[17:48:27] (Warning) VulkanDebugCallback() loaderAddLayerProperties: C:\VulkanSDK\1.2.182.0\Bin\VkLayer_khronos_synchronization2.json invalid layer manifest file version 1.2.0.  May cause errors.
+[17:48:27] (Warning) VulkanDebugCallback() loaderAddLayerProperties: C:\VulkanSDK\1.2.182.0\Bin\VkLayer_khronos_validation.json invalid layer manifest file version 1.2.0.  May cause errors.
+[17:48:27] (Warning) VulkanDebugCallback() loaderAddLayerProperties: C:\VulkanSDK\1.2.182.0\Bin\VkLayer_screenshot.json invalid layer manifest file version 1.2.0.  May cause errors.
+[17:48:27] (Info) VulkanApi::setupDebugMessenger() 
+[17:48:27] (Info) VulkanApi::populateDebugMessengerCreateInfo() 
+[17:48:27] (Info) VulkanApi::createWindowSurface() 
+[17:48:27] (Info) VulkanApi::init() Create device.
+[17:48:27] (Info) VulkanDevice::init() 
+[17:48:27] (Info) VulkanDevice::pickPhysicalDevice() 
+[17:48:27] (Info) VulkanDevice::isDeviceSuitable() 
+[17:48:27] (Info) VulkanDevice::findQueueFamilies() 
+[17:48:27] (Info) VulkanDevice::checkDeviceExtensionSupport() 
+[17:48:27] (Info) VulkanDevice::createLogicalDevice() 
+[17:48:27] (Info) VulkanDevice::findQueueFamilies() 
+[17:48:27] (Info) VulkanApi::init() RenderingPipeline.
+[17:48:27] (Info) VulkanRenderingPipeline::VulkanRenderingPipeline() 
+[17:48:27] (Info) VulkanRenderingPipeline::setRenderingApi() 
+[17:48:27] (Verbose) VulkanRenderingPipeline::VulkanRenderingPipeline() end.
+[17:48:27] (Info) VulkanRenderingPipeline::init() 
+[17:48:27] (Info) VulkanSwapChain::VulkanSwapChain() 
+[17:48:27] (Info) VulkanSwapChain::init() 
+[17:48:27] (Info) VulkanSwapChain::chooseSwapSurfaceFormat() 
+[17:48:27] (Info) VulkanSwapChain::chooseSwapPresentMode() 
+[17:48:27] (Info) VulkanSwapChain::chooseSwapExtent() 
+[17:48:27] (Info) VulkanDevice::findQueueFamilies() 
+[17:48:27] (Info) VulkanSwapChain::createBackBuffers() 
+[17:48:27] (Info) VulkanRenderingPipeline::setSwapChain() 
+[17:48:27] (Info) VulkanRenderingPipeline::addViewport() 
+[17:48:27] (Info) VulkanRenderingPipeline::addScissor() 
+[17:48:27] (Info) VulkanRenderingPipeline::createViewports() 
+
+******************************************       SWARM ENGINE       ******************************************************
+
+[17:57:23] (Info) JobSystem::start() Created 32 threads.
+[17:57:23] (Info) Window::init() 
+[17:57:23] (Info) VulkanApi::create() 
+[17:57:23] (Info) VulkanApi::init() 
+[17:57:23] (Info) VulkanApi::createInstance() 
+[17:57:23] (Info) VulkanApi::checkValidationLayerSupport() 
+[17:57:23] (Info) VulkanApi::getRequiredExtensions() 
+[17:57:23] (Info) VulkanApi::populateDebugMessengerCreateInfo() 
+[17:57:23] (Warning) VulkanDebugCallback() loaderAddLayerProperties: C:\VulkanSDK\1.2.182.0\Bin\VkLayer_api_dump.json invalid layer manifest file version 1.2.0.  May cause errors.
+[17:57:23] (Warning) VulkanDebugCallback() loaderAddLayerProperties: C:\VulkanSDK\1.2.182.0\Bin\VkLayer_device_simulation.json invalid layer manifest file version 1.2.0.  May cause errors.
+[17:57:23] (Warning) VulkanDebugCallback() loaderAddLayerProperties: C:\VulkanSDK\1.2.182.0\Bin\VkLayer_gfxreconstruct.json invalid layer manifest file version 1.2.0.  May cause errors.
+[17:57:23] (Warning) VulkanDebugCallback() loaderAddLayerProperties: C:\VulkanSDK\1.2.182.0\Bin\VkLayer_khronos_synchronization2.json invalid layer manifest file version 1.2.0.  May cause errors.
+[17:57:23] (Warning) VulkanDebugCallback() loaderAddLayerProperties: C:\VulkanSDK\1.2.182.0\Bin\VkLayer_khronos_validation.json invalid layer manifest file version 1.2.0.  May cause errors.
+[17:57:23] (Warning) VulkanDebugCallback() loaderAddLayerProperties: C:\VulkanSDK\1.2.182.0\Bin\VkLayer_screenshot.json invalid layer manifest file version 1.2.0.  May cause errors.
+[17:57:23] (Info) VulkanApi::setupDebugMessenger() 
+[17:57:23] (Info) VulkanApi::populateDebugMessengerCreateInfo() 
+[17:57:23] (Info) VulkanApi::createWindowSurface() 
+[17:57:23] (Info) VulkanApi::init() Create device.
+[17:57:23] (Info) VulkanDevice::init() 
+[17:57:23] (Info) VulkanDevice::pickPhysicalDevice() 
+[17:57:23] (Info) VulkanDevice::isDeviceSuitable() 
+[17:57:23] (Info) VulkanDevice::findQueueFamilies() 
+[17:57:23] (Info) VulkanDevice::checkDeviceExtensionSupport() 
+[17:57:23] (Info) VulkanDevice::createLogicalDevice() 
+[17:57:23] (Info) VulkanDevice::findQueueFamilies() 
+[17:57:23] (Info) VulkanApi::init() RenderingPipeline.
+[17:57:23] (Info) VulkanRenderingPipeline::VulkanRenderingPipeline() 
+[17:57:23] (Info) VulkanRenderingPipeline::setRenderingApi() 
+[17:57:23] (Verbose) VulkanRenderingPipeline::VulkanRenderingPipeline() end.
+[17:57:23] (Info) VulkanRenderingPipeline::init() 
+[17:57:23] (Info) VulkanSwapChain::VulkanSwapChain() 
+[17:57:23] (Info) VulkanSwapChain::init() 
+[17:57:23] (Info) VulkanSwapChain::chooseSwapSurfaceFormat() 
+[17:57:23] (Info) VulkanSwapChain::chooseSwapPresentMode() 
+[17:57:23] (Info) VulkanSwapChain::chooseSwapExtent() 
+[17:57:23] (Info) VulkanDevice::findQueueFamilies() 
+[17:57:23] (Info) VulkanSwapChain::createBackBuffers() 
+[17:57:23] (Info) VulkanRenderingPipeline::setSwapChain() 
+[17:57:23] (Info) VulkanRenderingPipeline::addViewport() 
+[17:57:23] (Info) VulkanRenderingPipeline::addScissor() 
+[17:57:23] (Info) VulkanRenderingPipeline::createViewports() 
+
+******************************************       SWARM ENGINE       ******************************************************
+
+[18:03:20] (Info) JobSystem::start() Created 32 threads.
+[18:03:20] (Info) Window::init() 
+[18:03:20] (Info) VulkanApi::create() 
+[18:03:20] (Info) VulkanApi::init() 
+[18:03:20] (Info) VulkanApi::createInstance() 
+[18:03:20] (Info) VulkanApi::checkValidationLayerSupport() 
+[18:03:20] (Info) VulkanApi::getRequiredExtensions() 
+[18:03:20] (Info) VulkanApi::populateDebugMessengerCreateInfo() 
+[18:03:20] (Warning) VulkanDebugCallback() loaderAddLayerProperties: C:\VulkanSDK\1.2.182.0\Bin\VkLayer_api_dump.json invalid layer manifest file version 1.2.0.  May cause errors.
+[18:03:20] (Warning) VulkanDebugCallback() loaderAddLayerProperties: C:\VulkanSDK\1.2.182.0\Bin\VkLayer_device_simulation.json invalid layer manifest file version 1.2.0.  May cause errors.
+[18:03:20] (Warning) VulkanDebugCallback() loaderAddLayerProperties: C:\VulkanSDK\1.2.182.0\Bin\VkLayer_gfxreconstruct.json invalid layer manifest file version 1.2.0.  May cause errors.
+[18:03:20] (Warning) VulkanDebugCallback() loaderAddLayerProperties: C:\VulkanSDK\1.2.182.0\Bin\VkLayer_khronos_synchronization2.json invalid layer manifest file version 1.2.0.  May cause errors.
+[18:03:20] (Warning) VulkanDebugCallback() loaderAddLayerProperties: C:\VulkanSDK\1.2.182.0\Bin\VkLayer_khronos_validation.json invalid layer manifest file version 1.2.0.  May cause errors.
+[18:03:20] (Warning) VulkanDebugCallback() loaderAddLayerProperties: C:\VulkanSDK\1.2.182.0\Bin\VkLayer_screenshot.json invalid layer manifest file version 1.2.0.  May cause errors.
+[18:03:20] (Info) VulkanApi::setupDebugMessenger() 
+[18:03:20] (Info) VulkanApi::populateDebugMessengerCreateInfo() 
+[18:03:20] (Info) VulkanApi::createWindowSurface() 
+[18:03:20] (Info) VulkanApi::init() Create device.
+[18:03:20] (Info) VulkanDevice::init() 
+[18:03:20] (Info) VulkanDevice::pickPhysicalDevice() 
+[18:03:20] (Info) VulkanDevice::isDeviceSuitable() 
+[18:03:20] (Info) VulkanDevice::findQueueFamilies() 
+[18:03:20] (Info) VulkanDevice::checkDeviceExtensionSupport() 
+[18:03:20] (Info) VulkanDevice::createLogicalDevice() 
+[18:03:20] (Info) VulkanDevice::findQueueFamilies() 
+[18:03:20] (Info) VulkanApi::init() RenderingPipeline.
+[18:03:20] (Info) VulkanRenderingPipeline::VulkanRenderingPipeline() 
+[18:03:20] (Info) VulkanRenderingPipeline::setRenderingApi() 
+[18:03:20] (Verbose) VulkanRenderingPipeline::VulkanRenderingPipeline() end.
+[18:03:20] (Info) VulkanRenderingPipeline::init() 
+[18:03:20] (Info) VulkanSwapChain::VulkanSwapChain() 
+[18:03:20] (Info) VulkanSwapChain::init() 
+[18:03:20] (Info) VulkanSwapChain::chooseSwapSurfaceFormat() 
+[18:03:20] (Info) VulkanSwapChain::chooseSwapPresentMode() 
+[18:03:20] (Info) VulkanSwapChain::chooseSwapExtent() 
+[18:03:20] (Info) VulkanDevice::findQueueFamilies() 
+[18:03:20] (Info) VulkanSwapChain::createBackBuffers() 
+[18:03:20] (Info) VulkanRenderingPipeline::setSwapChain() 
+[18:03:20] (Info) VulkanRenderingPipeline::addViewport() 
+[18:03:20] (Info) VulkanRenderingPipeline::addScissor() 
+[18:03:20] (Info) VulkanRenderingPipeline::createViewports() 
+[18:03:20] (Verbose) VulkanRenderingPipeline::init() end.
+[18:03:26] (Info) Window::quit() triggered.
+[18:03:26] (Verbose) JobSystem::finish() Waiting threads to finish...
+[18:03:26] (Info) JobSystem::finish() Threads finished.
+[18:03:26] (Info) VulkanApi::quit() 
+[18:03:26] (Verbose) VulkanApi::quit() Deleting RenderingPipeline.
+[18:03:26] (Info) VulkanRenderingPipeline::quit() 
+[18:03:26] (Info) VulkanSwapChain::quit() 
+[18:03:26] (Verbose) VulkanRenderingPipeline::quit() end.
+[18:03:26] (Verbose) VulkanApi::quit() Deleting WindowSurface.
+[18:03:26] (Verbose) VulkanApi::quit() Deleting DebugMessenger.
+[18:03:26] (Verbose) VulkanApi::quit() Deleting VulkanDevice.
+[18:03:26] (Info) VulkanDevice::quit() 
+[18:03:26] (Verbose) VulkanApi::quit() Deleting Instance.
+[18:03:26] (Info) Window::~Window() 
+[18:03:27] (Info) Application::runInternal() EXIT OK!
+
+******************************************       SWARM ENGINE       ******************************************************
+
+[18:39:56] (Info) JobSystem::start() Created 32 threads.
+[18:39:56] (Info) Window::init() 
+[18:39:56] (Info) VulkanApi::create() 
+[18:39:56] (Info) VulkanApi::init() 
+[18:39:56] (Info) VulkanApi::createInstance() 
+[18:39:56] (Info) VulkanApi::checkValidationLayerSupport() 
+[18:39:56] (Info) VulkanApi::getRequiredExtensions() 
+[18:39:56] (Info) VulkanApi::populateDebugMessengerCreateInfo() 
+[18:39:56] (Warning) VulkanDebugCallback() loaderAddLayerProperties: C:\VulkanSDK\1.2.182.0\Bin\VkLayer_api_dump.json invalid layer manifest file version 1.2.0.  May cause errors.
+[18:39:56] (Warning) VulkanDebugCallback() loaderAddLayerProperties: C:\VulkanSDK\1.2.182.0\Bin\VkLayer_device_simulation.json invalid layer manifest file version 1.2.0.  May cause errors.
+[18:39:56] (Warning) VulkanDebugCallback() loaderAddLayerProperties: C:\VulkanSDK\1.2.182.0\Bin\VkLayer_gfxreconstruct.json invalid layer manifest file version 1.2.0.  May cause errors.
+[18:39:56] (Warning) VulkanDebugCallback() loaderAddLayerProperties: C:\VulkanSDK\1.2.182.0\Bin\VkLayer_khronos_synchronization2.json invalid layer manifest file version 1.2.0.  May cause errors.
+[18:39:56] (Warning) VulkanDebugCallback() loaderAddLayerProperties: C:\VulkanSDK\1.2.182.0\Bin\VkLayer_khronos_validation.json invalid layer manifest file version 1.2.0.  May cause errors.
+[18:39:56] (Warning) VulkanDebugCallback() loaderAddLayerProperties: C:\VulkanSDK\1.2.182.0\Bin\VkLayer_screenshot.json invalid layer manifest file version 1.2.0.  May cause errors.
+[18:39:56] (Info) VulkanApi::setupDebugMessenger() 
+[18:39:56] (Info) VulkanApi::populateDebugMessengerCreateInfo() 
+[18:39:56] (Info) VulkanApi::createWindowSurface() 
+[18:39:56] (Info) VulkanApi::init() Create device.
+[18:39:56] (Info) VulkanDevice::init() 
+[18:39:56] (Info) VulkanDevice::pickPhysicalDevice() 
+[18:39:56] (Info) VulkanDevice::isDeviceSuitable() 
+[18:39:56] (Info) VulkanDevice::findQueueFamilies() 
+[18:39:56] (Info) VulkanDevice::checkDeviceExtensionSupport() 
+[18:39:56] (Info) VulkanDevice::createLogicalDevice() 
+[18:39:56] (Info) VulkanDevice::findQueueFamilies() 
+[18:39:56] (Info) VulkanApi::init() RenderingPipeline.
+[18:39:56] (Info) VulkanRenderingPipeline::VulkanRenderingPipeline() 
+[18:39:56] (Info) VulkanRenderingPipeline::setRenderingApi() 
+[18:39:56] (Verbose) VulkanRenderingPipeline::VulkanRenderingPipeline() end.
+[18:39:56] (Info) VulkanRenderingPipeline::init() 
+[18:39:56] (Info) VulkanSwapChain::VulkanSwapChain() 
+[18:39:56] (Info) VulkanSwapChain::init() 
+[18:39:56] (Info) VulkanSwapChain::chooseSwapSurfaceFormat() 
+[18:39:56] (Info) VulkanSwapChain::chooseSwapPresentMode() 
+[18:39:56] (Info) VulkanSwapChain::chooseSwapExtent() 
+[18:39:56] (Info) VulkanDevice::findQueueFamilies() 
+[18:39:56] (Info) VulkanSwapChain::createBackBuffers() 
+[18:39:56] (Info) VulkanRenderingPipeline::setSwapChain() 
+[18:39:56] (Info) VulkanRenderingPipeline::addViewport() 
+[18:39:56] (Info) VulkanRenderingPipeline::addScissor() 
+[18:39:56] (Info) VulkanRenderingPipeline::createViewports() 
+[18:39:56] (Verbose) VulkanRenderingPipeline::init() end.
+[18:42:01] (Info) Window::quit() triggered.
+[18:42:01] (Verbose) JobSystem::finish() Waiting threads to finish...
+[18:42:01] (Info) JobSystem::finish() Threads finished.
+[18:42:01] (Info) VulkanApi::quit() 
+[18:42:01] (Verbose) VulkanApi::quit() Deleting RenderingPipeline.
+[18:42:01] (Info) VulkanRenderingPipeline::quit() 
+[18:42:01] (Info) VulkanSwapChain::quit() 
+[18:42:01] (Verbose) VulkanRenderingPipeline::quit() end.
+[18:42:01] (Verbose) VulkanApi::quit() Deleting WindowSurface.
+[18:42:01] (Verbose) VulkanApi::quit() Deleting DebugMessenger.
+[18:42:01] (Verbose) VulkanApi::quit() Deleting VulkanDevice.
+[18:42:01] (Info) VulkanDevice::quit() 
+[18:42:01] (Verbose) VulkanApi::quit() Deleting Instance.
+[18:42:01] (Info) Window::~Window() 
+[18:42:01] (Info) Application::runInternal() EXIT OK!

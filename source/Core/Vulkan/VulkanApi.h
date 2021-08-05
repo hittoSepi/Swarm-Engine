@@ -13,12 +13,9 @@ public:
 
 	VkSurfaceKHR&			getSurface()		{ return surface; }
 	VkInstance&				getInstance()		{ return instance; }
-	VkPhysicalDevice		getPhysicalDevice()
-	{
-		auto apidev = ((VulkanDevice*)device);
-		return (VkPhysicalDevice)apidev->getPhyiscalDevice();
-	}
-	
+	VulkanDevice*			getVulkanDevice()	{ return dynamic_cast<VulkanDevice*>(device); }
+	VkDevice				getVkDevice()		{ return static_cast<VkDevice>(getVulkanDevice()->getApiDevice()); }
+	VkPhysicalDevice		getPhysicalDevice() { return getVulkanDevice()->getPhyiscalDevice(); }
 
 protected:
 	VulkanApi(Window* window, const Device::Options& opts);
@@ -33,7 +30,7 @@ protected:
 	std::vector<const char*> getRequiredExtensions(); 
 
 	///  debugger
-	void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
+	void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);	
 	bool checkValidationLayerSupport();
 	void setupDebugMessenger();
 	VkDebugUtilsMessengerEXT debugMessenger;

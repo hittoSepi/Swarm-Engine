@@ -49,6 +49,7 @@ using float3 = glm::vec3;
 // Rendering abstractions
 #include "Core/Rendering/Viewport.h"
 #include "Core/Rendering/SwapChain.h"
+#include "Core/Rendering/RenderPass.h"
 #include "Core/Rendering/RenderingPipeline.h"
 #include "Core/Rendering/RenderingApi.h"
 

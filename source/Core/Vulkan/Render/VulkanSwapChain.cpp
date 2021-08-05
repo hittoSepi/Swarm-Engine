@@ -43,7 +43,7 @@ void VulkanSwapChain::init()
 	}
 
 	VkSwapchainCreateInfoKHR createInfo{};
-	createInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
+	createInfo.sType = VK_CI::SW_VULKAN_SWAPCHAIN;
 	createInfo.surface = api->getSurface();
 
 	createInfo.minImageCount = imageCount;
@@ -148,7 +148,7 @@ void VulkanSwapChain::createBackBuffers() {
 
 	for (size_t i = 0; i < swapChainImages.size(); i++) {
 		VkImageViewCreateInfo createInfo{};
-		createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+		createInfo.sType = VK_CI::SW_VULKAN_IMAGE_VIEW;
 		createInfo.image = swapChainImages[i];
 		createInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
 		createInfo.format = swapChainImageFormat;
