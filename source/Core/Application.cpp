@@ -30,7 +30,6 @@ void Application::runInternal(const EngineConfig &conf)
 	config = conf;
 	
 	init();
-
 	window->messageLoop();
 	
 	
@@ -48,6 +47,7 @@ void Application::runInternal(const EngineConfig &conf)
 	}
 
 	delete window;
+	LogInfo("EXIT OK!");
 }
 
 
@@ -75,7 +75,7 @@ void Application::init()
 	if(graphicsApi != nullptr)
 		graphicsApi->init();
 	else
-		throw std::runtime_error("Graphics Api is NULL");
+		throw std::runtime_error("Graphics Api is already NULL.");
 	
 	// renderer->OnLoad(renderecontext) set render context
 }

@@ -7,12 +7,18 @@
 #define SWARM_VERSION_MINOR 2
 
 
-#define SWARM_VULKAN 1
-
+#define SWARM_VULKAN
+#define SWARM_USE_GLM_VECTORS true
 
 #include "SwarmPrerequires.h"
 #include "SwarmStdHeaders.h"
 
+#if SWARM_USE_GLM_VECTORS
+#include <glm/vec2.hpp>
+#include <glm/vec3.hpp>
+using float2 = glm::vec2;
+using float3 = glm::vec3;
+#endif
 
 #ifdef _DEBUG
 #define SWARM_LOG_LEVEL_DEBUG 0
@@ -41,6 +47,7 @@
 #include "Core/Singleton/Singleton.h"
 
 // Rendering abstractions
+#include "Core/Rendering/Viewport.h"
 #include "Core/Rendering/SwapChain.h"
 #include "Core/Rendering/RenderingPipeline.h"
 #include "Core/Rendering/RenderingApi.h"
@@ -65,6 +72,8 @@
 #include "Utils/Locale/Utf8.h"
 #include "Utils/time/Clock.h"
 #include "Utils/Time/FrameRate.h"
+
+#include "Utils/Math/Rect.h"
 
 #ifdef _WIN32
 #include "Utils/Process/WinProcess.h"

@@ -1,8 +1,9 @@
 #pragma once
 
 #include "Core/Window/WindowBase.h"
-#include "Utils/Debug/Debug.h"
 
+
+class VulkanApi;
 
 struct QueueFamilyIndices {
 	std::optional<uint32_t> graphicsFamily;
@@ -21,6 +22,7 @@ struct SwapChainSupportDetails {
 };
 
 
+
 class VulkanDevice : public Device
 {
 public:
@@ -37,37 +39,36 @@ public:
 	void quit() override;
 
 	void* getApiDevice() override { return device; }
-	void* getPhyiscalDevice() { return physicalDevice; }
+	VkPhysicalDevice getPhyiscalDevice() { return physicalDevice; }
 
 	~VulkanDevice() override;
 
+	QueueFamilyIndices		findQueueFamilies(VkPhysicalDevice device);
+	SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device);
+
 protected:
 	VkDevice					device;
-
 	VkPhysicalDevice			physicalDevice = VK_NULL_HANDLE;
 	WindowBase					*window;
 
 private:
+	VulkanDevice(VulkanApi* api, const Options& opts);
 	VulkanDevice(WindowBase* window, VkInstance& instance, VkSurfaceKHR &sufrace, const Options& opts);
 
 	void createInstance();
 	void createSurface();
 	void pickPhysicalDevice();
 	void createLogicalDevice();
-	void createSwapChain();
 	void createImageViews();
 	void createGraphicsPipeline();
 
-	QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
-	SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device);
-	
 	std::vector<const char*> getRequiredExtensions();
 	void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
 	bool checkValidationLayerSupport();
 	bool isDeviceSuitable(VkPhysicalDevice device);
 	bool checkDeviceExtensionSupport(VkPhysicalDevice device);
 	
-
+	VulkanApi *api;
 				
 	VkQueue graphicsQueue;
 	VkQueue presentQueue;

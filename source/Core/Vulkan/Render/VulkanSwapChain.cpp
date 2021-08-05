@@ -5,15 +5,34 @@
 VulkanSwapChain::VulkanSwapChain(VulkanApi *renderingApi):
 	SwapChain(renderingApi)
 {
-	
+	LogInfo("");
+	device = dynamic_cast<VulkanDevice*>(renderingApi->getDevice());
+	vkPhysDevice = device->getPhyiscalDevice();
 }
+
+
+void VulkanSwapChain::quit()
+{
+	LogInfo("")
+	auto dev = (VulkanDevice*)renderingApi->getDevice();
+	const VkDevice &apidev = (VkDevice)dev->getApiDevice();
+	
+	for (auto imageView : swapChainImageViews) {
+		vkDestroyImageView(apidev, imageView, nullptr);
+	}
+	vkDestroySwapchainKHR(apidev, swapChain, nullptr);
+}
+
 
 void VulkanSwapChain::init()
 {
-	VulkanApi *api = (VulkanApi*)renderingApi;
-	VkPhysicalDevice physDev = api->getPhysicalDevice();
-	VkDevice dev = (VkDevice)((VulkanDevice*)(api))->getApiDevice();
-
+	LogInfo("");
+	
+	auto api = (VulkanApi*)renderingApi;
+	auto dev = (VkDevice) device->getApiDevice();
+	
+	querySwapChainSupport();
+	
 	VkSurfaceFormatKHR surfaceFormat = chooseSwapSurfaceFormat(swapChainSupport.formats);
 	VkPresentModeKHR presentMode = chooseSwapPresentMode(swapChainSupport.presentModes);
 	VkExtent2D extent = chooseSwapExtent(swapChainSupport.capabilities);
@@ -34,7 +53,7 @@ void VulkanSwapChain::init()
 	createInfo.imageArrayLayers = 1;
 	createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
 
-	QueueFamilyIndices indices = api->findQueueFamilies();
+	QueueFamilyIndices indices = findQueueFamilies();
 	uint32_t queueFamilyIndices[] = { indices.graphicsFamily.value(), indices.presentFamily.value() };
 
 	if (indices.graphicsFamily != indices.presentFamily) {
@@ -95,7 +114,7 @@ VkExtent2D VulkanSwapChain::chooseSwapExtent(const VkSurfaceCapabilitiesKHR& cap
 
 VkPresentModeKHR VulkanSwapChain::chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes)
 {
-		LogInfo("");
+	LogInfo("");
 
 
 	for (const auto& availablePresentMode : availablePresentModes) {
@@ -118,34 +137,6 @@ VkSurfaceFormatKHR VulkanSwapChain::chooseSwapSurfaceFormat(const std::vector<Vk
 	}
 
 	return availableFormats[0];
-}
-
-
-SwapChainSupportDetails VulkanSwapChain::querySwapChainSupportImnpl()
-{
-	SwapChainSupportDetails details;
-	VkSurfaceKHR &surface	= ((VulkanApi*)(renderingApi))->getSurface();
-	VkPhysicalDevice device_ =  ((VulkanApi*)(renderingApi))->getPhysicalDevice();
-	
-	vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device_, surface, &details.capabilities);
-
-	uint32_t formatCount;
-	vkGetPhysicalDeviceSurfaceFormatsKHR(device_, surface, &formatCount, nullptr);
-
-	if (formatCount != 0) {
-		details.formats.resize(formatCount);
-		vkGetPhysicalDeviceSurfaceFormatsKHR(device_, surface, &formatCount, details.formats.data());
-	}
-
-	uint32_t presentModeCount;
-	vkGetPhysicalDeviceSurfacePresentModesKHR(device_, surface, &presentModeCount, nullptr);
-
-	if (presentModeCount != 0) {
-		details.presentModes.resize(presentModeCount);
-		vkGetPhysicalDeviceSurfacePresentModesKHR(device_, surface, &presentModeCount, details.presentModes.data());
-	}
-
-	return details;
 }
 
 

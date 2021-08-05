@@ -38,14 +38,14 @@ void VulkanApi::init()
 	setupDebugMessenger();
 
 	createWindowSurface();
-	createSwapChain();
 
 	LogInfo("Create device.")
 		setDevice(VulkanDevice::create(window, instance, surface, deviceOptions));
 	device->init();
 
+		
 	LogInfo("RenderingPipeline.");
-	renderingPipeline = new VulkanRenderingPipeline((VulkanDevice*)device);
+	renderingPipeline = new VulkanRenderingPipeline(this);
 	renderingPipeline->init();
 
 	LogDebug("end.");
@@ -54,24 +54,29 @@ void VulkanApi::init()
 void VulkanApi::quit()
 {
 	LogInfo("");
-
+	LogVerbose("Deleting RenderingPipeline.");
 	if (renderingPipeline != nullptr)
 		renderingPipeline->quit();
 
-	if (device != nullptr)
-		device->quit();
 
 	LogVerbose("Deleting WindowSurface.");
-
 	vkDestroySurfaceKHR(instance, surface, nullptr);
 
 	if (deviceOptions.enableValidationLayers) {
 		LogVerbose("Deleting DebugMessenger.");
 		DestroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
 	}
+	
+	LogVerbose("Deleting VulkanDevice.");
+	if (device != nullptr){
+		auto device_ = dynamic_cast<VulkanDevice*>(device);
+		device->quit();
+		delete device;
+	}
 
 	LogVerbose("Deleting Instance.");
 	vkDestroyInstance(instance, nullptr);
+
 
 	LogDebug("end.");
 }
@@ -200,46 +205,3 @@ void VulkanApi::createWindowSurface()
 }
 
 
-QueueFamilyIndices VulkanApi::findQueueFamilies()
-{
-	LogInfo("");
-	
-	const VkPhysicalDevice& device = getPhysicalDevice();
-
-	QueueFamilyIndices indices;
-
-	uint32_t queueFamilyCount = 0;
-	vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, nullptr);
-
-	std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
-	vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, queueFamilies.data());
-
-	int i = 0;
-	for (const auto& queueFamily : queueFamilies) {
-		if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
-			indices.graphicsFamily = i;
-		}
-
-		VkBool32 presentSupport = false;
-		vkGetPhysicalDeviceSurfaceSupportKHR(device, i, surface, &presentSupport);
-
-		if (presentSupport) {
-			indices.presentFamily = i;
-		}
-
-		if (indices.isComplete()) {
-			break;
-		}
-
-		i++;
-	}
-
-	return indices;
-}
-
-
-void VulkanApi::createSwapChain()
-{
-	LogInfo("");
-	swapChain = new VulkanSwapChain(this);
-}

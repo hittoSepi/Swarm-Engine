@@ -11,7 +11,8 @@
 #include "Core/Vulkan/VulkanDevice.h"
 #include "Core/Vulkan/VulkanShaderModule.h"
 #include "Core/Vulkan/VulkanShader.h"
-#include "Core/Vulkan/VulkanSwapChain.h"
-#include "Core/Vulkan/VulkanRenderPipeline.h"
+#include "Core/Vulkan/Render/VulkanViewport.h"
+#include "Core/Vulkan/Render/VulkanSwapChain.h"
+#include "Core/Vulkan/Render/VulkanRenderPipeline.h"
 
 #pragma comment(lib, "vulkan-1.lib")

@@ -1,13 +1,8 @@
 #pragma once
 
-#include <glm/glm.hpp>
-
 class ApiCallbacks
 {
 public:
-	
-	using float2 = glm::vec2;
-	
 	static void windowSizeCallback(GLFWwindow* pGlfwWindow, int width, int height)
 	{
 		// We also get here in case the window was minimized, so we need to ignore it
@@ -59,7 +54,7 @@ public:
 			event.type = MouseEvent::Type::Move;
 			event.pos = calcMousePos(mouseX, mouseY, pWindow->getMouseScale());
 			event.screenPos = { mouseX, mouseY };
-			event.wheelDelta = glm::vec2(0, 0);
+			event.wheelDelta = float2(0, 0);
 
 			pWindow->callbacks->handleMouseEvent(event);
 		}
@@ -108,7 +103,7 @@ public:
 			double x, y;
 			glfwGetCursorPos(pGlfwWindow, &x, &y);
 			event.pos = calcMousePos(x, y, pWindow->getMouseScale());
-			event.wheelDelta = (glm::vec2(float(scrollX), float(scrollY)));
+			event.wheelDelta = (float2(float(scrollX), float(scrollY)));
 
 			pWindow->callbacks->handleMouseEvent(event);
 		}

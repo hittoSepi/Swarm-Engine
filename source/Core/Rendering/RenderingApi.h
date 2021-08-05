@@ -14,7 +14,7 @@ public:
 	{
 		delete renderingPipeline;
 		delete swapChain;
-		delete device;
+	
 	}
 	
 	virtual void init() = 0;

@@ -17,7 +17,7 @@ const std::vector<const char*> validationLayers = {
 
 void VulkanDevice::init()
 {
-	LogInfo("start.");
+	LogInfo("");
 	if (!glfwVulkanSupported())
 	{
 		LogError(std::string("No Vulkan API available."));
@@ -36,7 +36,6 @@ VulkanDevice::VulkanDevice(WindowBase* window, VkInstance &instance, VkSurfaceKH
 
 VulkanDevice::~VulkanDevice()
 {
-	LogVerbose("");
 }
 
 
@@ -71,6 +70,7 @@ void VulkanDevice::pickPhysicalDevice()
 	if (physicalDevice == VK_NULL_HANDLE) {
 		LogError(std::string("failed to find a suitable GPU!"));
 	}
+	LogDebug("end.");
 }
 
 
@@ -161,8 +161,12 @@ bool VulkanDevice::isDeviceSuitable(VkPhysicalDevice device)
 	return indices.isComplete() && extensionsSupported && swapChainAdequate;
 }
 
+
 QueueFamilyIndices VulkanDevice::findQueueFamilies(VkPhysicalDevice device)
 {
+	LogInfo("");
+
+	
 	QueueFamilyIndices indices;
 
 	uint32_t queueFamilyCount = 0;
@@ -195,6 +199,7 @@ QueueFamilyIndices VulkanDevice::findQueueFamilies(VkPhysicalDevice device)
 }
 
 
+
 SwapChainSupportDetails VulkanDevice::querySwapChainSupport(VkPhysicalDevice device)
 {
 	SwapChainSupportDetails details;
@@ -218,3 +223,5 @@ SwapChainSupportDetails VulkanDevice::querySwapChainSupport(VkPhysicalDevice dev
 
 	return details;
 }
+
+

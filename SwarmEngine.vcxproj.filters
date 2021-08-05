@@ -68,7 +68,7 @@
     <ClCompile Include="source\Core\Vulkan\VulkanApi.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\Core\Vulkan\VulkanRenderPipeline.cpp">
+    <ClCompile Include="source\Core\Vulkan\Render\VulkanRenderPipeline.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\Core\Vulkan\VulkanShader.cpp">
@@ -77,7 +77,10 @@
     <ClCompile Include="source\Core\Shader\Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\Core\Vulkan\VulkanSwapChain.cpp">
+    <ClCompile Include="source\Core\Vulkan\Render\VulkanSwapChain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Core\Vulkan\Render\VulkanViewport.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -156,7 +159,7 @@
     <ClInclude Include="source\Core\Vulkan\SwarmVulkan.h" />
     <ClInclude Include="source\Core\Vulkan\VulkanDevice.h" />
     <ClInclude Include="source\Core\Vulkan\VulkanDebug.h" />
-    <ClInclude Include="source\Core\Vulkan\VulkanRenderPipeline.h" />
+    <ClInclude Include="source\Core\Vulkan\Render\VulkanRenderPipeline.h" />
     <ClInclude Include="source\Core\Shader\Shader.h" />
     <ClInclude Include="source\Core\Vulkan\VulkanShaderModule.h" />
     <ClInclude Include="source\Core\Shader\ShaderCache.h" />
@@ -167,6 +170,10 @@
     <ClInclude Include="source\Core\Rendering\RenderingPipeline.h" />
     <ClInclude Include="source\Core\Vulkan\VulkanShader.h" />
     <ClInclude Include="source\Core\Rendering\SwapChain.h" />
-    <ClInclude Include="source\Core\Vulkan\VulkanSwapChain.h" />
+    <ClInclude Include="source\Core\Vulkan\Render\VulkanSwapChain.h" />
+    <ClInclude Include="source\Core\Rendering\Viewport.h" />
+    <ClInclude Include="source\Core\Vulkan\Render\VulkanViewport.h" />
+    <ClInclude Include="source\Utils\Math\Rect.h" />
+    <ClInclude Include="source\Core\Vulkan\Render\VulkanRasterizer.h" />
   </ItemGroup>
 </Project>

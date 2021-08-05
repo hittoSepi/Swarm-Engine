@@ -33,6 +33,7 @@
 #include <set>
 #include <list>
 #include <unordered_map>
+#include <array>
 
 // STL algorithms & functions
 #include <algorithm>

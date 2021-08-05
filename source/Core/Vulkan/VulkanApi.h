@@ -13,12 +13,12 @@ public:
 
 	VkSurfaceKHR&			getSurface()		{ return surface; }
 	VkInstance&				getInstance()		{ return instance; }
-	VkPhysicalDevice_T*		getPhysicalDevice()
+	VkPhysicalDevice		getPhysicalDevice()
 	{
 		auto apidev = ((VulkanDevice*)device);
-		return (VkPhysicalDevice_T*)apidev->getPhyiscalDevice();
+		return (VkPhysicalDevice)apidev->getPhyiscalDevice();
 	}
-	QueueFamilyIndices findQueueFamilies();
+	
 
 protected:
 	VulkanApi(Window* window, const Device::Options& opts);
@@ -28,8 +28,8 @@ protected:
 	
 	void createInstance();
 	void createWindowSurface();
-	void createSwapChain();
 
+	
 	std::vector<const char*> getRequiredExtensions(); 
 
 	///  debugger
@@ -37,4 +37,14 @@ protected:
 	bool checkValidationLayerSupport();
 	void setupDebugMessenger();
 	VkDebugUtilsMessengerEXT debugMessenger;
+
+	/*
+	Device				*device;
+	WindowBase			*window;
+	Device::Options		deviceOptions;
+	const std::string	apiName;
+
+	RenderingPipeline	*renderingPipeline;
+	SwapChain			*swapChain;
+	*/
 };

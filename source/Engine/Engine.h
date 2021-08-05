@@ -3,7 +3,7 @@
 #define C_ENGINE_H_
 #include "Core/Singleton/Singleton.h"
 #include "Engine/Component/ComponentManager.h"
-#include "Engine/GameObject/gameObjectManager.h"
+#include "Engine/GameObject/GameObjectManager.h"
 
 class   Engine : public Singleton<Engine>
 {
