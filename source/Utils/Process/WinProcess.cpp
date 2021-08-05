@@ -23,7 +23,7 @@ std::string execA(std::string cmd) {
 	std::array<char, 128> buffer;
     std::string result;
 	
-    auto pipe = popen(cmd.c_str(), "r"); // get rid of shared_ptr
+    auto pipe = popen(cmd.c_str(), "r");
 
     if (!pipe) throw std::runtime_error("popen() failed!");
 
@@ -37,7 +37,7 @@ std::string execA(std::string cmd) {
     if (rc == EXIT_SUCCESS) { // == 0
 
     } else if (rc == EXIT_FAILURE) {  // EXIT_FAILURE is not used by all programs, maybe needs some adaptation.
-
+		LogWarning("EXIT_FAILURE");
     }
     return result;
 }

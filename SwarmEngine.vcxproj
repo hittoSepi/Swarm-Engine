@@ -20,12 +20,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Core\Application.cpp" />
+    <ClCompile Include="source\Core\Shader\Shader.cpp" />
     <ClCompile Include="source\Core\Shader\ShaderCache.cpp" />
     <ClCompile Include="source\Core\Shader\ShaderHelpers.cpp" />
     <ClCompile Include="source\Core\Vulkan\VulkanApi.cpp" />
     <ClCompile Include="source\Core\Vulkan\VulkanDebug.cpp" />
     <ClCompile Include="source\Core\Vulkan\VulkanDevice.cpp" />
+    <ClCompile Include="source\Core\Vulkan\VulkanRenderPipeline.cpp" />
+    <ClCompile Include="source\Core\Vulkan\VulkanShaderModule.cpp" />
     <ClCompile Include="source\Core\Vulkan\VulkanShader.cpp" />
+    <ClCompile Include="source\Core\Vulkan\VulkanSwapChain.cpp" />
     <ClCompile Include="source\Engine\BaseObject.cpp" />
     <ClCompile Include="source\Engine\Component\Component.cpp" />
     <ClCompile Include="source\Engine\Component\ComponentManager.cpp" />
@@ -43,7 +47,9 @@
     <ClInclude Include="source\Core\Application.h" />
     <ClInclude Include="source\Core\Framework.h" />
     <ClInclude Include="source\Core\Device.h" />
-    <ClInclude Include="source\Core\RenderingApi.h" />
+    <ClInclude Include="source\Core\Rendering\RenderingPipeline.h" />
+    <ClInclude Include="source\Core\Rendering\RenderingApi.h" />
+    <ClInclude Include="source\Core\Rendering\SwapChain.h" />
     <ClInclude Include="source\Core\Shader\Shader.h" />
     <ClInclude Include="source\Core\Shader\ShaderCache.h" />
     <ClInclude Include="source\Core\Shader\ShaderHelpers.h" />
@@ -51,8 +57,10 @@
     <ClInclude Include="source\Core\Vulkan\VulkanApi.h" />
     <ClInclude Include="source\Core\Vulkan\VulkanDebug.h" />
     <ClInclude Include="source\Core\Vulkan\VulkanDevice.h" />
-    <ClInclude Include="source\Core\Vulkan\VulkanGraphicsPipeline.h" />
+    <ClInclude Include="source\Core\Vulkan\VulkanRenderPipeline.h" />
+    <ClInclude Include="source\Core\Vulkan\VulkanShaderModule.h" />
     <ClInclude Include="source\Core\Vulkan\VulkanShader.h" />
+    <ClInclude Include="source\Core\Vulkan\VulkanSwapChain.h" />
     <ClInclude Include="source\Core\Window\WindowBase.h" />
     <ClInclude Include="source\Core\Input\InputEvents.h" />
     <ClInclude Include="source\Utils\Locale\Utf8.h" />

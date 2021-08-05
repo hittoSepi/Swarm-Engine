@@ -25,29 +25,30 @@ class VulkanDevice : public Device
 {
 public:
 	inline static VulkanDevice* create(
-		WindowBase* window, 
+		WindowBase* window,
+		VkInstance& instance,
+		VkSurfaceKHR& surface,
 		const Options& opts = Options())
 	{
-		return new VulkanDevice(window, opts);
+		return new VulkanDevice(window, instance, surface, opts);
 	}
 
 	void init() override;
 	void quit() override;
 
-	~VulkanDevice() override { LogInfo(""); }
+	void* getApiDevice() override { return device; }
+	void* getPhyiscalDevice() { return physicalDevice; }
+
+	~VulkanDevice() override;
 
 protected:
-	VkInstance					instance;
-
 	VkDevice					device;
-	VkSurfaceKHR				surface;
-	VkDebugUtilsMessengerEXT	debugMessenger;
-	VkPhysicalDevice			physicalDevice = VK_NULL_HANDLE;
 
+	VkPhysicalDevice			physicalDevice = VK_NULL_HANDLE;
 	WindowBase					*window;
 
 private:
-	VulkanDevice(WindowBase* window, const Options& opts);
+	VulkanDevice(WindowBase* window, VkInstance& instance, VkSurfaceKHR &sufrace, const Options& opts);
 
 	void createInstance();
 	void createSurface();
@@ -57,28 +58,23 @@ private:
 	void createImageViews();
 	void createGraphicsPipeline();
 
-
+	QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
+	SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device);
+	
 	std::vector<const char*> getRequiredExtensions();
 	void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
 	bool checkValidationLayerSupport();
-	SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device);
 	bool isDeviceSuitable(VkPhysicalDevice device);
 	bool checkDeviceExtensionSupport(VkPhysicalDevice device);
-	QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
+	
 
-	VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
-	VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
-	VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
-		
+				
 	VkQueue graphicsQueue;
 	VkQueue presentQueue;
-
-	VkSwapchainKHR swapChain;
-	std::vector<VkImage> swapChainImages;
-	VkFormat swapChainImageFormat;
-	VkExtent2D swapChainExtent;
-	std::vector<VkImageView> swapChainImageViews;
-
+	
+	VkInstance&		instance;
+	VkSurfaceKHR&	surface;
+	
 #ifndef NDEBUG
 	void setupDebugMessenger();
 #endif

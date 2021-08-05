@@ -1,6 +1,6 @@
 #pragma once
-#include "Shader.h"
 
-std::string getShaderTypeStr(Shader::Type type);
-std::string getShaderFileString(Shader *shader);
-std::string getShaderCacheFile(Shader *shader);
+std::string GetShaderTypeStr(ShaderModule::Type type);
+std::string GetShaderFileString(ShaderModule *shader);
+std::string GetShaderCacheFile(ShaderModule *shader);
+ShaderModule::Type GetShaderModuleTypeEnum(std::string input);

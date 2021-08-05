@@ -2,7 +2,6 @@
 
 #include "Core/Input/InputEvents.h"
 #include "Core/Renderer.h"
-#include "Vulkan/VulkanApi.h"
 
 class JobSystem;
 class Framerate;

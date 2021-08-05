@@ -40,19 +40,21 @@
 #include "Core/ThreadPool/ThreadPool.h"
 #include "Core/Singleton/Singleton.h"
 
-#include "Core/RenderingApi.h"
+// Rendering abstractions
+#include "Core/Rendering/SwapChain.h"
+#include "Core/Rendering/RenderingPipeline.h"
+#include "Core/Rendering/RenderingApi.h"
 
-#include "Core/Shader/ShaderHelpers.h"
+// Shader abstractions
 #include "Core/Shader/ShaderCache.h"
 #include "Core/Shader/Shader.h"
+#include "Core/Shader/ShaderHelpers.h"
 
-// Graphics api
-#ifdef SWARM_VULKAN
+// Graphics api(s)
 #include "Core/Vulkan/SwarmVulkan.h"
-#endif
 
+// Application framework
 #include "Core/Application.h"
-
 
 ////////////////////////////////////////////////////
 /// UTILITY INCLUDES

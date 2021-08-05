@@ -7,22 +7,24 @@ public:
 	{
 	public:
 		bool vsync = false;
-		#ifdef NDEBUG
+#ifdef NDEBUG
 		bool enableValidationLayers = false;
-		#else
+#else
 		bool enableValidationLayers = true;
-		#endif
+#endif
 	};
 
 	virtual ~Device() {}
-	
+
 	virtual void init() = 0;
 	virtual void quit() = 0;
 
+	virtual void* getApiDevice() { return nullptr; }
+
 protected:
-	Device(const Options &opts):
+	Device(const Options& opts) :
 		options(opts)
 	{}
-	
+
 	Options options;
 };

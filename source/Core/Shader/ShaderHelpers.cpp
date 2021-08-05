@@ -1,32 +1,53 @@
 #include "pch.h"
-#include "Core/Shader/ShaderCache.h"
-#include "Core/Shader/Shader.h"
-
+#include <string>
+#include <regex>
 using namespace std;
 
+inline static map<string, ShaderModule::Type> ShaderModuleTypeStringToEnum = map<string, ShaderModule::Type>
+{
+	{"vert", ShaderModule::Type::VERTEX		},
+	{"geom", ShaderModule::Type::GEOMETRY	},
+	{"frag", ShaderModule::Type::FRAGMENT	},
+	{"comp", ShaderModule::Type::COMPUTE	}
+};
 
-string getShaderTypeStr(Shader::Type type)
+
+ShaderModule::Type GetShaderModuleTypeEnum(std::string input)
+{
+	regex reg("(vert|frag|geom|comp)");
+	smatch m;
+	regex_search(input, m, reg);
+	for(auto x: m)
+	{
+		return ShaderModuleTypeStringToEnum[x];
+	}
+	return ShaderModule::Type::UNKNOWN;
+}
+
+
+string GetShaderTypeStr(ShaderModule::Type type)
 {
 	switch (type)
 	{
-	case Shader::Type::VERTEX:
+	case ShaderModule::Type::VERTEX:
 		return "vert";
-	case Shader::Type::GEOMETRY:
+	case ShaderModule::Type::GEOMETRY:
 		return "geom";
-	case Shader::Type::FRAGMENT:
+	case ShaderModule::Type::FRAGMENT:
 		return "frag";
-	case Shader::Type::COMPUTE:
+	case ShaderModule::Type::COMPUTE:
 		return "comp";
 	}
 	return "undefined";
 }
 
-string getShaderFileString(Shader *shader)
+
+string GetShaderFileString(ShaderModule *shader)
 {
-	return GetShaderLibraryDir() + shader->getName() + "." + getShaderTypeStr(shader->getType());
+	return GetShaderLibraryDir() + shader->getFileName();
 }
 
-string getShaderCacheFile(Shader *shader)
+string GetShaderCacheFile(ShaderModule *shader)
 {
-	return GetShaderCacheDir() + shader->getName() + "-" +  getShaderTypeStr(shader->getType())  + ".spv";
+	return GetShaderCacheDir() + shader->getName() + ".spv";
 }
