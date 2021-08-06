@@ -86,6 +86,9 @@
     <ClCompile Include="source\Core\Vulkan\Render\RenderPass\VulkanRenderPass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\Core\Vulkan\RenderPasses\VulkanPBSRenderPass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\framework.h">

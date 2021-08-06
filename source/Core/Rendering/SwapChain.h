@@ -4,8 +4,7 @@ class RenderingApi;
 class SwapChain
 {
 public:
-	SwapChain(RenderingApi *api):
-		renderingApi(api)
+	SwapChain()
 	{
 	}
 	virtual ~SwapChain() {}
@@ -19,6 +18,5 @@ public:
 
 	virtual iRect getDimensions() = 0;
 protected:
-	RenderingApi* renderingApi;
 	
 };

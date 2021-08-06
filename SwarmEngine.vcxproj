@@ -23,6 +23,7 @@
     <ClCompile Include="source\Core\Shader\Shader.cpp" />
     <ClCompile Include="source\Core\Shader\ShaderCache.cpp" />
     <ClCompile Include="source\Core\Shader\ShaderHelpers.cpp" />
+    <ClCompile Include="source\Core\Vulkan\RenderPasses\VulkanPBSRenderPass.cpp" />
     <ClCompile Include="source\Core\Vulkan\Render\RenderPass\VulkanRenderPass.cpp" />
     <ClCompile Include="source\Core\Vulkan\Render\VulkanViewport.cpp" />
     <ClCompile Include="source\Core\Vulkan\VulkanApi.cpp" />

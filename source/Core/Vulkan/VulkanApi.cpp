@@ -14,53 +14,63 @@ const std::vector<const char*> validationLayers = {
 };
 
 
-VulkanApi* VulkanApi::create(Window* window, const Device::Options& opts)
+_VulkanApi* _VulkanApi::create(Window* window, const Device::Options& opts)
 {
 	LogInfo("");
 	if (window == nullptr) {
 		LogWarning("Window is nullptr");
 		return nullptr;
 	}
-	return new VulkanApi(window, opts);
+	return new _VulkanApi(window, opts);
 }
 
 
-VulkanApi::VulkanApi(Window* window, const Device::Options& opts) :
+_VulkanApi::_VulkanApi(Window* window, const Device::Options& opts) :
 	RenderingApi("Vulkan", window, opts)
 {
 }
 
-void VulkanApi::init()
+void _VulkanApi::init()
 {
+	LogInfo("");
+	apiDevices.vulkanApi = this;
+
 	
-	LogInfo("")
+	// Create Vulkan instance
 	createInstance();
+
+	// Debugging
 	setupDebugMessenger();
+
+	// Surface to attach window
 	createWindowSurface();
 
 	
-	LogInfo("Create device.")
-		setDevice(VulkanDevice::create(window, instance, surface, deviceOptions));
+	LogInfo("Create device.");
+	
+	setDevice(VulkanDevice::create(window, apiDevices.instance, apiDevices.surface, deviceOptions));
 	device->init();
 
-		
+	updateApiDeviceHelper();
+	
 	LogInfo("RenderingPipeline.");
-	VulkanRenderingPipeline::CreateOptions options(this, getVulkanDevice(), getVkDevice(), getPhysicalDevice());
-	renderingPipeline = new VulkanRenderingPipeline(options);
+	renderingPipeline = new VulkanRenderingPipeline(VulkanRenderingPipeline::CreateOptions(this));
 	renderingPipeline->init();
-
-	
-	
-	std::ofstream ofs( "store.dat" );
-	boost::archive::text_oarchive ar(ofs);
- 
-      // Save the data
-    ar & renderingPipeline;
 	
 	LogDebug("end.");
 }
 
-void VulkanApi::quit()
+
+void _VulkanApi::updateApiDeviceHelper()
+{
+	apiDevices.vulkanDevice			= dynamic_cast<VulkanDevice*>(device);
+	apiDevices.vkDevice				= (VkDevice)(apiDevices.vulkanDevice->getApiDevice());
+	apiDevices.vkPhysicalDevice		= apiDevices.vulkanDevice->getPhysicalDevice();
+	apiDevices.window				= (VulkanWindow)window;
+}
+
+
+void _VulkanApi::quit()
 {
 	LogInfo("");
 	LogVerbose("Deleting RenderingPipeline.");
@@ -69,12 +79,12 @@ void VulkanApi::quit()
 
 
 	LogVerbose("Deleting WindowSurface.");
-	vkDestroySurfaceKHR(instance, surface, nullptr);
+	vkDestroySurfaceKHR(apiDevices.instance, apiDevices.surface, nullptr);
 
 	
 	if (deviceOptions.enableValidationLayers) {
 		LogVerbose("Deleting DebugMessenger.");
-		DestroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
+		DestroyDebugUtilsMessengerEXT(apiDevices.instance, debugMessenger, nullptr);
 	}
 
 	
@@ -87,13 +97,13 @@ void VulkanApi::quit()
 
 	
 	LogVerbose("Deleting Instance.");
-	vkDestroyInstance(instance, nullptr);
+	vkDestroyInstance(apiDevices.instance, nullptr);
 
 
 	LogDebug("end.");
 }
 
-void VulkanApi::createInstance()
+void _VulkanApi::createInstance()
 {
 	LogInfo("");
 	if (deviceOptions.enableValidationLayers && !checkValidationLayerSupport()) {
@@ -102,12 +112,12 @@ void VulkanApi::createInstance()
 
 	
 	VkApplicationInfo appInfo{};
-	appInfo.sType = VK_INFO::SW_VULKAN_APP_INFO;
-	appInfo.pApplicationName = window->getWindowTitle().c_str();
-	appInfo.applicationVersion = VK_MAKE_VERSION(1, 2, 0);
-	appInfo.pEngineName = SWARM_ENGINE_NAME;
-	appInfo.engineVersion = VK_MAKE_API_VERSION(0, SWARM_VERSION_MAJOR, SWARM_VERSION_MINOR, 0);
-	appInfo.apiVersion = VK_API;
+	appInfo.sType				= VK_INFO::SW_VULKAN_APP_INFO;
+	appInfo.pApplicationName	= window->getWindowTitle().c_str();
+	appInfo.applicationVersion	= VK_MAKE_VERSION(1, 2, 0);
+	appInfo.pEngineName			= SWARM_ENGINE_NAME;
+	appInfo.engineVersion		= VK_MAKE_API_VERSION(0, SWARM_VERSION_MAJOR, SWARM_VERSION_MINOR, 0);
+	appInfo.apiVersion			= VK_API;
 
 	
 	
@@ -135,7 +145,7 @@ void VulkanApi::createInstance()
 	}
 
 	
-	if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS) {
+	if (vkCreateInstance(&createInfo, nullptr, &apiDevices.instance) != VK_SUCCESS) {
 		LogError(std::string("Failed to create instance."));
 	}
 
@@ -143,7 +153,7 @@ void VulkanApi::createInstance()
 }
 
 
-std::vector<const char*> VulkanApi::getRequiredExtensions()
+std::vector<const char*> _VulkanApi::getRequiredExtensions()
 {
 	LogInfo("");
 
@@ -160,7 +170,7 @@ std::vector<const char*> VulkanApi::getRequiredExtensions()
 }
 
 
-bool VulkanApi::checkValidationLayerSupport()
+bool _VulkanApi::checkValidationLayerSupport()
 {
 	LogInfo("");
 	uint32_t layerCount;
@@ -186,7 +196,7 @@ bool VulkanApi::checkValidationLayerSupport()
 	return true;
 }
 
-void VulkanApi::populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo)
+void _VulkanApi::populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo)
 {
 	LogInfo("");
 	createInfo = {};
@@ -197,7 +207,7 @@ void VulkanApi::populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfo
 }
 
 
-void VulkanApi::setupDebugMessenger()
+void _VulkanApi::setupDebugMessenger()
 {
 	LogInfo("");
 	if (!deviceOptions.enableValidationLayers) return;
@@ -205,16 +215,16 @@ void VulkanApi::setupDebugMessenger()
 	VkDebugUtilsMessengerCreateInfoEXT createInfo;
 	populateDebugMessengerCreateInfo(createInfo);
 
-	if (CreateDebugUtilsMessengerEXT(instance, &createInfo, nullptr, &debugMessenger) != VK_SUCCESS) {
+	if (CreateDebugUtilsMessengerEXT(apiDevices.instance, &createInfo, nullptr, &debugMessenger) != VK_SUCCESS) {
 		LogError(std::string("Failed to setup debug messenger!"));
 	}
 	LogDebug("end.");
 }
 
-void VulkanApi::createWindowSurface()
+void _VulkanApi::createWindowSurface()
 {
 	LogInfo("");
-	if (glfwCreateWindowSurface(instance, (GLFWwindow*)window->getNativeWindow(), nullptr, &surface) != VK_SUCCESS) {
+	if (glfwCreateWindowSurface(apiDevices.instance, (GLFWwindow*)window->getNativeWindow(), nullptr, &apiDevices.surface) != VK_SUCCESS) {
 		LogError(std::string("Failed to create WindowSurface."));
 	}
 	LogDebug("end.");

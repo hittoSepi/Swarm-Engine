@@ -1,4 +1,6 @@
 #pragma once
+#pragma warning(disable: 4267) // ignore size_t to int32_t warning
+
 #ifdef _WIN32 
 #define VK_USE_PLATFORM_WIN32_KHR
 #include <vulkan/vulkan.h>
@@ -80,6 +82,14 @@ CREATE_ENUM(_VK_CI,
 )
 
 
+CREATE_ENUM(_BIND, 
+	S(GRAPHICS		= VK_PIPELINE_BIND_POINT_GRAPHICS),
+	S(COMPUTE		= VK_PIPELINE_BIND_POINT_COMPUTE),
+	S(RAYTRACING	= VK_PIPELINE_BIND_POINT_RAY_TRACING_KHR),
+	S(RAYTRACING_NV	= VK_PIPELINE_BIND_POINT_RAY_TRACING_NV),
+);
+
+
 CREATE_ENUM(_VK_SHADER,
 	VERTEX								= VK_SHADER_STAGE_VERTEX_BIT,
 	GEOMETRY							= VK_SHADER_STAGE_GEOMETRY_BIT,
@@ -99,9 +109,10 @@ CREATE_ENUM(VulkanImageType,
     ARRAY3D								= VK_IMAGE_VIEW_TYPE_CUBE_ARRAY,
 	MAX_ENUM							= VK_IMAGE_VIEW_TYPE_MAX_ENUM ,
 )
-
-
+class Window;
+typedef Window* VulkanWindow;
 typedef VkStructureType vkst;
+
 #define VK_SWIZZLE VK_COMPONENT_SWIZZLE_IDENTITY
 #define VK_INFO (vkst)_VK_INFO
 #define VK_SHADER (VkShaderStageFlagBits)_VK_SHADER
@@ -109,6 +120,7 @@ typedef VkStructureType vkst;
 #define VK_IMG (VkImageViewType)VulkanImageType
 #define vk_ci (vkst)_VK_CI
 #define VK_CI (vkst)_VK_CI
+#define BIND (VkPipelineBindPoint)_BIND
 #define vk_img_type(img) (VkImageViewType)img
 #define vk_img_format(format) (VkFormat)format
 
@@ -124,8 +136,9 @@ typedef VkStructureType vkst;
 #include "Core/Vulkan/Render/VulkanViewport.h"
 #include "Core/Vulkan/Render/VulkanImageView.h"
 #include "Core/Vulkan/Render/VulkanSwapChain.h"
-
 #include "Core/Vulkan/Render/VulkanRenderPipeline.h"
+
+// vulkan renderpass parts
 #include "Core/Vulkan/Render/RenderPass/VulkanAttachReference.h"
 #include "Core/Vulkan/Render/RenderPass/VulkanAttachment.h"
 #include "Core/Vulkan/Render/RenderPass/VulkanSubPassDependency.h"

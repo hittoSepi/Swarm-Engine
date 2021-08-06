@@ -16,13 +16,3 @@ protected:
 
 private:
 };
-
-class SubPass: public RenderPass
-{
-public:
-	SubPass(std::string debugName):
-		RenderPass(debugName)
-	{
-		
-	}
-};

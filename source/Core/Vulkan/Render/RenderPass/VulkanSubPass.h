@@ -2,13 +2,14 @@
 #include "VulkanRenderPass.h"
 
 
-class VulkanSubPass: public VulkanRenderPass
+class VulkanSubPass
 {
 public:
 	class CreateOptions
 	{
 	public:
 		std::string	name = "VulkanSubPass";
+		
 		CreateOptions(
 			VkPipelineBindPoint					bindPoint,
 			VkAttachmentReference				depthStencilAttachmentReference,
@@ -34,19 +35,18 @@ public:
 		VkSubpassDescription			subpass;
 	};
 
+	VkSubpassDescription getDescription() { return subpassDescription; }
+	
 	VulkanSubPass(CreateOptions options)
-		:VulkanRenderPass(options.name)
 	{
-		subpass = options.subpass;
+		subpassDescription = options.subpass;
 	}
 	
 	~VulkanSubPass() { }
 
-	VkSubpassDescription getVkSubpass() { return subpass; }
+	VkSubpassDescription getVkSubpass() { return subpassDescription; }
 private:
-	VkSubpassDescription subpass;
-	
-
+	VkSubpassDescription subpassDescription;
 };
 
 

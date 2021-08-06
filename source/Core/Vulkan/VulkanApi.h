@@ -1,32 +1,55 @@
 #pragma once
 #include "Core/Rendering/RenderingApi.h"
-#include "VulkanDevice.h"
+#include "Core/Vulkan/VulkanDevice.h"
 
-class VulkanApi : public RenderingApi
+using VulkanSurface		= VkSurfaceKHR; // TODO: proper abstactions
+using VulkanInstance	= VkInstance;
+
+using VulkanApi = _VulkanApi*;
+
+class _VulkanApi : public RenderingApi
 {
 public:
+	/// <summary>
+	/// Little struct to keep devices and useful stuff in one place 
+	/// <br> <br>
+	/// probably fails if used before <b> ::updateApiDeviceHelper() </b>
+	/// 
+	/// </summary>
+	struct ApiDevices
+	{
+		VulkanApi			vulkanApi			= nullptr;
+		VulkanDevice*		vulkanDevice		= nullptr;
+		VkDevice			vkDevice			= nullptr;
+		VkPhysicalDevice	vkPhysicalDevice	= nullptr;
+	 	VulkanWindow		window				= nullptr;
+		VulkanSurface		surface				= nullptr;
+		VulkanInstance		instance			= nullptr;
+	};
+
+	// device gets
+	ApiDevices					getApiDevices()			{ return apiDevices;					}
+	VulkanDevice*				getVulkanDevice()		{ return apiDevices.vulkanDevice;		}
+	VkDevice					getVkDevice()			{ return apiDevices.vkDevice;			}
+	VulkanInstance				getInstance()			{ return apiDevices.instance;			}
+	VulkanSurface				getSurface()			{ return apiDevices.surface;			}
+	VkPhysicalDevice			getPhysicalDevice()		{ return apiDevices.vkPhysicalDevice;	}
+
+
 	void	init() override;
 	void	quit() override;
 	void*	getSwapChain() override { return swapChain; };
 
-	static VulkanApi* create(Window* window, const Device::Options& opts);
+	static _VulkanApi* create(Window* window, const Device::Options& opts);
 
-	VkInstance				getInstance()		{ return instance; }
-	VkSurfaceKHR			getSurface()		{ return surface; }
-	VulkanDevice*			getVulkanDevice()	{ return dynamic_cast<VulkanDevice*>(device); }
-	VkDevice				getVkDevice()		{ return static_cast<VkDevice>(getVulkanDevice()->getApiDevice()); }
-	VkPhysicalDevice		getPhysicalDevice() { return getVulkanDevice()->getPhyiscalDevice(); }
-
+	
 protected:
-	VulkanApi(Window* window, const Device::Options& opts);
+	_VulkanApi(Window* window, const Device::Options& opts);
 	
-	VkInstance		instance;
-	VkSurfaceKHR	surface;
-	
+		
 	void createInstance();
 	void createWindowSurface();
 
-	
 	std::vector<const char*> getRequiredExtensions(); 
 
 	///  debugger
@@ -35,6 +58,10 @@ protected:
 	void setupDebugMessenger();
 	VkDebugUtilsMessengerEXT debugMessenger;
 
+private:
+	void		updateApiDeviceHelper();
+	ApiDevices	apiDevices;
+	
 	/*
 	Device				*device;
 	WindowBase			*window;
@@ -45,3 +72,5 @@ protected:
 	SwapChain			*swapChain;
 	*/
 };
+
+using VulkanDevices		= _VulkanApi::ApiDevices;

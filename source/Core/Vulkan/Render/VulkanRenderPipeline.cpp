@@ -10,8 +10,8 @@ VulkanRenderingPipeline::VulkanRenderingPipeline(CreateOptions createOptions):
 {
 	LogInfo("");
 	
-	setRenderingApi((VulkanApi*)createOptions.api);
-
+	setRenderingApi((VulkanApi)createOptions.api);
+	devices = api->getApiDevices();
 
 	LogVerbose("end.")
 }
@@ -19,21 +19,17 @@ VulkanRenderingPipeline::VulkanRenderingPipeline(CreateOptions createOptions):
 void VulkanRenderingPipeline::init()
 {
 	LogInfo("");
-	auto api_ = dynamic_cast<VulkanApi*>(api);
 
-	// create swap chain
-	VulkanSwapChain::CreateOptions options = VulkanSwapChain::CreateOptions(
-		api_,
-		api_->getSurface(),
-		api_->getVulkanDevice(),
-		api_->getVkDevice(),
-		api_->getPhysicalDevice(),
+	// create swapchain
+		
+	VulkanSwapChain* swapchain = new VulkanSwapChain(VulkanSwapChain::CreateOptions(
+		devices,
 		nullptr
-	);
-	
-	VulkanSwapChain* swapchain = new VulkanSwapChain(options);
+	));
 	swapchain->init();
-	// create viewport
+
+		
+	// create viewport & scissors
 	auto swapDims = swapchain->getDimensions();
 	setSwapChain((VulkanSwapChain*)swapchain);
 
@@ -42,7 +38,7 @@ void VulkanRenderingPipeline::init()
 	addScissor(swapDims);
 	createViewports();
 
-	if (vkCreatePipelineLayout(api_->getVkDevice(), &createOptions.pipelineLayoutInfo, nullptr, &pipelineLayout) != VK_SUCCESS) {
+	if (vkCreatePipelineLayout(devices.vkDevice, &createOptions.pipelineLayoutInfo, nullptr, &pipelineLayout) != VK_SUCCESS) {
 		throw std::runtime_error("failed to create pipeline layout!");
     }
 
@@ -62,14 +58,11 @@ void VulkanRenderingPipeline::init()
 void VulkanRenderingPipeline::quit()
 {
 	LogInfo("");
-	auto dev = getVulkanApi()->getVkDevice();
 	auto sc = dynamic_cast<VulkanSwapChain*>(swapChain);
-	
 	sc->quit();
 	delete sc;
 
-	vkDestroyPipelineLayout(dev, pipelineLayout, nullptr);
-	
+	vkDestroyPipelineLayout(devices.vkDevice, pipelineLayout, nullptr);
 	LogVerbose("end.")
 }
 
@@ -99,7 +92,7 @@ void VulkanRenderingPipeline::setSwapChain(SwapChain* swapchain_)
 void VulkanRenderingPipeline::setRenderingApi(RenderingApi* api_)
 {
 	LogInfo("");
-	api = (VulkanApi*)api_;
+	api = (VulkanApi)api_;
 }
 
 void VulkanRenderingPipeline::createViewports()

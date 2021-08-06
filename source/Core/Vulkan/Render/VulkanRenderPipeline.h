@@ -4,30 +4,13 @@
 class VulkanRenderingPipeline : public RenderingPipeline
 {
 public:
-	class CreateOptions: public boost::archive::detail::interface_oarchive<CreateOptions>
+	class CreateOptions
 	{
 	public:
-		friend class SerializerAccess;
-		VulkanApi*			api				= nullptr;
-		VulkanDevice*		device			= nullptr;
-		VkDevice			vkDevice		= nullptr;
-		VkPhysicalDevice	vkPhysDevice	= nullptr;
-		
-				 
-	
+		VulkanApi			api = nullptr;
+
 		CreateOptions() {}
-		
-		CreateOptions(VulkanApi*		api
-					, VulkanDevice*		device		
-					, VkDevice			vkDevice
-					, VkPhysicalDevice	vkPhysDevice)
-		:	api(api),
-			device(device), vkDevice(vkDevice),
-			vkPhysDevice(vkPhysDevice)
-		{
-			
-		
-		}
+		CreateOptions(VulkanApi	api): api(api) {}
 
 
 
@@ -36,27 +19,27 @@ public:
 			viewportState.viewportCount = (uint32_t)vps.size();
 			viewportState.pViewports = vps.data();
 		}
-		
+
 		void setScissors(std::vector<VulkanScissor> scs)
 		{
 			viewportState.scissorCount = (uint32_t)scs.size();
 			viewportState.pScissors = scs.data();
 		}
-		
-		
+
+
 		struct Flags
 		{
 		};
 
-		VkPipelineLayoutCreateInfo pipelineLayoutInfo 
+		VkPipelineLayoutCreateInfo pipelineLayoutInfo
 		{
 			VK_CI::SW_VULKAN_PIPELINE_LAYOUT,
 			nullptr,
 			0,
-	        0,
-	        0
+			0,
+			0
 		};
-			
+
 		// Dynamic states
 		std::vector<VkDynamicState>	dynamicStates{ VK_DYNAMIC_STATE_VIEWPORT, VK_DYNAMIC_STATE_SCISSOR };
 		VkPipelineDynamicStateCreateInfo dynamicState
@@ -171,11 +154,9 @@ public:
 	virtual void				addScissor(const iRect& view_area) override;
 
 	virtual void*				getSwapChain() override;
+	VulkanSwapChain*			getVulkanSwapChain() { return dynamic_cast<VulkanSwapChain*>(swapChain); }
+	VulkanApi					getVulkanApi() { return api; }
 
-	VulkanApi*					getVulkanApi() { return dynamic_cast<VulkanApi*>(api); }
-
-	template<class Archive>
-	void serialize(Archive& a, const unsigned version);
 private:
 	void						createViewports();
 	VkRect2D					scissorToVkRect(VulkanScissor* rect);
@@ -184,15 +165,17 @@ private:
 	VkPipelineLayout			pipelineLayout;
 	std::vector<VkViewport>		vkViewports;
 	std::vector<VkRect2D>		vkScissors;
-		
+
 	CreateOptions				createOptions;
-	
+
 	std::vector<Viewport*>		viewports;
 	std::vector<Scissor*>		scissors;
 
-	RenderingApi* api;
-	Device* device;
+	VulkanDevices				devices;
 	
+	VulkanApi					api;
+	VulkanDevice*				device;
+
 	/*
 	SwapChain* swapChain;
 	Viewport* viewport;

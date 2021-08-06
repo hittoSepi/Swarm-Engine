@@ -11,23 +11,11 @@ public:
 	class CreateOptions
 	{
 	public:
-		VulkanApi*			api				= nullptr;
-		VkSurfaceKHR		surface			= nullptr;
-		VulkanDevice*		device			= nullptr;
-		VkDevice			vkDevice		= nullptr;
-		VkPhysicalDevice	vkPhysDevice	= nullptr;
+		VulkanDevices		devices;
 		VulkanSwapChain*	oldSwapChain	= nullptr;
 
-		CreateOptions(
-			VulkanApi*			api,
-			VkSurfaceKHR		surface,
-			VulkanDevice*		device,		
-			VkDevice			vkDevice,	
-			VkPhysicalDevice	vkPhysDevice,
-			VulkanSwapChain*	oldSwapChain = nullptr):
-			api(api),
-			surface(surface), device(device), vkDevice(vkDevice),
-			vkPhysDevice(vkPhysDevice), oldSwapChain(oldSwapChain)
+		CreateOptions(const VulkanDevices& devices, VulkanSwapChain* oldSwapChain = nullptr):
+			devices(devices), oldSwapChain(oldSwapChain)
 		{
 			
 		}
@@ -37,11 +25,7 @@ public:
 	};
 	
 	VulkanSwapChain(CreateOptions options);
-	VulkanSwapChain(VkSurfaceKHR surface,  VulkanApi* rendering_api);
-	
-	~VulkanSwapChain() override
-	{
-	}
+	~VulkanSwapChain() = default;
 		
 	void init() override;
 	void quit() override;
@@ -54,14 +38,14 @@ public:
 		return dim;
 	}
 
-	QueueFamilyIndices		findQueueFamilies() { return _getVulkanDevice()->findQueueFamilies(_getVkPhyicalDevice()); }
 	void					querySwapChainSupport() override {	swapChainSupport = _getVulkanDevice()->querySwapChainSupport(_getVkPhyicalDevice()); }
+	QueueFamilyIndices		findQueueFamilies() { return _getVulkanDevice()->findQueueFamilies(_getVkPhyicalDevice()); }
 
 
-	VulkanApi*				_getVulkanApi() { return createOptions.api; }
-	VulkanDevice*			_getVulkanDevice() { return createOptions.device; }
-	VkDevice				_getVkDevice() { return createOptions.vkDevice; }
-	VkPhysicalDevice		_getVkPhyicalDevice() {	return createOptions.vkPhysDevice; }
+	VulkanApi				_getVulkanApi() { return devices.vulkanApi; }
+	VulkanDevice*			_getVulkanDevice() { return devices.vulkanDevice; }
+	VkDevice				_getVkDevice() { return devices.vkDevice; }
+	VkPhysicalDevice		_getVkPhyicalDevice() {	return devices.vkPhysicalDevice; }
 	
 	VkExtent2D				chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
 	VkPresentModeKHR		chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
@@ -69,6 +53,7 @@ public:
 
 	
 private:
+	VulkanDevices					devices;
 	CreateOptions					createOptions;
 	VkSwapchainCreateInfoKHR		createInfo{};
 	SwapChainSupportDetails			swapChainSupport{};

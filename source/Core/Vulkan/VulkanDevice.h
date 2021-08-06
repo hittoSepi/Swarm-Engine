@@ -3,7 +3,7 @@
 #include "Core/Window/WindowBase.h"
 
 
-class VulkanApi;
+class _VulkanApi;
 
 struct QueueFamilyIndices {
 	std::optional<uint32_t> graphicsFamily;
@@ -39,7 +39,7 @@ public:
 	void quit() override;
 
 	void* getApiDevice() override { return device; }
-	VkPhysicalDevice getPhyiscalDevice() { return physicalDevice; }
+	VkPhysicalDevice getPhysicalDevice() { return physicalDevice; }
 
 	~VulkanDevice() override;
 
@@ -52,7 +52,7 @@ protected:
 	WindowBase					*window;
 
 private:
-	VulkanDevice(VulkanApi* api, const Options& opts);
+	VulkanDevice(_VulkanApi api, const Options& opts);
 	VulkanDevice(WindowBase* window, VkInstance& instance, VkSurfaceKHR &sufrace, const Options& opts);
 
 	void createInstance();
@@ -68,7 +68,7 @@ private:
 	bool isDeviceSuitable(VkPhysicalDevice device);
 	bool checkDeviceExtensionSupport(VkPhysicalDevice device);
 	
-	VulkanApi *api;
+	_VulkanApi *api;
 				
 	VkQueue graphicsQueue;
 	VkQueue presentQueue;

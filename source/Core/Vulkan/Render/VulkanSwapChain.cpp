@@ -4,23 +4,16 @@
 
 
 VulkanSwapChain::VulkanSwapChain(CreateOptions options):
-	createOptions(options), SwapChain(createOptions.api)
+	createOptions(options), devices(options.devices), SwapChain()
 {
 	LogInfo("");
-}
-
-
-VulkanSwapChain::VulkanSwapChain(VkSurfaceKHR surface,  VulkanApi* rendering_api):
-	SwapChain(rendering_api)
-{
-	LogError(std::string("Deprecated."));
 }
 
 
 void VulkanSwapChain::quit()
 {
 	LogInfo("")
-	auto dev = createOptions.vkDevice;
+	auto dev = devices.vkDevice;
 	for(uint32_t i = 0; i <= backBufferCount-1; i++)
 	{
 		delete swapChainImageViews[i];
@@ -48,7 +41,7 @@ void VulkanSwapChain::init()
 	}
 
 	createInfo.sType				= vk_ci::SW_VULKAN_SWAPCHAIN;
-	createInfo.surface				= createOptions.surface;
+	createInfo.surface				= devices.surface;
 	createInfo.minImageCount		= backBufferCount;
 	createInfo.imageFormat			= surfaceFormat.format;
 	createInfo.imageColorSpace		= surfaceFormat.colorSpace;
@@ -96,7 +89,7 @@ VkExtent2D VulkanSwapChain::chooseSwapExtent(const VkSurfaceCapabilitiesKHR& cap
 	}
 	else {
 		int width, height;
-		auto win = renderingApi->getWindow();
+		auto win = devices.window;
 		glfwGetFramebufferSize((GLFWwindow*)win->getNativeWindow(), &width, &height);
 
 		VkExtent2D actualExtent = {
@@ -140,11 +133,11 @@ VkSurfaceFormatKHR VulkanSwapChain::chooseSwapSurfaceFormat(const std::vector<Vk
 void VulkanSwapChain::createFrameBuffers() {
 
 	LogInfo(" Creating SwapchainImages and Imageview.");
-	vkGetSwapchainImagesKHR(createOptions.vkDevice, swapChain, &backBufferCount, nullptr);
+	vkGetSwapchainImagesKHR(devices.vkDevice, swapChain, &backBufferCount, nullptr);
 	
 	swapChainImages.resize(backBufferCount);
 	
-	vkGetSwapchainImagesKHR(createOptions.vkDevice, swapChain, &backBufferCount, swapChainImages.data());
+	vkGetSwapchainImagesKHR(devices.vkDevice, swapChain, &backBufferCount, swapChainImages.data());
 
 	swapChainImageFormat	= surfaceFormat.format;
 	swapChainExtent			= extent;
@@ -154,7 +147,7 @@ void VulkanSwapChain::createFrameBuffers() {
 	for (int i = 0; i < swapChainImages.size(); i++) 
 	{
 		swapChainImageViews[i] = new VulkanImageView(VulkanImageView::CreateOptions( 
-			createOptions.vkDevice,
+			devices.vkDevice,
 			swapChainImages[i],
 			swapChainImageFormat,
 			VK_IMG::TEX2D

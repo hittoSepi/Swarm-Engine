@@ -1,9 +1,11 @@
 #pragma once
 #include <string>
+#include "stdexcept"
 
+#include "Core/Window/WindowBase.h"
+#include "Core/Device.h"
 #include "Core/Rendering/SwapChain.h"
 #include "Core/Rendering/RenderingPipeline.h"
-
 
 
 /// Rendering api abstraction

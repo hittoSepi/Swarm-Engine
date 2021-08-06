@@ -69,7 +69,7 @@ void Application::init()
 	
 	// init Graphics Api here
 	if(config.graphicsApi == GraphicsAPI::VULKAN) {
-		graphicsApi = (VulkanApi*)VulkanApi::create(window, config.deviceOptions);
+		graphicsApi = _VulkanApi::create(window, config.deviceOptions);
 	}
 
 	if(graphicsApi != nullptr)

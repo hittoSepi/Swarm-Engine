@@ -10,25 +10,42 @@ class VulkanSubPass;
 class VulkanRenderPass : public RenderPass
 {
 public:
-	VulkanRenderPass(std::string name);
 	virtual ~VulkanRenderPass()
 	{
 	}
 	
 	std::vector<VulkanSubPass*> getSubPasses() { return subPasses; }
-	
+
 	virtual void addAttachment(VulkanAttachment *attach);
 	virtual void addReference(VulkanAttachmentReference *ref);
 	virtual void addSubPassDependency(VulkanSubPassDependency *dep);
 	virtual void addSubPass(VulkanSubPass* pass);
-	virtual void buildPass() = 0;
 
+	virtual void loadAttachments()	= 0;
+	virtual void loadReferences()	= 0;
+	virtual void loadSubPassDeps()	= 0;
+	virtual void loadSubPasses()	= 0;
 
+	void buildPass()
+	{
+		
+		// prepare attachments
+		loadAttachments();
+
+		// get references
+		loadReferences();
+
+		// load subpass dependencies
+		loadSubPassDeps();
+
+		// load subpass descriptions
+		loadSubPasses();
+	}
 protected:
+	
+	VulkanRenderPass(std::string name);
 	VkRenderPassCreateInfo						renderPassCreateInfo;
 	VkRenderPass								renderPass;
-	
-	VkPipelineLayout							pipelineLayout; // ??
 	
 	std::vector<VulkanAttachment*>				attachments;
 	std::vector<VulkanAttachmentReference*>		attachmentReferences;
