@@ -7,11 +7,19 @@
 #define SWARM_VERSION_MINOR 2
 
 
+#define SWARM_USE_BOOST
 #define SWARM_VULKAN
+
+
+#ifdef SWARM_VULKAN 
 #define SWARM_USE_GLM_VECTORS true
+#define VK_API VK_API_VERSION_1_2  // Use Vulkan version 1.2
+#endif
+
 
 #include "SwarmPrerequires.h"
 #include "SwarmStdHeaders.h"
+
 
 #if SWARM_USE_GLM_VECTORS
 #include <glm/vec2.hpp>
@@ -79,6 +87,8 @@ using float3 = glm::vec3;
 #ifdef _WIN32
 #include "Utils/Process/WinProcess.h"
 #endif
+
+
 
 ////////////////////////////////////////////////////
 /// ENGINE INCLUDES

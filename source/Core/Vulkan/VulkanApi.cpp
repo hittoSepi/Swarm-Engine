@@ -33,24 +33,30 @@ VulkanApi::VulkanApi(Window* window, const Device::Options& opts) :
 void VulkanApi::init()
 {
 	
-	//VulkanStructureType::VK_STRUCTURE_TYPE_APPLICATION_INFO
-	
 	LogInfo("")
 	createInstance();
-
 	setupDebugMessenger();
-
 	createWindowSurface();
 
+	
 	LogInfo("Create device.")
 		setDevice(VulkanDevice::create(window, instance, surface, deviceOptions));
 	device->init();
 
 		
 	LogInfo("RenderingPipeline.");
-	renderingPipeline = new VulkanRenderingPipeline(this);
+	VulkanRenderingPipeline::CreateOptions options(this, getVulkanDevice(), getVkDevice(), getPhysicalDevice());
+	renderingPipeline = new VulkanRenderingPipeline(options);
 	renderingPipeline->init();
 
+	
+	
+	std::ofstream ofs( "store.dat" );
+	boost::archive::text_oarchive ar(ofs);
+ 
+      // Save the data
+    ar & renderingPipeline;
+	
 	LogDebug("end.");
 }
 
@@ -65,10 +71,12 @@ void VulkanApi::quit()
 	LogVerbose("Deleting WindowSurface.");
 	vkDestroySurfaceKHR(instance, surface, nullptr);
 
+	
 	if (deviceOptions.enableValidationLayers) {
 		LogVerbose("Deleting DebugMessenger.");
 		DestroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
 	}
+
 	
 	LogVerbose("Deleting VulkanDevice.");
 	if (device != nullptr){
@@ -77,6 +85,7 @@ void VulkanApi::quit()
 		delete device;
 	}
 
+	
 	LogVerbose("Deleting Instance.");
 	vkDestroyInstance(instance, nullptr);
 
@@ -90,19 +99,23 @@ void VulkanApi::createInstance()
 	if (deviceOptions.enableValidationLayers && !checkValidationLayerSupport()) {
 		LogError(std::string("validation layers requested, but not available!"));
 	}
+
 	
 	VkApplicationInfo appInfo{};
 	appInfo.sType = VK_INFO::SW_VULKAN_APP_INFO;
 	appInfo.pApplicationName = window->getWindowTitle().c_str();
-	appInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
+	appInfo.applicationVersion = VK_MAKE_VERSION(1, 2, 0);
 	appInfo.pEngineName = SWARM_ENGINE_NAME;
 	appInfo.engineVersion = VK_MAKE_API_VERSION(0, SWARM_VERSION_MAJOR, SWARM_VERSION_MINOR, 0);
 	appInfo.apiVersion = VK_API;
 
+	
+	
 	VkInstanceCreateInfo createInfo{};
 	createInfo.sType = VK_CI::SW_VULKAN_INSTANCE;
 	createInfo.pApplicationInfo = &appInfo;
 
+	
 	auto extensions = getRequiredExtensions();
 	createInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
 	createInfo.ppEnabledExtensionNames = extensions.data();
@@ -121,13 +134,14 @@ void VulkanApi::createInstance()
 		createInfo.pNext = nullptr;
 	}
 
+	
 	if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS) {
 		LogError(std::string("Failed to create instance."));
 	}
 
 	LogDebug("end.");
-
 }
+
 
 std::vector<const char*> VulkanApi::getRequiredExtensions()
 {
@@ -142,7 +156,6 @@ std::vector<const char*> VulkanApi::getRequiredExtensions()
 	if (deviceOptions.enableValidationLayers) {
 		extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
 	}
-
 	return extensions;
 }
 

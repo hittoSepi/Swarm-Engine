@@ -77,7 +77,7 @@ void GameObjectManager::AddObjects()
 		if (obj->atPool == false)
 		{
 			obj->atPool = true;
-			gameObjects->try_emplace(obj->GetID(), obj);
+			gameObjects->try_emplace(obj->getID(), obj);
 			gameObjectsCreated++;
 		}
 	}
@@ -92,7 +92,7 @@ void GameObjectManager::RemoveObjects()
 	HashListIt iter = removeList->begin();
 	while(iter !=  removeList->end())
 	{
-		GameObjectPoolIt goDelIter = gameObjects->find(((GameObject*) &iter)->GetID());
+		GameObjectPoolIt goDelIter = gameObjects->find(((GameObject*) &iter)->getID());
 		gameObjects->erase(goDelIter);
 	    delete &iter;
 	    iter++;
@@ -104,7 +104,7 @@ void GameObjectManager::Remove(GameObject *obj)
 {
 	if (lock.try_lock())
 	{
-		removeList->emplace_back(obj->GetID());
+		removeList->emplace_back(obj->getID());
 		lock.unlock();
 	}
 }

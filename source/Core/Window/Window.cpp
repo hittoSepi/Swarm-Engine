@@ -8,7 +8,6 @@
 #include "GLFW/glfw3native.h"
 #else // LINUX
 
-// Replace the defines we undef'd in FalcorVK.h, because glfw will need them when it includes Xlib
 #define None 0L
 #define Bool int
 #define Status int
@@ -38,18 +37,14 @@ Window::~Window()
 void Window::init()
 {
 	LogInfo("");
-	// Set error callback
 	glfwSetErrorCallback(ApiCallbacks::errorCallback);
 
-	// Init GLFW
 	if (glfwInit() == GLFW_FALSE)
 	{
 		throw std::runtime_error("GLFW initialization failed");
 	}
 
-	//SharedPtr pWindow = SharedPtr(new Window(pCallbacks, options));
 
-	// Create the window
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 	
 	uint32_t w = options.width;
@@ -65,7 +60,6 @@ void Window::init()
 	}
 	else if (options.mode == WindowMode::Minimized)
 	{
-		// Start with window being invisible
 		glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
 	}
 
@@ -81,14 +75,11 @@ void Window::init()
 		throw std::runtime_error("Window creation failed!");
 	}
 
-	// Init handles
 	setMainWindowHandle(glfwGetWin32Window(window));
-
 	updateWindowSize();
 
 	glfwSetWindowUserPointer(window, this);
 
-	// Set callbacks
 	glfwSetWindowSizeCallback(window,	ApiCallbacks::windowSizeCallback);
 	glfwSetKeyCallback(window,			ApiCallbacks::keyboardCallback);
 	glfwSetMouseButtonCallback(window,	ApiCallbacks::mouseButtonCallback);
@@ -99,7 +90,6 @@ void Window::init()
 
 	if (options.mode == WindowMode::Minimized)
 	{
-		// Iconify and show window to make it available if user clicks on it
 		glfwIconifyWindow(window);
 		glfwShowWindow(window);
 	}
@@ -143,7 +133,6 @@ void Window::resize(uint32_t width, uint32_t height)
 {
 	glfwSetWindowSize(window, width, height);
 
-	// In minimized mode GLFW reports incorrect window size
 	if (options.mode == WindowMode::Minimized)
 	{
 		setWindowSize(width, height);

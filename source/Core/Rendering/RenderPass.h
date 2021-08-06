@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 class SubPass;
 
 class RenderPass
@@ -8,12 +10,11 @@ public:
 	RenderPass(std::string debugName):
 		debugName(debugName)
 	{}
-	
-	virtual void addSubPass(SubPass* pass) = 0;
+		
 protected:
+	std::string debugName;
 
 private:
-	std::string debugName;
 };
 
 class SubPass: public RenderPass

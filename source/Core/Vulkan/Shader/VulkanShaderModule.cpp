@@ -42,7 +42,7 @@ void VulkanShaderModule::compile()
 	vector<char> src = ReadBinaryFile(GetShaderCacheFile(this).c_str());
 
 	VkShaderModuleCreateInfo createInfo{};
-	createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
+	createInfo.sType = VK_CI::SW_VULKAN_SHADER_MODULE;
 	createInfo.codeSize = src.size();
 	createInfo.pCode = reinterpret_cast<const uint32_t*>(src.data());
 

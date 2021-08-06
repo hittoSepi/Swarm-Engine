@@ -47,12 +47,8 @@ protected:
 	//std::vector<Viewport*> viewports;
 	std::vector<Viewport*> viewports;
 	std::vector<Scissor*> scissors;
-		
 
-	RenderingApi* api;
-	Device* device;
 	SwapChain* swapChain;
-	Viewport* viewport;
-private:
 	std::string debugName;
+private:
 };

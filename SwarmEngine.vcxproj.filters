@@ -83,7 +83,7 @@
     <ClCompile Include="source\Core\Vulkan\Render\VulkanViewport.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\Core\Vulkan\Render\VulkanRenderPass.cpp">
+    <ClCompile Include="source\Core\Vulkan\Render\RenderPass\VulkanRenderPass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -179,7 +179,14 @@
     <ClInclude Include="source\Utils\Math\Rect.h" />
     <ClInclude Include="source\Core\Vulkan\Render\VulkanRasterizer.h" />
     <ClInclude Include="source\Core\Rendering\RenderPass.h" />
-    <ClInclude Include="source\Core\Vulkan\Render\VulkanRenderPass.h" />
+    <ClInclude Include="source\Core\Vulkan\Render\RenderPass\VulkanRenderPass.h" />
+    <ClInclude Include="source\Core\Vulkan\Render\VulkanImageView.h" />
+    <ClInclude Include="source\Core\Vulkan\VulkanCommandBuffer.h" />
+    <ClInclude Include="source\Core\Vulkan\RenderPasses\VulkanPBSRenderPass.h" />
+    <ClInclude Include="source\Core\Vulkan\Render\RenderPass\VulkanAttachment.h" />
+    <ClInclude Include="source\Core\Vulkan\Render\RenderPass\VulkanAttachReference.h" />
+    <ClInclude Include="source\Core\Vulkan\Render\RenderPass\VulkanSubPassDependency.h" />
+    <ClInclude Include="source\Core\Vulkan\Render\RenderPass\VulkanSubPass.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

@@ -1,23 +1,51 @@
 #pragma once
+#include <boost/archive/text_oarchive.hpp>
 
 class VulkanRenderingPipeline : public RenderingPipeline
 {
 public:
-	class CreateInfos
+	class CreateOptions: public boost::archive::detail::interface_oarchive<CreateOptions>
 	{
 	public:
-		CreateInfos(std::vector<VkViewport> vps, std::vector<VkRect2D> scs)
+		friend class SerializerAccess;
+		VulkanApi*			api				= nullptr;
+		VulkanDevice*		device			= nullptr;
+		VkDevice			vkDevice		= nullptr;
+		VkPhysicalDevice	vkPhysDevice	= nullptr;
+		
+				 
+	
+		CreateOptions() {}
+		
+		CreateOptions(VulkanApi*		api
+					, VulkanDevice*		device		
+					, VkDevice			vkDevice
+					, VkPhysicalDevice	vkPhysDevice)
+		:	api(api),
+			device(device), vkDevice(vkDevice),
+			vkPhysDevice(vkPhysDevice)
 		{
-			viewportState.viewportCount = (uint32_t)vps.size();
-			viewportState.scissorCount = (uint32_t)scs.size();
-			viewportState.pViewports = vps.data();
-			viewportState.pScissors = scs.data();
+			
+		
 		}
 
+
+
+		void setViewPorts(std::vector<VulkanViewport> vps)
+		{
+			viewportState.viewportCount = (uint32_t)vps.size();
+			viewportState.pViewports = vps.data();
+		}
+		
+		void setScissors(std::vector<VulkanScissor> scs)
+		{
+			viewportState.scissorCount = (uint32_t)scs.size();
+			viewportState.pScissors = scs.data();
+		}
+		
+		
 		struct Flags
 		{
-
-
 		};
 
 		VkPipelineLayoutCreateInfo pipelineLayoutInfo 
@@ -70,6 +98,7 @@ public:
 			0
 		};
 
+		// Rasterizer
 		VkPipelineRasterizationStateCreateInfo rasterizer
 		{
 			VK_CI::SW_VULKAN_PIPELINE_RASTERIZATION,
@@ -84,6 +113,7 @@ public:
 			1.0f, 1.0f, 1.0f
 		};
 
+		// Multisampling
 		VkPipelineMultisampleStateCreateInfo multisampling
 		{
 			VK_CI::SW_VULKAN_PIPELINE_MULTISAMPLE,
@@ -93,7 +123,7 @@ public:
 			VK_FALSE
 		};
 
-
+		// Color blending		
 		VkPipelineColorBlendAttachmentState colorBlendAttachment
 		{
 			VK_FALSE,
@@ -121,44 +151,49 @@ public:
 			0.0f,
 			0.0f
 		};
+
+
 	};
 
+	VulkanRenderingPipeline(CreateOptions createOptions);
 
-	VulkanRenderingPipeline(VulkanApi* api);
+	virtual void				init() override;
+	virtual void				quit() override;
+	virtual void				update() override;
+	virtual void				render() override;
+	virtual void				resize(uint32_t width, uint32_t height) override;
+	virtual void				setRenderingApi(RenderingApi* api) override;
+	virtual void				setSwapChain(SwapChain* swapchain) override;
 
-	virtual void	init() override;
-	virtual void	quit() override;
-	virtual void	update() override;
-	virtual void	render() override;
-	virtual void	resize(uint32_t width, uint32_t height) override;
-	virtual void	setRenderingApi(RenderingApi* api) override;
-	virtual void	setSwapChain(SwapChain* swapchain) override;
+	virtual void				addViewport(const iRect& view_area, const float2& depth) override;
+	virtual void				addViewport(Viewport* viewport) override;
+	virtual void				addScissor(Scissor* scissor) override;
+	virtual void				addScissor(const iRect& view_area) override;
 
-	virtual void	addViewport(const iRect& view_area, const float2& depth) override;
-	virtual void	addViewport(Viewport* viewport) override;
-	virtual void	addScissor(Scissor* scissor) override;
-	virtual void	addScissor(const iRect& view_area) override;
+	virtual void*				getSwapChain() override;
 
-	virtual void*	getSwapChain() override;
+	VulkanApi*					getVulkanApi() { return dynamic_cast<VulkanApi*>(api); }
 
-	VulkanApi*		getVulkanApi() { return (VulkanApi*)api; }
+	template<class Archive>
+	void serialize(Archive& a, const unsigned version);
 private:
-	void			createViewports();
-	VkRect2D		scissorToVkRect(VulkanScissor* rect);
-	VkViewport		viewportToVkViewport(VulkanViewport* view);
+	void						createViewports();
+	VkRect2D					scissorToVkRect(VulkanScissor* rect);
+	VkViewport					viewportToVkViewport(VulkanViewport* view);
 
 	VkPipelineLayout			pipelineLayout;
 	std::vector<VkViewport>		vkViewports;
 	std::vector<VkRect2D>		vkScissors;
+		
+	CreateOptions				createOptions;
 	
-	CreateInfos createInfos = CreateInfos(vkViewports, vkScissors);
-	/*
-	std::vector<Viewport*> viewports;
-	std::vector<Scissor*> scissors;
-
+	std::vector<Viewport*>		viewports;
+	std::vector<Scissor*>		scissors;
 
 	RenderingApi* api;
 	Device* device;
+	
+	/*
 	SwapChain* swapChain;
 	Viewport* viewport;
 	*/

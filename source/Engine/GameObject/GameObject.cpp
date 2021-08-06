@@ -50,8 +50,9 @@ void GameObject::OnRender()
 
 }
 
+
 void GameObject::AddChildren(GameObject* go) {
-	childrens->try_emplace(go->GetID(), go);
+	childrens->try_emplace(go->getID(), go);
 }
 
 void GameObject::AddComponent(Component* comp) {

@@ -7,7 +7,7 @@
 /// <summary>
 /// Base Entity object
 /// </summary>
-class   BaseObject
+class BaseObject
 {
 public:
 	BaseObject(std::string name);
@@ -19,17 +19,17 @@ public:
 	virtual void OnRender() = 0;
 	virtual void BeforeQuit() = 0;
 
-	void SetName(std::string name) { Name = name; }
+	void setName(std::string name) { name = name; }
 
-	IntHash GetID() { return id; }
-	std::string GetName() { return Name; }
+	IntHash getID() { return id; }
+	std::string getName() { return name; }
 
 protected:
-	void SetID(IntHash id) { this->id = id; }
+	void setID(IntHash id) { this->id = id; }
+	IntHash		id = -1;
+	std::string name = "";
 
 private:
 	BaseObject();
-	IntHash id = -1;
-	std::string Name = "";
 };
 #endif

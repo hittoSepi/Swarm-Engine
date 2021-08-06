@@ -5,32 +5,33 @@
 #include "Core/Vulkan/Render/VulkanViewport.h"
 
 
-
-
-VulkanRenderingPipeline::VulkanRenderingPipeline(VulkanApi* api_) :
-	RenderingPipeline("Vulkan RenderingPipeline HD")
+VulkanRenderingPipeline::VulkanRenderingPipeline(CreateOptions createOptions):
+	RenderingPipeline("Vulkan RenderingPipeline HD"), createOptions(createOptions)
 {
 	LogInfo("");
-	setRenderingApi((VulkanApi*)api_);
-
-
-	vkViewports.clear();
-	vkScissors.clear();
-	viewports.clear();
-	scissors.clear();
-
 	
+	setRenderingApi((VulkanApi*)createOptions.api);
+
+
 	LogVerbose("end.")
 }
-
-
+                                                                                                                                                                                                                                    
 void VulkanRenderingPipeline::init()
 {
 	LogInfo("");
-	auto api_ = getVulkanApi();
-	
+	auto api_ = dynamic_cast<VulkanApi*>(api);
+
 	// create swap chain
-	VulkanSwapChain* swapchain = new VulkanSwapChain(api_);
+	VulkanSwapChain::CreateOptions options = VulkanSwapChain::CreateOptions(
+		api_,
+		api_->getSurface(),
+		api_->getVulkanDevice(),
+		api_->getVkDevice(),
+		api_->getPhysicalDevice(),
+		nullptr
+	);
+	
+	VulkanSwapChain* swapchain = new VulkanSwapChain(options);
 	swapchain->init();
 	// create viewport
 	auto swapDims = swapchain->getDimensions();
@@ -41,7 +42,7 @@ void VulkanRenderingPipeline::init()
 	addScissor(swapDims);
 	createViewports();
 
-	if (vkCreatePipelineLayout(api_->getVkDevice(), &createInfos.pipelineLayoutInfo, nullptr, &pipelineLayout) != VK_SUCCESS) {
+	if (vkCreatePipelineLayout(api_->getVkDevice(), &createOptions.pipelineLayoutInfo, nullptr, &pipelineLayout) != VK_SUCCESS) {
 		throw std::runtime_error("failed to create pipeline layout!");
     }
 
