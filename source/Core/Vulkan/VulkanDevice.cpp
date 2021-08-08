@@ -34,6 +34,7 @@ VulkanDevice::VulkanDevice(WindowBase* window, VkInstance &instance, VkSurfaceKH
 {
 }
 
+
 VulkanDevice::~VulkanDevice()
 {
 }
@@ -43,7 +44,6 @@ void VulkanDevice::quit()
 {
 	LogInfo("");
 	vkDestroyDevice(device, nullptr);
-
 }
 
 
@@ -197,7 +197,6 @@ QueueFamilyIndices VulkanDevice::findQueueFamilies(VkPhysicalDevice device)
 
 	return indices;
 }
-
 
 
 SwapChainSupportDetails VulkanDevice::querySwapChainSupport(VkPhysicalDevice device)

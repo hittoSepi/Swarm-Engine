@@ -1,21 +1,13 @@
 #pragma once
 #ifndef SWARM_H
 #define SWARM_H
-
 #define SWARM_ENGINE_NAME "Swarm Engine"
 #define SWARM_VERSION_MAJOR 0
 #define SWARM_VERSION_MINOR 2
 
 
-#define SWARM_VULKAN true
-#define SWARM_GRAPHICS_API SWARM_VULKAN
-
-
-#if SWARM_VULKAN
 #define SWARM_USE_GLM_VECTORS true
 #define VK_API VK_API_VERSION_1_2  // Use Vulkan version 1.2
-#endif
-
 
 #include "SwarmPrerequires.h"
 #include "SwarmStdHeaders.h"

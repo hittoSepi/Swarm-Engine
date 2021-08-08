@@ -13,6 +13,4 @@ public:
 		
 protected:
 	std::string debugName;
-
-private:
 };
