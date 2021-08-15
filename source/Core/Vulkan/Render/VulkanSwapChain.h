@@ -31,7 +31,10 @@ public:
 	void quit() override;
 	void createFrameBuffers() override;
 	void resize(uint32_t width, uint32_t height) override;
-
+	size_t getSize() { return swapChainImageViews.size(); }
+	VkSwapchainKHR getVkSwapchain() { return swapChain; }
+	VkExtent2D getExtent() { return extent; }
+	
 	iRect getDimensions() override
 	{
 		Rect<int> dim(0, 0, (int)extent.width, (int)extent.height);
@@ -41,6 +44,17 @@ public:
 	void					querySwapChainSupport() override {	swapChainSupport = _getVulkanDevice()->querySwapChainSupport(_getVkPhyicalDevice()); }
 	QueueFamilyIndices		findQueueFamilies() { return _getVulkanDevice()->findQueueFamilies(_getVkPhyicalDevice()); }
 
+	//std::vector<VulkanImageView*>
+
+	std::vector<VkImageView> getImageViews()
+	{
+		std::vector<VkImageView> images;
+		for(auto img: swapChainImageViews)
+		{
+			images.push_back(img->getImageView());
+		}
+		return images;
+	}
 
 	VulkanApi				_getVulkanApi() { return devices.vulkanApi; }
 	VulkanDevice*			_getVulkanDevice() { return devices.vulkanDevice; }

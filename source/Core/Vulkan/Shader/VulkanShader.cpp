@@ -9,7 +9,7 @@
 */
 
 using namespace std;
-#define MAX_SHADER_STAGES 4
+
 
 VkShaderStageFlagBits getBitFromType(ShaderModule::Type type)
 {
@@ -36,27 +36,9 @@ VulkanShader* VulkanShader::create(const CreateOptions& opts)
 	vector<string> files = GetFileListing(GetShaderLibraryDir(), opts.filename, "vert|frag|geom");
 
 	LogInfo("Creating Shader: " << opts.name);
-	VkPipelineShaderStageCreateInfo shaderStages[MAX_SHADER_STAGES];
 
-	int stage = 0;
 	for (auto file : files) {
-		
-		auto type = GetShaderModuleTypeEnum(file);
-		
-		VulkanShaderModule* module = new VulkanShaderModule((VulkanDevice*)opts.device, type, file, opts.name + "-" + GetShaderTypeStr(type));
-
-		LogInfo("Compiling ShaderModule: " << module->getName());
-
-		module->compile();
-		shader->addModule(module);
-
-		VkPipelineShaderStageCreateInfo shaderStageInfo{};
-		shaderStageInfo.sType	= VK_CI::SW_VULKAN_PIPELINE_SHADER_STAGE;
-		shaderStageInfo.stage	= getBitFromType(module->getType());
-		shaderStageInfo.module	= module->getModule();
-		shaderStageInfo.pName	= "main";
-		shaderStages[stage]		= shaderStageInfo;
-		stage++;
+		shader->addModule(file);
 	}
 
 	return shader;
@@ -66,6 +48,7 @@ VulkanShader* VulkanShader::create(const CreateOptions& opts)
 VulkanShader::VulkanShader(const CreateOptions& opts) :
 	Shader(opts)
 {
+	stageCount = 0;
 }
 
 
@@ -83,6 +66,32 @@ VulkanShader::~VulkanShader()
 
 void VulkanShader::addModule(ShaderModule* module)
 {
-	modules.push_back(module);
+	if(stageCount < MAX_SHADER_STAGES) {
+		modules.push_back(module);
+		stageCount++;
+	}
+}
+
+
+void VulkanShader::addModule(string file)
+{
+	if(stageCount < MAX_SHADER_STAGES) {
+		auto type = GetShaderModuleTypeEnum(file);
+		
+		VulkanShaderModule* module = new VulkanShaderModule((VulkanDevice*)options.device, type, file, options.name + "-" + GetShaderTypeStr(type));
+
+		LogInfo("Compiling ShaderModule: " << module->getName());
+
+		module->compile();
+		modules.push_back(module);
+
+		VkPipelineShaderStageCreateInfo shaderStageInfo{};
+		shaderStageInfo.sType			= VK_CI::SW_VULKAN_PIPELINE_SHADER_STAGE;
+		shaderStageInfo.stage			= getBitFromType(module->getType());
+		shaderStageInfo.module			= module->getModule();
+		shaderStageInfo.pName			= "main";
+		shaderStages[stageCount]		= shaderStageInfo;
+		stageCount++;
+	}
 }
 

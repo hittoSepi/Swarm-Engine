@@ -21,6 +21,8 @@ public:
 class RenderingPipeline
 {
 public:
+	virtual ~RenderingPipeline() {}
+	
 	virtual void init() = 0;
 	virtual void quit() = 0;
 	virtual void update() = 0;
@@ -35,7 +37,6 @@ public:
 	virtual void addScissor(Scissor* scissor) = 0;
 	virtual void addScissor(const iRect& view_area) = 0;
 
-	virtual void* getSwapChain() { return swapChain; }
 	//virtual void* getViewport() { return viewport; }
 protected:
 
@@ -48,7 +49,7 @@ protected:
 	std::vector<Viewport*> viewports;
 	std::vector<Scissor*> scissors;
 
-	SwapChain* swapChain;
+
 	std::string debugName;
 private:
 };

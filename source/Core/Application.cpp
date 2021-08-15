@@ -86,6 +86,7 @@ void Application::renderFrame()
 	Clock::update();
 	fps->Update();
 	renderer->onFrameRender();
+	graphicsApi->render();
 }
 
 

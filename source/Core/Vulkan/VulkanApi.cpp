@@ -2,6 +2,7 @@
 #include "Core/Vulkan/SwarmVulkan.h"
 #include "Core/Vulkan/VulkanApi.h"
 #include "Core/Vulkan/Debug/VulkanDebug.h"
+#include "Core/Vulkan/RenderPasses/VulkanSimpleRenderPass.h"
 
 using namespace std;
 
@@ -24,6 +25,11 @@ _VulkanApi* _VulkanApi::create(Window* window, const Device::Options& opts)
 	return new _VulkanApi(window, opts);
 }
 
+
+ void* _VulkanApi::getSwapChain()
+{
+	return dynamic_cast<VulkanRenderingPipeline*>(renderingPipeline)->getSwapChain();
+}
 
 _VulkanApi::_VulkanApi(Window* window, const Device::Options& opts) :
 	RenderingApi("Vulkan", window, opts)
@@ -54,8 +60,21 @@ void _VulkanApi::init()
 	updateApiDeviceHelper();
 	
 	LogInfo("RenderingPipeline.");
-	renderingPipeline = new VulkanRenderingPipeline(VulkanRenderingPipeline::CreateOptions(this));
+
+	
+	auto opts = VulkanRenderingPipeline::CreateOptions(this);
+	testShader =  VulkanShader::create(VulkanShader::CreateOptions{
+		"TestShader",
+		"basic",
+		apiDevices.vulkanDevice,
+	});
+	opts.shader = testShader; 
+
+	renderingPipeline = new VulkanRenderingPipeline(opts);
 	renderingPipeline->init();
+
+
+	
 	
 	LogDebug("end.");
 }
@@ -72,12 +91,27 @@ void _VulkanApi::updateApiDeviceHelper()
 
 void _VulkanApi::quit()
 {
+
+	
 	LogInfo("");
+
+	vkDeviceWaitIdle(apiDevices.vkDevice);
+		
 	LogVerbose("Deleting RenderingPipeline.");
 	if (renderingPipeline != nullptr)
+	{
 		renderingPipeline->quit();
+		delete renderingPipeline;
+	}
+
+	
+	LogVerbose("Deleting TestShader.");
+	delete testShader;
+
+	
 
 
+	
 	LogVerbose("Deleting WindowSurface.");
 	vkDestroySurfaceKHR(apiDevices.instance, apiDevices.surface, nullptr);
 
@@ -99,6 +133,7 @@ void _VulkanApi::quit()
 	LogVerbose("Deleting Instance.");
 	vkDestroyInstance(apiDevices.instance, nullptr);
 
+	
 
 	LogDebug("end.");
 }
@@ -230,4 +265,8 @@ void _VulkanApi::createWindowSurface()
 	LogDebug("end.");
 }
 
+void _VulkanApi::render()
+{
+	renderingPipeline->render();
+}
 

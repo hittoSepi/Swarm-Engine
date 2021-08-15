@@ -1,11 +1,12 @@
 #pragma once
-#include "Core/Rendering/RenderingApi.h"
-#include "Core/Vulkan/VulkanDevice.h"
+class VulkanDevice;
+class VulkanCommandPool;
+class VulkanShader;
+class VulkanSimpleRenderPass;
 
 using VulkanSurface		= VkSurfaceKHR; // TODO: proper abstactions
 using VulkanInstance	= VkInstance;
 
-using VulkanApi = _VulkanApi*;
 
 class _VulkanApi : public RenderingApi
 {
@@ -18,7 +19,7 @@ public:
 	/// </summary>
 	struct ApiDevices
 	{
-		VulkanApi			vulkanApi			= nullptr;
+		_VulkanApi*			vulkanApi			= nullptr;
 		VulkanDevice*		vulkanDevice		= nullptr;
 		VkDevice			vkDevice			= nullptr;
 		VkPhysicalDevice	vkPhysicalDevice	= nullptr;
@@ -35,10 +36,12 @@ public:
 	VulkanSurface				getSurface()			{ return apiDevices.surface;			}
 	VkPhysicalDevice			getPhysicalDevice()		{ return apiDevices.vkPhysicalDevice;	}
 
+	~_VulkanApi() override {}
 
 	void	init() override;
 	void	quit() override;
-	void*	getSwapChain() override { return swapChain; };
+	void	render() override;
+	void*	getSwapChain() override;
 
 	static _VulkanApi* create(Window* window, const Device::Options& opts);
 
@@ -56,8 +59,11 @@ protected:
 	void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);	
 	bool checkValidationLayerSupport();
 	void setupDebugMessenger();
+	
 	VkDebugUtilsMessengerEXT debugMessenger;
+	VulkanShader *testShader;
 
+	
 private:
 	void		updateApiDeviceHelper();
 	ApiDevices	apiDevices;
@@ -74,3 +80,4 @@ private:
 };
 
 using VulkanDevices		= _VulkanApi::ApiDevices;
+using VulkanApi = _VulkanApi*;

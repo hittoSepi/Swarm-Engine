@@ -12,15 +12,11 @@
 class RenderingApi
 {
 public:
-	virtual ~RenderingApi()
-	{
-		delete renderingPipeline;
-		delete swapChain;
-	
-	}
-	
+	virtual ~RenderingApi() = default;
+
 	virtual void init() = 0;
 	virtual void quit() = 0;
+	virtual void render() = 0;
 	
 	virtual WindowBase*		getWindow()				{ return window; }
 	virtual Device::Options getDeviceOptions()		{ return deviceOptions; }
@@ -49,5 +45,7 @@ protected:
 	const std::string	apiName;
 
 	RenderingPipeline	*renderingPipeline;
-	SwapChain			*swapChain;
+//	SwapChain			*swapChain;
+	
+	
 };

@@ -46,6 +46,9 @@ public:
 	QueueFamilyIndices		findQueueFamilies(VkPhysicalDevice device);
 	SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device);
 
+	VkQueue getGraphicsQueue() {return graphicsQueue; }
+	VkQueue getPresentQueue() { return presentQueue; }
+
 protected:
 	VkDevice					device;
 	VkPhysicalDevice			physicalDevice = VK_NULL_HANDLE;

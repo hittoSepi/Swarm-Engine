@@ -37,6 +37,7 @@
 
 // STL algorithms & functions
 #include <algorithm>
+#include <cassert>
 
 #include <boost/uuid/uuid.hpp>
 

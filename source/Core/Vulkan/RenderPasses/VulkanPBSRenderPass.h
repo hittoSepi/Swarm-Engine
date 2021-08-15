@@ -16,7 +16,7 @@ public:
 
 		std::string name = "PBS RenderPass";
 
-		VulkanDevices 									devices;
+		VulkanDevices 									devices = VulkanDevices();
 		
 		std::vector<VulkanAttachmentReference*>			inputAttachmentReferences;
 		std::vector<VulkanAttachmentReference*>			colorAttachmentReferences;
@@ -30,7 +30,7 @@ public:
 		std::vector<VkAttachmentReference>				vkColorAttachmentsReferences;
 
 
-		VkAttachmentDescription							depthBuffer;
+		VkAttachmentDescription							depthBuffer; 
 		VkAttachmentReference							depthBufferRef;
 
 		
@@ -46,7 +46,24 @@ public:
 		std::vector<VkSubpassDescription> vkSubpassDescriptions;
 		VkRenderPassCreateInfo renderPassCreateInfo;
 
+		
 		RequiredData()
+		{
+			depthBuffer = VkAttachmentDescription();
+			depthBufferRef = VkAttachmentReference();
+		}
+
+		
+		RequiredData(VulkanDevices& devices):
+			devices(devices)
+		{
+			depthBuffer		= VkAttachmentDescription(); 
+			depthBufferRef	= VkAttachmentReference();
+			//renderPass = vkCreateRenderPass(info.device, &rp_info, NULL, &info.render_pass);
+		}
+
+
+		void createRenderPass()
 		{
 			renderPassCreateInfo.sType				= VK_CI::SW_VULKAN_RENDER_PASS;
 			renderPassCreateInfo.flags				= 0;
@@ -66,13 +83,27 @@ public:
 
 			renderPassCreateInfo.subpassCount = vkSubpassDescriptions.size();
 			renderPassCreateInfo.pSubpasses = vkSubpassDescriptions.data();
-			
+
 			//renderPass = vkCreateRenderPass(info.device, &rp_info, NULL, &info.render_pass);
-
-
 		}
+		
+	
+private:
 	};
 
+
+	static VulkanPBSRenderPass create(VulkanDevices &devices
+			/*std::vector<VulkanAttachmentReference*>			inputAttachmentReferences_,
+			std::vector<VulkanAttachmentReference*>			colorAttachmentReferences_,
+			std::vector<VulkanSubPassDependency*>			subPassDependencies_,
+			std::vector<VulkanAttachment*>					colorAttachments_,
+			std::vector<VkInputAttachmentAspectReference>	vkInputAttachmentAspectReferences_,
+			std::vector<VkAttachmentDescription>			vkColorAttachments_,
+			std::vector<VkAttachmentReference>				vkAttachmentReferences_,
+			std::vector<VkSubpassDependency>				vkSubPassDependencies_,
+			std::vector<VkAttachmentReference>				vkColorAttachmentsReferences_,
+			VkAttachmentDescription							depthBuffer_,
+			VkAttachmentReference							depthBufferRef_*/);
 
 	VulkanPBSRenderPass(RequiredData data) :
 		VulkanRenderPass(data.name)

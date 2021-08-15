@@ -1,5 +1,7 @@
 #pragma once
-#include <boost/archive/text_oarchive.hpp>
+#include "Swarm.h"
+
+class VulkanRenderPass;
 
 class VulkanRenderingPipeline : public RenderingPipeline
 {
@@ -10,7 +12,7 @@ public:
 		VulkanApi			api = nullptr;
 
 		CreateOptions() {}
-		CreateOptions(VulkanApi	api): api(api) {}
+		CreateOptions(VulkanApi	api) : api(api) {}
 
 
 
@@ -57,8 +59,8 @@ public:
 			VK_CI::SW_VULKAN_PIPELINE_INPUT_ASSEMBLY,
 			nullptr,
 			0,
-			inputAssembly.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST,
-			inputAssembly.primitiveRestartEnable = VK_FALSE,
+			VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST,
+			 VK_FALSE,
 		};
 
 		// Vertex Input
@@ -89,11 +91,11 @@ public:
 			0,
 			VK_FALSE,
 			VK_FALSE,
-			rasterizer.polygonMode = VK_POLYGON_MODE_FILL,
+			VK_POLYGON_MODE_FILL,
 			VK_CULL_MODE_BACK_BIT,
 			VK_FRONT_FACE_CLOCKWISE,
 			 VK_FALSE,
-			1.0f, 1.0f, 1.0f
+			0.0f, 0.0f, 0.0f, 1.0f
 		};
 
 		// Multisampling
@@ -135,10 +137,13 @@ public:
 			0.0f
 		};
 
+		VulkanShader* shader;
 
+		VkGraphicsPipelineCreateInfo pipelineInfo;
 	};
 
 	VulkanRenderingPipeline(CreateOptions createOptions);
+	~VulkanRenderingPipeline() override;
 
 	virtual void				init() override;
 	virtual void				quit() override;
@@ -153,15 +158,18 @@ public:
 	virtual void				addScissor(Scissor* scissor) override;
 	virtual void				addScissor(const iRect& view_area) override;
 
-	virtual void*				getSwapChain() override;
-	VulkanSwapChain*			getVulkanSwapChain() { return dynamic_cast<VulkanSwapChain*>(swapChain); }
+	void* getSwapChain();
+	VulkanSwapChain* getVulkanSwapChain() { return dynamic_cast<VulkanSwapChain*>(swapchain); }
 	VulkanApi					getVulkanApi() { return api; }
+	VulkanRenderPass* getRenderPass() { return renderPass; }
+	std::vector<VkFramebuffer>	getFramebuffers() { return framebuffers; }
+	VkPipeline getVkPipeline() { return pipeline; }
 
 private:
 	void						createViewports();
 	VkRect2D					scissorToVkRect(VulkanScissor* rect);
 	VkViewport					viewportToVkViewport(VulkanViewport* view);
-
+	VkPipeline					pipeline;
 	VkPipelineLayout			pipelineLayout;
 	std::vector<VkViewport>		vkViewports;
 	std::vector<VkRect2D>		vkScissors;
@@ -172,10 +180,24 @@ private:
 	std::vector<Scissor*>		scissors;
 
 	VulkanDevices				devices;
-	
 	VulkanApi					api;
-	VulkanDevice*				device;
+	VulkanDevice* device;
 
+	VulkanRenderPass* renderPass;
+	VulkanSwapChain* swapchain;
+	std::vector<VkFramebuffer>	framebuffers;
+
+	VulkanCommandPool *commandPool;
+
+	VkQueue graphicsQueue;
+    VkQueue presentQueue;
+
+	std::vector<VkSemaphore> imageAvailableSemaphores;
+    std::vector<VkSemaphore> renderFinishedSemaphores;
+    std::vector<VkFence> inFlightFences;
+    std::vector<VkFence> imagesInFlight;
+    size_t currentFrame = 0;
+	
 	/*
 	SwapChain* swapChain;
 	Viewport* viewport;

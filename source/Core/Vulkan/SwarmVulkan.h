@@ -128,14 +128,20 @@ typedef VkStructureType vkst;
 #include "Core/Vulkan/VulkanApi.h"
 #include "Core/Vulkan/VulkanDevice.h"
 
+
+#include "Core/Vulkan/VulkanCommandPool.h"
+
 // shaders
 #include "Core/Vulkan/Shader/VulkanShaderModule.h"
 #include "Core/Vulkan/Shader/VulkanShader.h"
 
+
 // vulkan rendering includes
 #include "Core/Vulkan/Render/VulkanViewport.h"
 #include "Core/Vulkan/Render/VulkanImageView.h"
+#include "Core/Vulkan/Render/VulkanFrameBuffer.h"
 #include "Core/Vulkan/Render/VulkanSwapChain.h"
+#include "Core/Vulkan/Render/VulkanRasterizer.h"
 #include "Core/Vulkan/Render/VulkanRenderPipeline.h"
 
 // vulkan renderpass parts
@@ -147,6 +153,7 @@ typedef VkStructureType vkst;
 
 
 // render passes
+#include "Core/Vulkan/RenderPasses/VulkanSimpleRenderPass.h"
 #include "Core/Vulkan/RenderPasses/VulkanPBSRenderPass.h"
 
 #pragma comment(lib, "vulkan-1.lib")

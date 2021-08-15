@@ -2,6 +2,9 @@
 
 class VulkanSubPass;
 
+#include "VulkanAttachment.h"
+#include "VulkanAttachReference.h"
+#include "VulkanSubPassDependency.h"
 #include "Core/Rendering/RenderPass.h"
 
 /// <summary>
@@ -10,8 +13,14 @@ class VulkanSubPass;
 class VulkanRenderPass : public RenderPass
 {
 public:
+	
 	virtual ~VulkanRenderPass()
 	{
+	}
+
+	virtual void quit() override
+	{
+		
 	}
 	
 	std::vector<VulkanSubPass*> getSubPasses() { return subPasses; }
@@ -21,11 +30,13 @@ public:
 	virtual void addSubPassDependency(VulkanSubPassDependency *dep);
 	virtual void addSubPass(VulkanSubPass* pass);
 
-	virtual void loadAttachments()	= 0;
-	virtual void loadReferences()	= 0;
-	virtual void loadSubPassDeps()	= 0;
-	virtual void loadSubPasses()	= 0;
+	virtual void loadAttachments()	{};
+	virtual void loadReferences()	{};
+	virtual void loadSubPassDeps()	{};
+	virtual void loadSubPasses()	{};
 
+	VkRenderPass getVkRenderPass() { return renderPass; }
+	
 	void buildPass()
 	{
 		
@@ -42,8 +53,8 @@ public:
 		loadSubPasses();
 	}
 protected:
-	
 	VulkanRenderPass(std::string name);
+	
 	VkRenderPassCreateInfo						renderPassCreateInfo;
 	VkRenderPass								renderPass;
 	

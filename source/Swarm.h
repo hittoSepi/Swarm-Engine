@@ -9,8 +9,13 @@
 #define SWARM_USE_GLM_VECTORS true
 #define VK_API VK_API_VERSION_1_2  // Use Vulkan version 1.2
 
-#include "SwarmPrerequires.h"
 #include "SwarmStdHeaders.h"
+
+
+inline void should_not_get_here()
+{
+	assert("should_not_get_here");
+}
 
 
 #if SWARM_USE_GLM_VECTORS
