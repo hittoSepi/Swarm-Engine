@@ -39,7 +39,7 @@ public:
 			nullptr,
 			0,
 			0,
-			0
+			nullptr
 		};
 
 		// Dynamic states
@@ -63,17 +63,6 @@ public:
 			 VK_FALSE,
 		};
 
-		// Vertex Input
-		VkPipelineVertexInputStateCreateInfo vertexInputInfo
-		{
-			VK_CI::SW_VULKAN_PIPELINE_VERTEX_INPUT,		// sType
-			nullptr,														// pNext
-			0,																// flags
-			0,																// binding descrioption count
-			nullptr,														// binding descrioptions
-			0,																// attribute desciption count
-			nullptr															// attribute desciptions
-		};
 
 		// Viewport
 		VkPipelineViewportStateCreateInfo viewportState
@@ -93,7 +82,7 @@ public:
 			VK_FALSE,
 			VK_POLYGON_MODE_FILL,
 			VK_CULL_MODE_BACK_BIT,
-			VK_FRONT_FACE_CLOCKWISE,
+			VK_FRONT_FACE_COUNTER_CLOCKWISE,
 			 VK_FALSE,
 			0.0f, 0.0f, 0.0f, 1.0f
 		};
@@ -160,13 +149,29 @@ public:
 
 	void* getSwapChain();
 	VulkanSwapChain* getVulkanSwapChain() { return dynamic_cast<VulkanSwapChain*>(swapchain); }
-	VulkanApi					getVulkanApi() { return api; }
+	VulkanApi getVulkanApi() { return api; }
 	VulkanRenderPass* getRenderPass() { return renderPass; }
 	std::vector<VkFramebuffer>	getFramebuffers() { return framebuffers; }
 	VkPipeline getVkPipeline() { return pipeline; }
+	VkPipelineLayout getVkPipelineLayout() { return pipelineLayout; }
+	std::vector<VkDescriptorSet> getDescriptorSets() { return descriptorSets; }
+
+	
 
 private:
+	
 	void						createViewports();
+	void						createDescriptorSetLayout();
+	void						createDescriptorPool();
+	void						createDescriptorSets();
+	void						createVertexInput();
+	void						createPipeline();
+	void						createUniformBuffers();
+	void						createFrameBuffers();
+	void						createCommandPool();
+	void						createSemaphores();
+
+
 	VkRect2D					scissorToVkRect(VulkanScissor* rect);
 	VkViewport					viewportToVkViewport(VulkanViewport* view);
 	VkPipeline					pipeline;
@@ -185,19 +190,38 @@ private:
 
 	VulkanRenderPass* renderPass;
 	VulkanSwapChain* swapchain;
-	std::vector<VkFramebuffer>	framebuffers;
+	VulkanCommandPool* commandPool;
+	VulkanUniformBuffer* uniformBuffer;
+	mvpUniform uniforms;
 
-	VulkanCommandPool *commandPool;
+	VulkanTexture *texture;
+	VulkanSampler *textureSampler;
+	
+	std::vector<VkFramebuffer>				framebuffers;
+	VkPipelineVertexInputStateCreateInfo	vertexInputInfo{};
 
-	VkQueue graphicsQueue;
-    VkQueue presentQueue;
+	VkDescriptorSetLayout					descriptorSetLayout;
+	VkDescriptorPool						descriptorPool;
+	VkDescriptorPoolCreateInfo				poolInfo{};
+	VkDescriptorPoolSize					poolSize{};
+	std::vector<VkDescriptorSetLayout>		layouts;
+	std::vector<VkDescriptorSet>			descriptorSets;
+
+	VkVertexInputBindingDescription bindingDescription;
+	std::array<VkVertexInputAttributeDescription, 3>  attributeDescriptions;
+
+	VkDescriptorSetLayoutBinding uboLayoutBinding{};
+	VkDescriptorSetLayoutCreateInfo layoutInfo{};
+
+	VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
+
 
 	std::vector<VkSemaphore> imageAvailableSemaphores;
-    std::vector<VkSemaphore> renderFinishedSemaphores;
-    std::vector<VkFence> inFlightFences;
-    std::vector<VkFence> imagesInFlight;
-    size_t currentFrame = 0;
-	
+	std::vector<VkSemaphore> renderFinishedSemaphores;
+	std::vector<VkFence> inFlightFences;
+	std::vector<VkFence> imagesInFlight;
+	size_t currentFrame = 0;
+	uint32_t imageIndex;
 	/*
 	SwapChain* swapChain;
 	Viewport* viewport;

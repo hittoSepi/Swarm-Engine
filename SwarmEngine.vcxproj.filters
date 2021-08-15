@@ -101,6 +101,12 @@
     <ClCompile Include="source\Core\Vulkan\VulkanCommandPool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\Core\Vulkan\Vertex\VulkanVertexBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Core\Vulkan\Texture\VulkanTexture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\framework.h">
@@ -204,6 +210,9 @@
     <ClInclude Include="source\Core\Vulkan\Render\RenderPass\VulkanSubPass.h" />
     <ClInclude Include="source\Core\Vulkan\RenderPasses\VulkanSimpleRenderPass.h" />
     <ClInclude Include="source\Core\Vulkan\Render\VulkanFrameBuffer.h" />
+    <ClInclude Include="source\Core\Vulkan\Vertex\Vertex.h" />
+    <ClInclude Include="source\Core\Vulkan\Vertex\VulkanVertexBuffer.h" />
+    <ClInclude Include="source\Core\Vulkan\Texture\VulkanTexture.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

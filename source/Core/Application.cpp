@@ -84,7 +84,12 @@ void Application::init()
 void Application::renderFrame()
 {
 	Clock::update();
+	
 	fps->Update();
+	auto ifps = fps->GetFps();
+	if(ifps != -1)
+		LogVerbose("FPS: " << std::to_string(ifps));
+	
 	renderer->onFrameRender();
 	graphicsApi->render();
 }
@@ -98,6 +103,8 @@ void Application::quit()
 
 void Application::handleRenderFrame()
 {
+
+	
 	renderFrame();
 }
 

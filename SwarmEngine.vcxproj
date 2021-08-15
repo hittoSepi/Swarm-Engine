@@ -29,6 +29,8 @@
     <ClCompile Include="source\Core\Vulkan\Render\VulkanFrameBuffer.cpp" />
     <ClCompile Include="source\Core\Vulkan\Render\VulkanRasterizer.cpp" />
     <ClCompile Include="source\Core\Vulkan\Render\VulkanViewport.cpp" />
+    <ClCompile Include="source\Core\Vulkan\Texture\VulkanTexture.cpp" />
+    <ClCompile Include="source\Core\Vulkan\Vertex\VulkanVertexBuffer.cpp" />
     <ClCompile Include="source\Core\Vulkan\VulkanApi.cpp" />
     <ClCompile Include="source\Core\Vulkan\Debug\VulkanDebug.cpp" />
     <ClCompile Include="source\Core\Vulkan\VulkanCommandPool.cpp" />
@@ -73,6 +75,9 @@
     <ClInclude Include="source\Core\Vulkan\Render\VulkanRasterizer.h" />
     <ClInclude Include="source\Core\Vulkan\Render\RenderPass\VulkanRenderPass.h" />
     <ClInclude Include="source\Core\Vulkan\SwarmVulkan.h" />
+    <ClInclude Include="source\Core\Vulkan\Texture\VulkanTexture.h" />
+    <ClInclude Include="source\Core\Vulkan\Vertex\Vertex.h" />
+    <ClInclude Include="source\Core\Vulkan\Vertex\VulkanVertexBuffer.h" />
     <ClInclude Include="source\Core\Vulkan\VulkanApi.h" />
     <ClInclude Include="source\Core\Vulkan\Debug\VulkanDebug.h" />
     <ClInclude Include="source\Core\Vulkan\VulkanCommandPool.h" />

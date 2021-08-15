@@ -45,7 +45,4 @@ protected:
 	const std::string	apiName;
 
 	RenderingPipeline	*renderingPipeline;
-//	SwapChain			*swapChain;
-	
-	
 };

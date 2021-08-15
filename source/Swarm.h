@@ -6,7 +6,7 @@
 #define SWARM_VERSION_MINOR 2
 
 
-#define SWARM_USE_GLM_VECTORS true
+#define SWARM_USE_GLM true
 #define VK_API VK_API_VERSION_1_2  // Use Vulkan version 1.2
 
 #include "SwarmStdHeaders.h"
@@ -18,11 +18,17 @@ inline void should_not_get_here()
 }
 
 
-#if SWARM_USE_GLM_VECTORS
+
+
+#if SWARM_USE_GLM
+#define GLM_FORCE_RADIANS
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
+#include <glm/matrix.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 using float2 = glm::vec2;
 using float3 = glm::vec3;
+using mat4 = glm::mat4;
 #endif
 
 #ifdef _DEBUG

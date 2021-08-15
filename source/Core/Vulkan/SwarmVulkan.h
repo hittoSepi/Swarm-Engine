@@ -125,6 +125,8 @@ typedef VkStructureType vkst;
 #define vk_img_format(format) (VkFormat)format
 
 
+
+
 #include "Core/Vulkan/VulkanApi.h"
 #include "Core/Vulkan/VulkanDevice.h"
 
@@ -135,6 +137,8 @@ typedef VkStructureType vkst;
 #include "Core/Vulkan/Shader/VulkanShaderModule.h"
 #include "Core/Vulkan/Shader/VulkanShader.h"
 
+// textures
+#include "Core/Vulkan/Texture/VulkanTexture.h"
 
 // vulkan rendering includes
 #include "Core/Vulkan/Render/VulkanViewport.h"
@@ -151,6 +155,8 @@ typedef VkStructureType vkst;
 #include "Core/Vulkan/Render/RenderPass/VulkanSubPass.h"
 #include "Core/Vulkan/Render/RenderPass/VulkanRenderPass.h"
 
+#include "Core/Vulkan/Vertex/Vertex.h"
+#include "Core/Vulkan/Vertex/VulkanVertexBuffer.h"
 
 // render passes
 #include "Core/Vulkan/RenderPasses/VulkanSimpleRenderPass.h"

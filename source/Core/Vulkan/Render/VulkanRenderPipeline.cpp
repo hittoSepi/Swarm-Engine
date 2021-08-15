@@ -1,5 +1,7 @@
 #include "pch.h"
 
+#include <glm/ext/matrix_transform.hpp>
+
 const int MAX_FRAMES_IN_FLIGHT = 2;
 
 
@@ -35,36 +37,253 @@ void VulkanRenderingPipeline::init()
 	addScissor(swapDims);
 	createViewports();
 
+	LogInfo("Renderpass");
 	renderPass = new VulkanSimpleRenderPass(devices);
 
 
-	if (vkCreatePipelineLayout(devices.vkDevice, &createOptions.pipelineLayoutInfo, nullptr, &pipelineLayout) != VK_SUCCESS) {
+	createDescriptorSetLayout();
+
+	createVertexInput();
+	
+	createPipeline();
+	
+
+	createFrameBuffers();
+
+	createCommandPool();
+	
+	texture = new VulkanTexture(devices, "Data/Textures/texture.jpg");
+	texture->addToCommandPool(commandPool);
+	
+	textureSampler = new VulkanSampler(devices, texture);
+	textureSampler->load();
+
+	
+	
+	createUniformBuffers();
+
+
+	createDescriptorPool();
+	createDescriptorSets();
+	
+	commandPool->createBuffers();
+	
+	createSemaphores();
+
+	LogVerbose("end.")
+}
+
+
+void VulkanRenderingPipeline::quit()
+{
+	LogInfo("");
+
+	swapchain->quit();
+
+	for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
+		vkDestroySemaphore(devices.vkDevice, renderFinishedSemaphores[i], nullptr);
+		vkDestroySemaphore(devices.vkDevice, imageAvailableSemaphores[i], nullptr);
+		vkDestroyFence(devices.vkDevice, inFlightFences[i], nullptr);
+	}
+
+	delete texture;
+
+	commandPool->quit();
+
+
+	for (auto framebuffer : framebuffers) {
+		vkDestroyFramebuffer(devices.vkDevice, framebuffer, nullptr);
+	}
+
+	vkDestroyPipelineLayout(devices.vkDevice, pipelineLayout, nullptr);
+
+	vkDestroyPipeline(devices.vkDevice, pipeline, nullptr);
+
+	delete uniformBuffer;
+
+
+	vkDestroyDescriptorPool(devices.vkDevice, descriptorPool, nullptr);
+
+	if (renderPass != nullptr)
+	{
+		renderPass->quit();
+	}
+
+	vkDestroyDescriptorSetLayout(devices.vkDevice, descriptorSetLayout, nullptr);
+	LogVerbose("end.")
+}
+
+
+void VulkanRenderingPipeline::createPipeline()
+{
+	pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+	pipelineLayoutInfo.setLayoutCount = 1;
+	pipelineLayoutInfo.pSetLayouts = &descriptorSetLayout;
+
+	if (vkCreatePipelineLayout(devices.vkDevice, &pipelineLayoutInfo, nullptr, &pipelineLayout) != VK_SUCCESS) {
 		throw std::runtime_error("failed to create pipeline layout!");
 	}
 
 	createOptions.pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
 	createOptions.pipelineInfo.stageCount = createOptions.shader->size();
 	createOptions.pipelineInfo.pStages = createOptions.shader->getStageInfo();
-
-	createOptions.pipelineInfo.pVertexInputState = &createOptions.vertexInputInfo;
+	createOptions.pipelineInfo.pVertexInputState = &vertexInputInfo;
 	createOptions.pipelineInfo.pInputAssemblyState = &createOptions.inputAssembly;
 	createOptions.pipelineInfo.pViewportState = &createOptions.viewportState;
 	createOptions.pipelineInfo.pRasterizationState = &createOptions.rasterizer;
 	createOptions.pipelineInfo.pMultisampleState = &createOptions.multisampling;
-	createOptions.pipelineInfo.pDepthStencilState = nullptr; // Optional
 	createOptions.pipelineInfo.pColorBlendState = &createOptions.colorBlending;
-	createOptions.pipelineInfo.pDynamicState = nullptr; // Optional
-
 	createOptions.pipelineInfo.layout = pipelineLayout;
-
 	createOptions.pipelineInfo.renderPass = renderPass->getVkRenderPass();
 	createOptions.pipelineInfo.subpass = 0;
+	createOptions.pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;
 
-	if (vkCreateGraphicsPipelines(devices.vkDevice, VK_NULL_HANDLE, 1, &createOptions.pipelineInfo, nullptr, &pipeline) != VK_SUCCESS) {
+
+	if (vkCreateGraphicsPipelines(devices.vkDevice, VK_NULL_HANDLE, 1, &createOptions.pipelineInfo, nullptr, &pipeline)
+		!= VK_SUCCESS)
+	{
 		throw std::runtime_error("failed to create graphics pipeline!");
 	}
+}
 
-	// create framebuffers
+
+void VulkanRenderingPipeline::createDescriptorSetLayout()
+{
+	LogInfo("");
+	uboLayoutBinding.binding = 0;
+	uboLayoutBinding.descriptorCount = 1;
+	uboLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+	uboLayoutBinding.pImmutableSamplers = nullptr;
+	uboLayoutBinding.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
+
+	VkDescriptorSetLayoutBinding samplerLayoutBinding{};
+	samplerLayoutBinding.binding = 1;
+	samplerLayoutBinding.descriptorCount = 1;
+	samplerLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+	samplerLayoutBinding.pImmutableSamplers = nullptr;
+	samplerLayoutBinding.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
+
+	std::array<VkDescriptorSetLayoutBinding, 2> bindings = { uboLayoutBinding, samplerLayoutBinding };
+
+	layoutInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
+	layoutInfo.bindingCount = static_cast<uint32_t>(bindings.size());
+	layoutInfo.pBindings = bindings.data();
+
+	if (vkCreateDescriptorSetLayout(devices.vkDevice, &layoutInfo, nullptr, &descriptorSetLayout) != VK_SUCCESS) {
+		throw std::runtime_error("failed to create descriptor set layout!");
+	}
+}
+
+
+void VulkanRenderingPipeline::createDescriptorPool()
+{
+	std::array<VkDescriptorPoolSize, 2> poolSizes{};
+	auto swapChainImages = swapchain->getSwapChainImages();
+
+	poolSizes[0].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+	poolSizes[0].descriptorCount = static_cast<uint32_t>(swapChainImages.size());
+	poolSizes[1].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+	poolSizes[1].descriptorCount = static_cast<uint32_t>(swapChainImages.size());
+
+	poolInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
+	poolInfo.poolSizeCount = static_cast<uint32_t>(poolSizes.size());
+	poolInfo.pPoolSizes = poolSizes.data();
+	poolInfo.maxSets = static_cast<uint32_t>(swapChainImages.size());
+
+	if (vkCreateDescriptorPool(devices.vkDevice, &poolInfo, nullptr, &descriptorPool) != VK_SUCCESS) {
+		throw std::runtime_error("failed to create descriptor pool!");
+	}
+}
+
+
+void VulkanRenderingPipeline::createDescriptorSets()
+{
+	auto swapChainImages = swapchain->getSwapChainImages();
+
+	LogInfo(std::to_string(swapChainImages.size()));
+
+	layouts = std::vector<VkDescriptorSetLayout>(swapChainImages.size(), descriptorSetLayout);
+	VkDescriptorSetAllocateInfo allocInfo{};
+	allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+	allocInfo.descriptorPool = descriptorPool;
+	allocInfo.descriptorSetCount = static_cast<uint32_t>(swapChainImages.size());
+	allocInfo.pSetLayouts = layouts.data();
+
+	descriptorSets.resize(swapChainImages.size());
+	if (vkAllocateDescriptorSets(devices.vkDevice, &allocInfo, descriptorSets.data()) != VK_SUCCESS) {
+		throw std::runtime_error("failed to allocate descriptor sets!");
+	}
+
+	auto uniformBuffers = uniformBuffer->getBuffers();
+
+	for (size_t i = 0; i < swapChainImages.size(); i++) {
+		VkDescriptorBufferInfo bufferInfo{};
+		bufferInfo.buffer = uniformBuffers[i];
+		bufferInfo.offset = 0;
+		bufferInfo.range = sizeof(mvpUniform);
+
+		VkDescriptorImageInfo imageInfo{};
+		imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+		imageInfo.imageView = textureSampler->getTextureImageView();
+		imageInfo.sampler = textureSampler->getTextureSampler();
+
+		std::array<VkWriteDescriptorSet, 2> descriptorWrites{};
+
+		descriptorWrites[0].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+		descriptorWrites[0].dstSet = descriptorSets[i];
+		descriptorWrites[0].dstBinding = 0;
+		descriptorWrites[0].dstArrayElement = 0;
+		descriptorWrites[0].descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+		descriptorWrites[0].descriptorCount = 1;
+		descriptorWrites[0].pBufferInfo = &bufferInfo;
+
+		descriptorWrites[1].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+		descriptorWrites[1].dstSet = descriptorSets[i];
+		descriptorWrites[1].dstBinding = 1;
+		descriptorWrites[1].dstArrayElement = 0;
+		descriptorWrites[1].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+		descriptorWrites[1].descriptorCount = 1;
+		descriptorWrites[1].pImageInfo = &imageInfo;
+
+		vkUpdateDescriptorSets(devices.vkDevice, static_cast<uint32_t>(descriptorWrites.size()), descriptorWrites.data(), 0, nullptr);
+	}
+}
+
+
+void VulkanRenderingPipeline::createVertexInput()
+{
+	LogInfo("");
+	vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
+
+	bindingDescription = Vertex3::getBindingDescription();
+	attributeDescriptions = Vertex3::getAttributeDescriptions();
+
+	vertexInputInfo.vertexBindingDescriptionCount = 1;
+	vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(attributeDescriptions.size());
+	vertexInputInfo.pVertexBindingDescriptions = &bindingDescription;
+	vertexInputInfo.pVertexAttributeDescriptions = attributeDescriptions.data();
+}
+
+
+void VulkanRenderingPipeline::createUniformBuffers()
+{
+	LogInfo("");
+
+	float width = swapchain->getDimensions().width;
+	float height = swapchain->getDimensions().height;
+
+	uniforms.model = glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+	uniforms.view = glm::lookAt(glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	uniforms.proj = glm::perspective(glm::radians(90.0f), width / height, 0.01f, 10000.0f);
+	uniforms.proj[1][1] *= -1;
+
+	uniformBuffer = new VulkanUniformBuffer(devices);
+	uniformBuffer->create(uniforms);
+}
+
+
+void VulkanRenderingPipeline::createFrameBuffers()
+{
 	auto swapChainImageViews = swapchain->getImageViews();
 	iRect dims = swapchain->getDimensions();
 	size_t framebufferCount = swapchain->getSize();
@@ -90,14 +309,22 @@ void VulkanRenderingPipeline::init()
 			throw std::runtime_error("failed to create framebuffer!");
 		}
 	}
+}
 
+
+void VulkanRenderingPipeline::createCommandPool()
+{
+	LogInfo("CommandPool");
 	commandPool = new VulkanCommandPool(devices, this, getFramebuffers().size());
+}
 
-	// create semaphores
+
+void VulkanRenderingPipeline::createSemaphores()
+{
 	imageAvailableSemaphores.resize(MAX_FRAMES_IN_FLIGHT);
 	renderFinishedSemaphores.resize(MAX_FRAMES_IN_FLIGHT);
 	inFlightFences.resize(MAX_FRAMES_IN_FLIGHT);
-	imagesInFlight.resize(framebufferCount, VK_NULL_HANDLE);
+	imagesInFlight.resize(swapchain->getSize(), VK_NULL_HANDLE);
 
 	VkSemaphoreCreateInfo semaphoreInfo{};
 	semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
@@ -113,47 +340,11 @@ void VulkanRenderingPipeline::init()
 			throw std::runtime_error("failed to create synchronization objects for a frame!");
 		}
 	}
-
-	LogVerbose("end.")
 }
-
-
-void VulkanRenderingPipeline::quit()
-{
-	LogInfo("");
-
-	for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
-		vkDestroySemaphore(devices.vkDevice, renderFinishedSemaphores[i], nullptr);
-		vkDestroySemaphore(devices.vkDevice, imageAvailableSemaphores[i], nullptr);
-		vkDestroyFence(devices.vkDevice, inFlightFences[i], nullptr);
-	}
-
-	commandPool->quit();
-
-
-	for (auto framebuffer : framebuffers) {
-		vkDestroyFramebuffer(devices.vkDevice, framebuffer, nullptr);
-	}
-
-	vkDestroyPipelineLayout(devices.vkDevice, pipelineLayout, nullptr);
-
-	vkDestroyPipeline(devices.vkDevice, pipeline, nullptr);
-
-	if (renderPass != nullptr)
-	{
-		renderPass->quit();
-	}
-
-
-
-	swapchain->quit();
-
-	LogVerbose("end.")
-}
-
 
 VulkanRenderingPipeline::~VulkanRenderingPipeline()
 {
+	LogInfo("");
 	delete commandPool;
 	delete swapchain;
 	for (auto v : viewports)
@@ -174,7 +365,10 @@ VulkanRenderingPipeline::~VulkanRenderingPipeline()
 
 void VulkanRenderingPipeline::update()
 {
+	auto time = (float)Clock::getElapsedTime();
 
+	uniforms.model = glm::rotate(glm::mat4(1.0f), (time * 0.0001f) * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	uniformBuffer->update(commandPool, imageIndex, uniforms);
 }
 
 
@@ -182,16 +376,19 @@ void VulkanRenderingPipeline::render()
 {
 
 	auto device = devices.vkDevice;
-	
+
 	vkWaitForFences(device, 1, &inFlightFences[currentFrame], VK_TRUE, UINT64_MAX);
 
-	uint32_t imageIndex;
+
 	vkAcquireNextImageKHR(device, swapchain->getVkSwapchain(), UINT64_MAX, imageAvailableSemaphores[currentFrame], VK_NULL_HANDLE, &imageIndex);
 
+	update();
+	
 	if (imagesInFlight[imageIndex] != VK_NULL_HANDLE) {
 		vkWaitForFences(device, 1, &imagesInFlight[imageIndex], VK_TRUE, UINT64_MAX);
 	}
 	imagesInFlight[imageIndex] = inFlightFences[currentFrame];
+
 
 	VkSubmitInfo submitInfo{};
 	submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
@@ -228,21 +425,31 @@ void VulkanRenderingPipeline::render()
 
 	presentInfo.pImageIndices = &imageIndex;
 
-	vkQueuePresentKHR(devices.vulkanDevice->getPresentQueue(), &presentInfo);
-
+	auto result = vkQueuePresentKHR(devices.vulkanDevice->getPresentQueue(), &presentInfo);
+	if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR /*|| framebufferResized*/) {
+		//	framebufferResized = false;
+			//recreateSwapChain();
+	}
+	else if (result != VK_SUCCESS) {
+		throw std::runtime_error("failed to present swap chain image!");
+	}
 	currentFrame = (currentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
 }
+
+
 
 void VulkanRenderingPipeline::resize(uint32_t width, uint32_t height)
 {
 
 }
 
+
 void VulkanRenderingPipeline::setSwapChain(SwapChain* swapchain_)
 {
 	LogInfo("");
 	swapchain = (VulkanSwapChain*)swapchain_;
 }
+
 
 void VulkanRenderingPipeline::setRenderingApi(RenderingApi* api_)
 {

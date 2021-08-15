@@ -84,6 +84,8 @@ public:
 		return buffer;
 	}
 
+	static double getElapsedTime() { return totalElapsedTime; }
+	
 	static std::string getTimestamp()
 	{
 		time_t rawtime;

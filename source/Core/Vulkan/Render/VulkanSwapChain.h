@@ -56,6 +56,9 @@ public:
 		return images;
 	}
 
+	std::vector<VkImage> getSwapChainImages() { return swapChainImages; }
+
+	
 	VulkanApi				_getVulkanApi() { return devices.vulkanApi; }
 	VulkanDevice*			_getVulkanDevice() { return devices.vulkanDevice; }
 	VkDevice				_getVkDevice() { return devices.vkDevice; }
